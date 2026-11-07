@@ -81,7 +81,7 @@ h1 em { font-style: italic; color: var(--brand); }
 .tabbar button { position: relative; z-index: 1; min-height: 48px; min-width: 52px; padding: 0 14px; border: 0; border-radius: 999px; background: none; display: flex; align-items: center; justify-content: center; gap: 0; font-size: 14px; font-weight: 600; color: #A9B1BF; transition: color .25s, padding .35s cubic-bezier(.2, .8, .2, 1); }
 .tabbar button:active .tab-ic { transform: scale(.86); }
 .tab-ic { display: grid; transition: transform .2s cubic-bezier(.2, .8, .2, 1); }
-.tab-l { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transition: max-width .4s cubic-bezier(.2, .8, .2, 1), opacity .25s, margin .4s; }
+.tab-l { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transition: max-width .38s cubic-bezier(.2, .8, .2, 1), opacity .25s, margin .38s; }
 .tabbar button[aria-current="page"] { color: #fff; padding: 0 18px 0 16px; }
 .tabbar button[aria-current="page"] .tab-l { max-width: 90px; opacity: 1; margin-left: 8px; }
 /* painéis por cima (escolher lugares, horários, busca, publicar) escondem a barra */

@@ -138,10 +138,13 @@ function setTabbar(step) {
   bar.hidden = !on;
   if (!on) return;
   bar.querySelectorAll('[data-tab]').forEach((b) => { if (b.dataset.tab === step) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-  requestAnimationFrame(() => {
+  // mede de novo quando o nome da aba termina de aparecer (a largura anima)
+  const place = () => {
     const cur = bar.querySelector('[aria-current]');
     if (cur) { bar.style.setProperty('--ix', cur.offsetLeft + 'px'); bar.style.setProperty('--iw', cur.offsetWidth + 'px'); }
-  });
+  };
+  requestAnimationFrame(place);
+  clearTimeout(setTabbar.t); setTabbar.t = setTimeout(place, 430);
 }
 // Reinicia uma animação de entrada num elemento (usada nas trocas de etapa e de slide).
 function replay(el, cls) {
