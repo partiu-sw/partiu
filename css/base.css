@@ -5,10 +5,10 @@ img { max-width: 100%; }
 
 /* Layout: um celular centralizado no desktop e em tela cheia no telefone. Tema claro com azul-marinho de destaque. */
 :root {
-  --bg: #EEF0F4;
+  --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --fill: #F3F4F7;
-  --line: #E6E8ED;
+  --fill: #F1F6FC; /* fundos suaves em azul bem claro, nunca cinza */
+  --line: #E2EAF3;
   --ink: #1B1F27;
   --sec: #7E8492;
   --muted: #B9BEC8;
@@ -18,7 +18,7 @@ img { max-width: 100%; }
   --brand-sky: #7CC0EA; /* ciano do mar, só para detalhes pequenos */
   --glass: rgba(255, 255, 255, .16);
   --glass-line: rgba(255, 255, 255, .34);
-  --screen: #F2F3F6;
+  --screen: #FFFFFF; /* telas em branco puro; o azul é a única cor */
   --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
   color-scheme: light;
 }

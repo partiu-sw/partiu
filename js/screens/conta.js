@@ -22,47 +22,54 @@ function renderConta() {
   saveTrip();
   const u = S.user || { name: 'Ana', email: 'demo@partiu.app' }, p = readPrefs();
   const trips = readTrips().sort((a, b) => (a.id === S.tripId ? -1 : b.id === S.tripId ? 1 : b.start - a.start));
-  const places = trips.reduce((n, t) => n + tripPlaces(t), 0), posts = feedData().mine.length;
+  const places = trips.reduce((n, t) => n + tripPlaces(t), 0);
+  const go = `<span class="ct-go">${svg('chevR', 16, 2.4)}</span>`;
   const row = (ic, label, extra, attr) => `<button class="row-btn ct-row" ${attr}><span class="ic">${svg(ic, 20, 1.9)}</span><span class="tx"><strong>${label}</strong></span>${extra}</button>`;
   const sw = (k, on) => `<span class="switch" role="switch" aria-checked="${on}" data-pref="${k}"><i></i></span>`;
   $('contaScroll').innerHTML = `
-    <header class="ct-hero">
+    <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')} no roteiro</span></div></header>
+    <div class="ct-me">
       <span class="ct-av">${esc(u.name[0].toUpperCase())}</span>
-      <div class="ct-id"><h1>${esc(u.name)}</h1><span>${esc(u.email || '')}</span></div>
-      <button class="icon-btn round ct-gear" data-edit-profile aria-label="Ajustes do perfil">${svg('gear', 20, 2)}</button>
-    </header>
-    <div class="ct-stats">
-      <div style="--i:0"><b>${trips.length}</b><span>${trips.length === 1 ? 'viagem' : 'viagens'}</span></div>
-      <div style="--i:1"><b>${places}</b><span>lugares</span></div>
-      <div style="--i:2"><b>${posts}</b><span>${posts === 1 ? 'publicação' : 'publicações'}</span></div>
+      <span class="tx"><strong>${esc(u.name)}</strong><small>${esc(u.email || '')}</small></span>
+      <button class="pill ct-edit" data-edit-profile>Editar</button>
     </div>
     <section class="ct-sec">
-      <div class="ct-sec-head"><h2>Minhas viagens</h2><button class="link-sm" data-new-trip>Nova viagem</button></div>
-      <div class="trips" role="list">
+      <div class="ct-sec-head"><h2>Minhas viagens</h2></div>
+      <div class="ct-trips" role="list">
         ${trips.map((t, i) => { const [lbl, cls] = tripWhen(t), c = CITIES.find((x) => x.id === t.city) || CITIES[0]; return `
-        <button class="trip ${cls}" role="listitem" style="--i:${i}" data-trip="${t.id}" aria-label="${esc(c.name)}, ${tripRange(t)}${t.id === S.tripId ? ', viagem atual' : ', abrir'}">
-          <img src="${CITY_PHOTO[t.city] || 'img/post2.jpg'}" alt="">
-          <span class="trip-badge">${lbl}</span>
-          <span class="trip-tx"><strong>${esc(c.name)}</strong><small>${tripRange(t)} · ${tripPlaces(t) ? plural(tripPlaces(t), 'lugar', 'lugares') : 'roteiro por montar'}</small></span>
+        <button class="ct-trip ${cls}" role="listitem" style="--i:${i}" data-trip="${t.id}" aria-label="${esc(c.name)}, ${tripRange(t)}${t.id === S.tripId ? ', viagem atual' : ', abrir'}">
+          <span class="ct-ph"><img src="${CITY_PHOTO[t.city] || 'img/post2.jpg'}" alt=""></span>
+          <span class="tx"><strong>${esc(c.name)}</strong><small>${tripRange(t)} · ${tripPlaces(t) ? plural(tripPlaces(t), 'lugar', 'lugares') : 'roteiro por montar'}</small></span>
+          <span class="ct-badge">${lbl}</span>
         </button>`; }).join('')}
-        <button class="trip add" role="listitem" data-new-trip><span class="trip-plus">${svg('plus', 26, 2.2)}</span><strong>Planejar nova viagem</strong><small>Destino, datas e o que você curte</small></button>
       </div>
+      <button class="btn-out ct-new" data-new-trip>${svg('plus', 18, 2.4)} Planejar nova viagem</button>
     </section>
     <section class="ct-sec">
-      <h2>Ajustes</h2>
+      <div class="ct-sec-head"><h2>Ajustes</h2></div>
       <div class="ct-list">
         ${row('bell', 'Avisos do que abre perto', sw('notif', p.notif), 'data-toggle="notif"')}
         ${row('chuva', 'Plano B quando chover', sw('planb', p.planb), 'data-toggle="planb"')}
-        ${row('sparkle', 'Meus interesses', `<span class="ct-go">${svg('chevR', 16, 2.4)}</span>`, 'data-interests')}
-        ${row('help', 'Ajuda e sugestões', `<span class="ct-go">${svg('chevR', 16, 2.4)}</span>`, 'data-help')}
+        ${row('sparkle', 'Meus interesses', go, 'data-interests')}
+        ${row('help', 'Sobre o Partiu', go, 'data-help')}
+        ${row('logout', 'Sair da conta', '', 'data-logout')}
       </div>
-      <button class="ct-out" data-logout>${svg('logout', 20, 2)}Sair da conta</button>
-      <p class="ct-foot">Partiu · versão de demonstração · Startup Weekend Itapema 2026</p>
+      <p class="ct-foot">Versão de demonstração · Startup Weekend Itapema 2026</p>
     </section>`;
 }
 
 $('conta').addEventListener('click', (e) => {
   const t = e.target;
+  if (t.closest('[data-edit-profile]')) {
+    // edita o nome ali mesmo; Enter ou sair do campo salva
+    const box = $('contaScroll').querySelector('.ct-me .tx'), cur = (S.user && S.user.name) || 'Ana';
+    box.innerHTML = `<input class="ct-name" id="ctName" value="${esc(cur)}" aria-label="Seu nome" maxlength="30">`;
+    const inp = $('ctName'); inp.focus(); inp.select();
+    const done = () => { const v = inp.value.trim(); if (v) { S.user = { ...(S.user || { email: 'demo@partiu.app' }), name: firstName(v) }; saveSession(); } renderConta(); };
+    inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') inp.blur(); });
+    inp.addEventListener('blur', done, { once: true });
+    return;
+  }
   const tr = t.closest('[data-trip]');
   if (tr) { if (tr.dataset.trip !== S.tripId) openTrip(tr.dataset.trip); return go('main'); }
   if (t.closest('[data-new-trip]')) return newTrip();

@@ -144,12 +144,15 @@ function renderPlan(opts = {}) {
       <p>${pk.length ? 'Coloque aqui o que você escolheu, no horário que quiser.' : 'Escolha lugares para montar este dia.'}</p>
       <div class="acts">${pk.length ? '<button class="btn-out" data-add="end">Adicionar lugar</button><button class="btn-primary sm" data-auto>Organizar automático</button>' : '<button class="btn-primary sm" data-discover>Escolher lugares</button>'}</div></div>`;
   } else {
-    let prev = null, html = '';
+    // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
+    let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
+    let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>`;
     items.forEach((it, i) => {
       const w = windowOf(it, it.time);
       html += `<div class="leg" style="--i:${i * 2}">${distTag(it, prev ? prev.ll : h, prev ? '' : 'do hotel')}</div>
         <div class="ev${it.id === flashId ? ' flash' : ''}" data-id="${it.id}" style="--i:${i * 2 + 1}">
           <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}<small>${w ? w[2] : ''}</small></button>
+          <span class="ev-dot" aria-hidden="true">${i + 1}</span>
           <div class="ev-card">
             <span class="pph" role="img" aria-label="Foto de ${esc(it.title)}">${scene(it.icon, it.title + ' ' + it.sub)}</span>
             <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${typeIcon(it, 13)}${esc(it.sub)}</span></span>

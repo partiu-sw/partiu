@@ -24,16 +24,17 @@ Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando exis
 
 | Token | Valor | Uso |
 | --- | --- | --- |
-| `--bg` | `#EEF0F4` | fundo da página, atrás do celular |
+| `--bg` | `#FFFFFF` | fundo da página (branco puro) |
 | `--surface` | `#FFFFFF` | fundo das telas, cartões, painéis |
-| `--fill` | `#F3F4F7` | fundos suaves: campo de busca, item ativo, miniaturas, trilho de progresso |
-| `--line` | `#E6E8ED` | divisórias, bordas de cartão, botão desativado |
+| `--fill` | `#F1F6FC` | fundos suaves em azul bem claro (nunca cinza): campo de busca, chips, resumo do dia |
+| `--line` | `#E2EAF3` | divisórias e bordas de cartão |
 | `--ink` | `#1B1F27` | texto principal, barra de navegação flutuante |
 | `--brand` | `#2A78C2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
 | `--brand-deep` | `#1F5F9E` | hover do botão primário, fundos azuis escuros |
 | `--brand-soft` | `#EAF2FA` | selos, faixa de datas no calendário e fundos azuis claros |
 | `--brand-sky` | `#7CC0EA` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
 | `--glass` / `--glass-line` | branco 16% / 34% | vidro fosco sobre foto (com `backdrop-filter: blur(14–16px)`) |
+| `--screen` | `#FFFFFF` | fundo de todas as telas: branco puro, com o azul como única cor |
 | `--sec` | `#7E8492` | texto secundário, legendas, rótulos |
 | `--muted` | `#B9BEC8` | texto desativado (ex.: dias passados no calendário) |
 

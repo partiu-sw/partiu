@@ -23,7 +23,7 @@ function route() {
   if (step === 'login' && logged) step = 'main';
   if (step === S.step && shown && !/choose|discover/.test(path)) return;
   routing = true;
-  if (logged && !S.tripId && step !== 'login') { seedTrips(); const last = readTrips().filter((t) => t.plan).sort((a, b) => b.updated - a.updated)[0]; if (last) openTrip(last.id); }
+  if (logged && !S.tripId && step !== 'login') { seedTrips(); const last = readTrips().filter((t) => t.plan).sort((a, b) => b.updated - a.updated)[0]; if (last) openTrip(last.id); else if (step !== 'dest' && QUIZ.indexOf(step) < 0 && step !== 'intro' && step !== 'loading') { ensurePlan(); seedTrip(); } }
   go(step);
   if (path === '/itinerary/choose') openChoose();
   if (path === '/itinerary/discover') openDiscover();

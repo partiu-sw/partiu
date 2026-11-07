@@ -70,8 +70,7 @@
   #feed .tab-head { padding-top: 36px; }
   .posts { padding: 0; }
   .feed-seg { width: min(648px, calc(100% - 32px)); }
-  .ct-hero { width: min(760px, calc(100% - 32px)); margin-top: 16px; border-radius: 36px; }
-  .trips { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #conta .tab-head { padding-top: 36px; }
   .compose-wrap { align-items: center; justify-content: center; }
   .tabbar { bottom: 22px; }
 }
