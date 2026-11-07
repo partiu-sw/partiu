@@ -27,7 +27,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--sans); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; overflow-x: hidden; line-height: 1.5; }
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; }
@@ -66,12 +66,12 @@ h1 em, h2 em { font-style: italic; color: var(--brand); }
 @keyframes settle { to { transform: scale(1); } }
 .caption { display: flex; justify-content: space-between; gap: 16px; margin-top: 10px; font-size: 12px; color: var(--sec); }
 .device { position: absolute; left: -54px; bottom: 40px; width: 190px; border-radius: 30px; padding: 6px; background: #fff; box-shadow: 0 24px 50px rgba(22, 32, 44, .22), 0 0 0 1px rgba(22,32,44,.06); animation: slide-in 1.2s .4s var(--ease) backwards; }
-.device img { border-radius: 25px; }
+.device img { width: 100%; height: auto; border-radius: 25px; }
 @keyframes slide-in { from { opacity: 0; transform: translateY(40px); } }
 @media (max-width: 900px) {
   .open .wrap { grid-template-columns: 1fr; gap: 40px; }
-  .device { left: 16px; bottom: -30px; width: 140px; }
-  .open { padding-bottom: 70px; }
+  .device { left: 12px; bottom: 44px; width: 128px; }
+  .open { padding-bottom: 60px; }
 }
 
 /* o que a pesquisa mostrou */
