@@ -24,4 +24,4 @@ Link: https://docs.google.com/forms/d/e/1FAIpQLSdsu_tTCy22HFfJREbiRi3kqSU1h0P1SZ
 
 ## Comércios
 
-Link: https://docs.google.com/forms/d/e/1FAIpQLSc3ryFzWCyA51aWQ6B4gV7X-O76FFA51r5XBaJhOz7qp9kWbw/viewform (ver landing.html, seção de validação)
+Link: https://docs.google.com/forms/d/e/1FAIpQLSc3ryFzWCyA51aWQ6B4gV7X-O76FFA51r5XBaJhOz7qp9kWbw/viewform (ver index.html, seção de validação)

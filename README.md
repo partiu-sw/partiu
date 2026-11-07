@@ -8,9 +8,11 @@ O foco vem da pesquisa de rua de novembro de 2026 (`pesquisa/insights.md` e o da
 
 ## Como abrir
 
-Não precisa de build. Abra `index.html` no navegador para ver todas as telas, ou `app.html` para seguir o fluxo do começo.
+Não precisa de build. Abra `index.html` para ver a página de apresentação, `app.html` para seguir o app do começo ou `telas.html` para ver todas as telas lado a lado.
 
-A página de apresentação do projeto, com o modelo de negócio e o formulário para comércios, é a `landing.html`. Na Vercel ela abre na raiz do site (`vercel.json`), e o app fica em `/app`.
+Publicado na Vercel: https://partiu-blue.vercel.app (o app fica em `/app`).
+
+A página de apresentação do projeto, com o modelo de negócio e o formulário para comércios, é o `index.html`.
 
 Para evitar bloqueios do navegador com arquivos locais, dá para servir a pasta:
 
@@ -38,8 +40,8 @@ Cada tela também abre direto pelo endereço:
 ## Estrutura
 
 ```
-landing.html               página de apresentação (problema, solução, modelo de negócio)
-index.html                 página de desenvolvimento com a prévia de todas as telas
+index.html                 página de apresentação (problema, solução, modelo de negócio)
+telas.html                 página de desenvolvimento com a prévia de todas as telas
 app.html                   o app (marcação das telas)
 brand/                     logo, favicon, ícones e imagens para o GitHub (gerar.py recria os PNGs)
 img/                       fotos do litoral usadas no app e na landing (créditos em img/CREDITOS.md)

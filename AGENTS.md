@@ -15,7 +15,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 - Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul-marinho liso (`#134A8E`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
-- Toda página nova leva o favicon e `theme-color #134A8E` no `<head>`, como `app.html` e `landing.html`.
+- Toda página nova leva o favicon e `theme-color #134A8E` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
 
 ## Cores
@@ -187,7 +187,7 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 
 - Sem build e sem framework: HTML + CSS + JS puro, abre direto no navegador.
 - Um CSS e um JS por tela (`css/screens/`, `js/screens/`); o compartilhado fica em `css/base.css` e `js/core.js`. A marcação das telas fica em `app.html`.
-- Toda tela nova precisa entrar também na prévia do `index.html` e na tabela de endereços do `README.md`.
+- Toda tela nova precisa entrar também na prévia do `telas.html` e na tabela de endereços do `README.md`. A página de apresentação é o `index.html`.
 - Bibliotecas externas só via cdnjs com versão fixa (ex.: Leaflet 1.9.4). O CSS do Leaflet está embutido em `map.css`.
 - HTML gerado em JS passa pelo `esc()` quando mostra texto vindo de dados.
 - Variações de design que não entraram no app ficam em `explorations/` como referência.
@@ -201,4 +201,4 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - [ ] Ícones no estilo de traço do `ICON`, com `aria-hidden` e `aria-label` no botão.
 - [ ] Animações com a curva padrão e desligadas em movimento reduzido.
 - [ ] Funciona em 390 × 844 e em tela cheia abaixo de 500px.
-- [ ] Tela aparece no `index.html` e no `README.md`.
+- [ ] Tela aparece no `telas.html` e no `README.md`.
