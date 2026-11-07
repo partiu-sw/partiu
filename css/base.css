@@ -33,7 +33,7 @@ h1 { font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.7p
 .q-title h1 em { font-weight: 700; }
 h1 em { font-style: italic; color: var(--brand); }
 
-.phone { position: relative; width: 390px; height: 844px; max-height: calc(100% - 32px); background: var(--surface); border-radius: 48px; overflow: hidden; box-shadow: 0 0 0 10px #FFFFFF, 0 0 0 11px #DADDE3, 0 40px 90px rgba(19,40,80,.18); }
+.phone { position: relative; width: 390px; height: 844px; max-height: calc(100% - 32px); background: var(--surface); border-radius: 48px; overflow: hidden; overflow: clip; box-shadow: 0 0 0 10px #FFFFFF, 0 0 0 11px #DADDE3, 0 40px 90px rgba(19,40,80,.18); }
 @media (max-width: 500px) {
   body { display: block; }
   .phone { width: 100%; height: 100%; max-height: none; border-radius: 0; box-shadow: none; }

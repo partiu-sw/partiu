@@ -33,8 +33,6 @@ Cada tela também abre direto pelo endereço:
 | `app.html#loading` | Busca de lugares |
 | `app.html#discover` | Escolher lugares |
 | `app.html#organize` | Organizar roteiro (com exemplo preenchido) |
-| `app.html#home` | Início: o que fazer agora, perto de você |
-| `app.html#detail` | Detalhe de um lugar |
 | `app.html#main` | Explorar no mapa |
 
 ## Estrutura
@@ -53,7 +51,7 @@ js/
   data.js                  cidades e lugares de exemplo
   core.js                  ícones, estado, utilidades e troca de telas
   ui/hnav.js               rolagem lateral com setas
-  screens/                 um arquivo por tela: login, intro, quiz, loading, plan, home, map
+  screens/                 um arquivo por tela: login, intro, quiz, loading, plan, map
   main.js                  inicialização e abertura de uma tela pelo endereço
 tiles/                     blocos do mapa (CARTO Positron), zoom 11 a 15
 scripts/download-tiles.js  baixa os blocos do mapa de novo

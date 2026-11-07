@@ -82,7 +82,7 @@ footer { font-size: 13px; line-height: 1.5; color: var(--sec); max-width: 640px;
 // Cada cartão mostra a tela ao vivo (app.html aberto naquela tela), em escala reduzida.
 const SCREENS = [
   ['login', 'Entrar'], ['intro', 'Apresentação'], ['dest', 'Destino'], ['dates', 'Datas'], ['budget', 'Orçamento'], ['prefs', 'Interesses'],
-  ['loading', 'Busca de lugares'], ['discover', 'Escolher lugares'], ['organize', 'Organizar roteiro'], ['home', 'Início'], ['detail', 'Detalhe do lugar'], ['main', 'Explorar no mapa']
+  ['loading', 'Busca de lugares'], ['discover', 'Escolher lugares'], ['organize', 'Organizar roteiro'], ['main', 'Explorar no mapa']
 ];
 document.getElementById('shots').innerHTML = SCREENS.map(([id, name], i) => `
   <a class="shot" href="app.html#${id}">

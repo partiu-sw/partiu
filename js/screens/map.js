@@ -25,11 +25,11 @@ let me = null, sheetState = 'half', noteT;
 function initMap() {
   if (map || !window.L) return;
   map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 11, maxZoom: 16 });
-  // Blocos do mapa (CARTO Positron) publicados junto com a página; onde faltar, aparece a grade do fundo.
+  // Blocos do mapa (Esri Light Gray, base + nomes) publicados junto com a página; onde faltar, aparece a grade do fundo.
   L.tileLayer('tiles/{z}/{x}/{y}.png', {
     minZoom: 11, maxZoom: 16, maxNativeZoom: 15,
     errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-    attribution: '&copy; OpenStreetMap &copy; CARTO'
+    attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap'
   }).addTo(map);
   map.attributionControl.setPrefix(false);
   map.attributionControl.setPosition('bottomleft');
@@ -46,6 +46,7 @@ function sheetHeights() {
 }
 const curSheetH = () => parseFloat($('main').style.getPropertyValue('--sheet-h')) || sheetHeights().half;
 function setSheet(state) {
+  if (DESK()) state = 'full'; // no desktop o painel é uma coluna sempre aberta
   sheetState = state;
   $('main').style.setProperty('--sheet-h', sheetHeights()[state] + 'px');
   $('placesSheet').classList.toggle('collapsed', state === 'collapsed');
@@ -87,7 +88,7 @@ window.addEventListener('resize', () => { if (!$('main').hidden) setSheet(sheetS
 // Centraliza um ponto na parte do mapa que fica visível entre o cartão do topo e o painel.
 function flyVisible(ll, zoom) {
   const z = zoom ?? map.getZoom();
-  const pt = map.project(ll, z).add([0, (curSheetH() - TRIP_CARD_H) / 2]);
+  const pt = map.project(ll, z).add(DESK() ? [-SIDE_W / 2, 0] : [0, (curSheetH() - TRIP_CARD_H) / 2]);
   map.flyTo(map.unproject(pt, z), z, { duration: 0.6 });
 }
 
@@ -191,7 +192,7 @@ function renderDay(fit) {
   });
   if (routeLine) routeLine.remove();
   routeLine = L.polyline([hotel.ll, ...items.map((it) => it.ll)], { color: '#134A8E', weight: 3, opacity: 0.7, dashArray: '1 8', lineCap: 'round', interactive: false }).addTo(map);
-  if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll)]), { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
+  if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [48, 48], maxZoom: 15 } : { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
 }
 
 function select(id, fromList) {

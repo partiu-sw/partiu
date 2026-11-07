@@ -49,6 +49,8 @@
 .tabbar button { min-height: 48px; padding: 0 18px; border: 0; border-radius: 999px; background: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; color: #9AA0AB; }
 .tabbar button[aria-current="page"] { background: var(--brand); color: #fff; }
 .tabbar button svg path[stroke="#fff"] { stroke: var(--brand); }
+/* abas inativas só com o ícone; a atual mostra o nome */
+.tabbar button:not([aria-current="page"]) { font-size: 0; gap: 0; padding: 0 15px; }
 
 /* pins */
 .pin { width: 44px; height: 44px; display: grid; place-items: center; position: relative; }
@@ -72,7 +74,7 @@
 .leaflet-tile { filter: inherit; visibility: hidden; }
 .leaflet-tile-loaded { visibility: inherit; }
 .leaflet-pane { z-index: 400; }
-.leaflet-tile-pane { z-index: 200; }
+.leaflet-tile-pane { z-index: 200; filter: sepia(.25) hue-rotate(178deg) saturate(1.6) brightness(1.02); } /* puxa o cinza do mapa para o azul da marca */
 .leaflet-overlay-pane { z-index: 400; }
 .leaflet-shadow-pane { z-index: 500; }
 .leaflet-marker-pane { z-index: 600; }

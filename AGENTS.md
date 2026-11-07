@@ -5,7 +5,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 ## Princípios
 
 1. **Litoral, vidro e azul-marinho.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é o azul-marinho `--brand`; o texto é grafite `--ink` sobre branco. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
-2. **Um celular de 390 × 844.** Tudo é desenhado dentro de `.phone`. No desktop ele fica centralizado com moldura; abaixo de 500px ocupa a tela inteira.
+2. **Celular primeiro, desktop de verdade.** As telas são desenhadas para 390 × 844 dentro de `.phone`. Abaixo de 500px ocupam a tela inteira; acima de 900px (`css/desktop.css`) o app ocupa a janela toda, sem moldura de celular: login em duas colunas (foto e formulário), perguntas e roteiro numa coluna central, e no mapa o painel vira uma coluna lateral fixa à esquerda (`DESK()` e `SIDE_W` no `js/core.js`).
 3. **Selecionado = azul.** Um item escolhido troca para fundo `--brand` e texto branco. Não use outra cor, sombra extra ou ícone de check para indicar seleção.
 4. **Foto em primeiro lugar.** Sobre foto: degradê escuro embaixo para o texto branco e vidro fosco (`--glass`, `--glass-line`, `backdrop-filter: blur`) nos controles. Fora da foto: bordas finas de 1px e sombras suaves só no que flutua.
 5. **Toque confortável.** Toda área clicável tem no mínimo 44 × 44px (botões principais 56px de altura).
@@ -200,5 +200,5 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - [ ] Números com `tabular-nums`; textos longos cortam com reticências.
 - [ ] Ícones no estilo de traço do `ICON`, com `aria-hidden` e `aria-label` no botão.
 - [ ] Animações com a curva padrão e desligadas em movimento reduzido.
-- [ ] Funciona em 390 × 844 e em tela cheia abaixo de 500px.
+- [ ] Funciona em 390 × 844, em tela cheia abaixo de 500px e no desktop acima de 900px (ajustes em `css/desktop.css`).
 - [ ] Tela aparece no `telas.html` e no `README.md`.
