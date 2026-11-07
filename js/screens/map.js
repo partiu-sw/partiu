@@ -56,16 +56,19 @@ function addBaseMap() {
   }).catch(rasterBase);
 }
 
-/* Rotas pelas ruas (OSRM, servidor público), guardadas no navegador. Enquanto não chegam, ou sem rede,
-   a linha fica tracejada e reta entre os pontos. */
-const ROUTE_KEY = 'partiu.rotas';
+/* Rotas pelas ruas, a pé (OSRM da FOSSGIS, routing.openstreetmap.de; de carro no servidor do OSRM como reserva),
+   guardadas no navegador. Enquanto não chegam, ou sem rede, a linha fica tracejada e reta entre os pontos. */
+const ROUTE_KEY = 'partiu.rotas.pe';
+const ROUTERS = ['https://routing.openstreetmap.de/routed-foot/route/v1/foot/', 'https://router.project-osrm.org/route/v1/driving/'];
 let routeCache = null, routeReq = 0;
 function routeStore() { if (!routeCache) { try { routeCache = JSON.parse(localStorage.getItem(ROUTE_KEY) || '{}'); } catch (e) { routeCache = {}; } } return routeCache; }
 function fetchRoute(pts) {
   const key = pts.map((p) => p[1].toFixed(5) + ',' + p[0].toFixed(5)).join(';'), st = routeStore();
   if (st[key]) return Promise.resolve(st[key]);
-  return fetch(`https://router.project-osrm.org/route/v1/driving/${key}?overview=full&geometries=geojson`)
-    .then((r) => r.json()).then((j) => {
+  const ask = (i) => fetch(`${ROUTERS[i]}${key}?overview=full&geometries=geojson`).then((r) => r.json())
+    .then((j) => { if (!j.routes || !j.routes[0]) throw new Error('sem rota'); return j; })
+    .catch((e) => { if (i + 1 < ROUTERS.length) return ask(i + 1); throw e; });
+  return ask(0).then((j) => {
       if (!j.routes || !j.routes[0]) throw new Error('sem rota');
       const line = j.routes[0].geometry.coordinates.map(([lng, lat]) => [+lat.toFixed(5), +lng.toFixed(5)]);
       st[key] = line;

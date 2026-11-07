@@ -66,7 +66,7 @@ explorations/              variações de design que ficaram de referência
 
 ## Mapa
 
-O mapa usa [Leaflet 1.9.4](https://leafletjs.com) com um mapa base vetorial: estilo Positron do [OpenFreeMap](https://openfreemap.org) (gratuito, sem chave), desenhado com [MapLibre GL 4.7.1](https://maplibre.org) pelo plugin `@maplibre/maplibre-gl-leaflet` 0.0.22 e recolorido no `js/screens/map.js` com o azul da marca. As rotas entre as paradas seguem as ruas, calculadas pelo servidor público do [OSRM](https://project-osrm.org) e guardadas no navegador; sem rede, aparece uma linha tracejada reta.
+O mapa usa [Leaflet 1.9.4](https://leafletjs.com) com um mapa base vetorial: estilo Positron do [OpenFreeMap](https://openfreemap.org) (gratuito, sem chave), desenhado com [MapLibre GL 4.7.1](https://maplibre.org) pelo plugin `@maplibre/maplibre-gl-leaflet` 0.0.22 e recolorido no `js/screens/map.js` com o azul da marca. As rotas entre as paradas seguem as ruas a pé, calculadas pelo [OSRM](https://project-osrm.org) público da FOSSGIS (`routing.openstreetmap.de`, com o servidor de carro do OSRM como reserva) e guardadas no navegador; sem rede, aparece uma linha tracejada reta.
 
 Sem WebGL ou sem acesso ao OpenFreeMap, o mapa usa os blocos salvos em `tiles/` (Esri Light Gray, de Balneário Camboriú a Tijucas). Para baixar de novo ou ampliar a área, edite as coordenadas em `scripts/baixar-tiles.py` e rode:
 
