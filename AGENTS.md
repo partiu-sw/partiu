@@ -4,7 +4,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Princípios
 
-1. **Litoral, vidro e azul praia.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é um azul vivo, de praia e tecnologia (`--brand`), sempre **sólido: sem degradê no azul**. O app é azul e branco; o texto é grafite `--ink`. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
+1. **Litoral, vidro e azul praia.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é um azul oceano calmo (`--brand`), sempre **sólido: sem degradê no azul**. O app é azul e branco; o texto é grafite `--ink`. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
 2. **Celular primeiro, desktop de verdade.** As telas são desenhadas para 390 × 844 dentro de `.phone`. Abaixo de 500px ocupam a tela inteira; acima de 900px (`css/desktop.css`) o app ocupa a janela toda, sem moldura de celular: login em duas colunas (foto e formulário), perguntas e roteiro numa coluna central, e no mapa o painel vira uma coluna lateral fixa à esquerda (`DESK()` e `SIDE_W` no `js/core.js`).
 3. **Selecionado = azul.** Um item escolhido troca para fundo `--brand` e texto branco. Não use outra cor, sombra extra ou ícone de check para indicar seleção.
 4. **Foto em primeiro lugar.** Sobre foto: degradê escuro embaixo para o texto branco e vidro fosco (`--glass`, `--glass-line`, `backdrop-filter: blur`) nos controles. Fora da foto: bordas finas de 1px e sombras suaves só no que flutua.
@@ -13,9 +13,9 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul liso (`#0B6EF2`, sem degradê). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
+- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul liso (`#2A78C2`, sem degradê). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
-- Toda página nova leva o favicon e `theme-color #0B6EF2` no `<head>`, como `app.html` e `index.html`.
+- Toda página nova leva o favicon e `theme-color #2A78C2` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
 
 ## Cores
@@ -29,10 +29,10 @@ Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando exis
 | `--fill` | `#F3F4F7` | fundos suaves: campo de busca, item ativo, miniaturas, trilho de progresso |
 | `--line` | `#E6E8ED` | divisórias, bordas de cartão, botão desativado |
 | `--ink` | `#1B1F27` | texto principal, barra de navegação flutuante |
-| `--brand` | `#0B6EF2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
-| `--brand-deep` | `#0058D6` | hover do botão primário, fundos azuis escuros |
-| `--brand-soft` | `#E6F1FF` | selos, faixa de datas no calendário e fundos azuis claros |
-| `--brand-sky` | `#38C6F4` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
+| `--brand` | `#2A78C2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
+| `--brand-deep` | `#1F5F9E` | hover do botão primário, fundos azuis escuros |
+| `--brand-soft` | `#EAF2FA` | selos, faixa de datas no calendário e fundos azuis claros |
+| `--brand-sky` | `#7CC0EA` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
 | `--glass` / `--glass-line` | branco 16% / 34% | vidro fosco sobre foto (com `backdrop-filter: blur(14–16px)`) |
 | `--sec` | `#7E8492` | texto secundário, legendas, rótulos |
 | `--muted` | `#B9BEC8` | texto desativado (ex.: dias passados no calendário) |
@@ -50,7 +50,7 @@ Cinzas auxiliares já usados (sem token; reutilize estes, não crie novos):
 | `#3A3A3C` | selo/contador secundário sobre fundo `--ink` |
 | `#101012` | moldura do celular |
 
-Categorias do orçamento usam três tons de azul (`#0B6EF2`, `#5AAEFF`, `#BFE3FF`), definidos em `ALLOC` no `js/core.js`.
+Categorias do orçamento usam três tons de azul (`#2A78C2`, `#6FA6D8`, `#C5DCF0`), definidos em `ALLOC` no `js/core.js`.
 
 Fotos ficam em `img/` (reduzidas, até 1000px) com créditos em `img/CREDITOS.md`; `photoFor(texto)` no `js/core.js` escolhe a foto pelo nome do lugar.
 
@@ -143,7 +143,7 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - `.toast` — aviso escuro flutuante com ação "Desfazer" sublinhada.
 - `.map-note` — aviso curto escuro sobre o mapa.
 - Estados vazios (`.tl-empty`, `.disc-empty`, `.stage-done`) — caixa com borda tracejada `1.5px dashed #D0D0D5`, texto centralizado, título 17px/600 + explicação em `--sec` + ação.
-- `.tabbar` — barra escura de vidro, flutuante e fixa em todas as abas da área logada (Explorar, Roteiro, Feed, Conta), fora das telas, no fim do `.phone`. A aba atual mostra o nome numa pílula azul sólida que desliza até ela (`setTabbar()` no `core.js`). Some quando um painel cobre a tela (escolher lugares, horários, busca, publicar).
+- `.tabbar` — barra branca de vidro, flutuante e fixa em todas as abas da área logada (Explorar, Roteiro, Feed, Conta), fora das telas, no fim do `.phone`. A aba atual mostra o nome numa pílula azul sólida que desliza até ela (`setTabbar()` no `core.js`). Some quando um painel cobre a tela (escolher lugares, horários, busca, publicar).
 - `.tab-head` — cabeçalho das abas: título grande (`h1` com a palavra-chave em `<em>`) e uma ação à direita.
 - Painel do mapa (`.sheet`) — três estágios como no Uber (recolhido, metade, aberto); arrasta em qualquer parte, com resistência nas pontas e gesto rápido para pular de estágio.
 - `.day-chip` — o mesmo chip de dia no mapa e no roteiro: dia da semana (ou "Hoje"), número e quantos lugares; no mapa, com o ícone do clima.

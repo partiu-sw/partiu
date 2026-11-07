@@ -10,7 +10,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, 'pitch'))
 from cdp import Chrome
 
-BRAND, DEEP, LIGHT = '#0B6EF2', '#0058D6', '#38C6F4'
+BRAND, DEEP, LIGHT = '#2A78C2', '#1F5F9E', '#7CC0EA'
 FONT = "https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=block"
 FAMILY = '-apple-system, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif'
 

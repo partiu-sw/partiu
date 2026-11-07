@@ -58,7 +58,7 @@ const MON = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out
 const QUIZ = ['dest', 'dates', 'budget', 'prefs'];
 const TODAY = 20261106;
 // Categorias do orçamento: ícone, nome e o tom usado na barra de distribuição.
-const ALLOC = [['dormir', 'Hospedagem', '#0B6EF2', '#FFFFFF'], ['comer', 'Alimentação', '#5AAEFF', '#FFFFFF'], ['ver', 'Passeios', '#BFE3FF', '#1B1F27']];
+const ALLOC = [['dormir', 'Hospedagem', '#2A78C2', '#FFFFFF'], ['comer', 'Alimentação', '#6FA6D8', '#FFFFFF'], ['ver', 'Passeios', '#C5DCF0', '#1B1F27']];
 const DEFAULT_SPLIT = [0.4, 0.35, 0.25];
 // [chave, nome, como aparece no texto de carregamento]
 const INTERESTS = [

@@ -26,7 +26,7 @@ let me = null, sheetState = 'half', noteT;
 // Sem WebGL ou sem rede, usa os blocos salvos em tiles/ (Esri Light Gray), com o mesmo tom azul.
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 const MAP_PAINT = [
-  [/^background$/, 'background-color', '#F3F7FC'], [/^water$/, 'fill-color', '#A9D8F7'], [/^waterway$/, 'line-color', '#9CD0F4'],
+  [/^background$/, 'background-color', '#F3F7FC'], [/^water$/, 'fill-color', '#BDDAF0'], [/^waterway$/, 'line-color', '#AED0EC'],
   [/^park$|wood/, 'fill-color', '#DCF0E1'], [/residential/, 'fill-color', '#EDF1F7'], [/^building$/, 'fill-color', '#E3E9F1'],
   [/casing/, 'line-color', '#D3DDEA'], [/inner|minor|subtle|pier/, 'line-color', '#FFFFFF'], [/path/, 'line-color', '#DCE4EE']
 ];
@@ -81,13 +81,13 @@ function drawRoute(pts) {
   if (routeLine) routeLine.remove();
   if (routeCasing) { routeCasing.remove(); routeCasing = null; }
   if (pts.length < 2) return;
-  routeLine = L.polyline(pts, { color: '#0B6EF2', weight: 3, opacity: 0.55, dashArray: '2 8', lineCap: 'round', interactive: false }).addTo(map);
+  routeLine = L.polyline(pts, { color: '#2A78C2', weight: 3, opacity: 0.55, dashArray: '2 8', lineCap: 'round', interactive: false }).addTo(map);
   const req = ++routeReq;
   fetchRoute(pts).then((line) => {
     if (req !== routeReq || !map) return;
     routeLine.remove();
     routeCasing = L.polyline(line, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-casing' }).addTo(map);
-    routeLine = L.polyline(line, { color: '#0B6EF2', weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-line' }).addTo(map);
+    routeLine = L.polyline(line, { color: '#2A78C2', weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-line' }).addTo(map);
     // a rota "se desenha" do hotel até a última parada
     [routeCasing, routeLine].forEach((pl) => {
       const el = pl.getElement(); if (!el || !el.getTotalLength) return;
