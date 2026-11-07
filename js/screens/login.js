@@ -27,19 +27,20 @@ const SOCIAL = [
 
 function renderLogin() {
   const body = $('loginBody'), acc = accounts()[loginEmail];
-  $('loginBack').style.visibility = loginStep === 'email' ? 'hidden' : 'visible';
+  // no primeiro passo, voltar leva para o site (landing); nos outros, para o passo do e-mail
+  $('loginBack').setAttribute('aria-label', loginStep === 'email' ? 'Voltar para o site' : 'Voltar');
   replay(body, S.stepDir < 0 ? 'step-b' : 'step-f');
   if (loginStep === 'email') {
     body.innerHTML = `
       <div class="lg-title"><h1>Entre ou crie sua <em>conta</em></h1><p class="sub">Leva menos de um minuto.</p></div>
-      <div class="lg-social">${SOCIAL.map(([k, n, ic]) => `<button class="lg-soc ${k}" data-social="${k}" aria-label="Continuar com ${n}">${ic}<span>Continuar com ${n}</span></button>`).join('')}</div>
-      <div class="lg-or"><span>ou com e-mail</span></div>
       <form class="lg-form" id="loginForm" novalidate>
         <label class="search lg-field" for="loginEmail"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--sec)"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>
           <input id="loginEmail" type="email" inputmode="email" autocomplete="email" placeholder="seu@email.com" aria-label="E-mail" value="${esc(loginEmail)}"></label>
         <p class="lg-err" id="loginErr" role="alert" hidden>Confira o e-mail digitado.</p>
         <button class="btn-primary" type="submit" id="loginGo">Continuar</button>
       </form>
+      <div class="lg-or"><span>ou continue com</span></div>
+      <div class="lg-social">${SOCIAL.map(([k, n, ic]) => `<button class="lg-soc ${k}" data-social="${k}" aria-label="Continuar com ${n}">${ic}<span>Continuar com ${n}</span></button>`).join('')}</div>
       <p class="lg-hint">Para ver uma viagem já organizada, use <button class="text-btn" data-demo>demo@partiu.app</button></p>`;
     setTimeout(() => { const i = $('loginEmail'); if (i && !loginEmail) i.focus({ preventScroll: true }); }, 380);
   } else if (loginStep === 'senha') {
@@ -72,8 +73,14 @@ function renderLogin() {
 }
 function loginNav(step, dir = 1) { S.stepDir = dir; loginStep = step; renderLogin(); }
 function enterApp(name, isNew) {
-  S.user = { name: firstName(name), email: loginEmail };
-  if (isNew) { S.slide = 0; go('intro'); } else go('main');
+  S.user = { name: firstName(name), email: loginEmail || 'demo@partiu.app' };
+  saveSession();
+  seedTrips();
+  if (isNew) { S.slide = 0; return go('intro'); }
+  // conta que já existe: abre a viagem mais recente guardada
+  const last = readTrips().filter((t) => t.plan).sort((a, b) => b.updated - a.updated)[0];
+  if (last) openTrip(last.id);
+  go('main');
 }
 function loginError(show) { const e = $('loginErr'); if (e) e.hidden = !show; }
 
@@ -109,4 +116,4 @@ $('loginBody').addEventListener('click', (e) => {
   if (e.target.closest('[data-demo]')) { $('loginEmail').value = 'demo@partiu.app'; $('loginEmail').focus(); return; }
   if (e.target.closest('[data-forgot]')) { const f = e.target.closest('[data-forgot]'); f.textContent = 'Enviamos um link para o seu e-mail'; f.disabled = true; }
 });
-$('loginBack').onclick = () => loginNav('email', -1);
+$('loginBack').onclick = () => { if (loginStep === 'email') location.href = 'index.html'; else loginNav('email', -1); };

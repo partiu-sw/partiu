@@ -22,16 +22,88 @@ const FALLBACK_ME = { ll: [-27.12853, -48.60103], name: 'Shopping Russi & Russi,
 const TRIP_CARD_H = 112; // área ocupada pelo cartão da viagem no topo do mapa
 let me = null, sheetState = 'half', noteT;
 
-function initMap() {
-  if (map || !window.L) return;
-  // Só a região com blocos baixados (de Balneário Camboriú a Tijucas); fora dela não dá para arrastar.
-  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
-  // Blocos do mapa (Esri Light Gray, base + nomes) publicados junto com a página; onde faltar, aparece a grade do fundo.
+// Mapa base: vetorial (OpenFreeMap, estilo Positron) com as cores da marca, nítido em qualquer zoom.
+// Sem WebGL ou sem rede, usa os blocos salvos em tiles/ (Esri Light Gray), com o mesmo tom azul.
+const MAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+const MAP_PAINT = [
+  [/^background$/, 'background-color', '#F3F7FC'], [/^water$/, 'fill-color', '#A9D8F7'], [/^waterway$/, 'line-color', '#9CD0F4'],
+  [/^park$|wood/, 'fill-color', '#DCF0E1'], [/residential/, 'fill-color', '#EDF1F7'], [/^building$/, 'fill-color', '#E3E9F1'],
+  [/casing/, 'line-color', '#D3DDEA'], [/inner|minor|subtle|pier/, 'line-color', '#FFFFFF'], [/path/, 'line-color', '#DCE4EE']
+];
+function styleForBrand(st) {
+  st.layers.forEach((l) => {
+    MAP_PAINT.forEach(([re, prop, val]) => { if (re.test(l.id) && prop.split('-')[0] === l.type) { l.paint = l.paint || {}; l.paint[prop] = val; } });
+    if (l.type === 'symbol' && l.paint) {
+      l.paint['text-color'] = /water/.test(l.id) ? '#2F86CF' : '#556274';
+      l.paint['text-halo-color'] = 'rgba(255,255,255,.95)';
+    }
+  });
+  return st;
+}
+function rasterBase() {
+  $('map').classList.add('raster');
   L.tileLayer('tiles/{z}/{x}/{y}.png', {
     minZoom: 12, maxZoom: 16, maxNativeZoom: 15,
     errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap'
   }).addTo(map);
+}
+function webglOk() { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } }
+function addBaseMap() {
+  if (!window.maplibregl || !L.maplibreGL || !webglOk()) return rasterBase();
+  fetch(MAP_STYLE).then((r) => r.json()).then((st) => {
+    L.maplibreGL({ style: styleForBrand(st), attribution: '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles &copy; OpenStreetMap' }).addTo(map);
+  }).catch(rasterBase);
+}
+
+/* Rotas pelas ruas (OSRM, servidor público), guardadas no navegador. Enquanto não chegam, ou sem rede,
+   a linha fica tracejada e reta entre os pontos. */
+const ROUTE_KEY = 'partiu.rotas';
+let routeCache = null, routeReq = 0;
+function routeStore() { if (!routeCache) { try { routeCache = JSON.parse(localStorage.getItem(ROUTE_KEY) || '{}'); } catch (e) { routeCache = {}; } } return routeCache; }
+function fetchRoute(pts) {
+  const key = pts.map((p) => p[1].toFixed(5) + ',' + p[0].toFixed(5)).join(';'), st = routeStore();
+  if (st[key]) return Promise.resolve(st[key]);
+  return fetch(`https://router.project-osrm.org/route/v1/driving/${key}?overview=full&geometries=geojson`)
+    .then((r) => r.json()).then((j) => {
+      if (!j.routes || !j.routes[0]) throw new Error('sem rota');
+      const line = j.routes[0].geometry.coordinates.map(([lng, lat]) => [+lat.toFixed(5), +lng.toFixed(5)]);
+      st[key] = line;
+      try { const keys = Object.keys(st); if (keys.length > 40) delete st[keys[0]]; localStorage.setItem(ROUTE_KEY, JSON.stringify(st)); } catch (e) { /* ok */ }
+      return line;
+    });
+}
+let routeCasing;
+function drawRoute(pts) {
+  if (routeLine) routeLine.remove();
+  if (routeCasing) { routeCasing.remove(); routeCasing = null; }
+  if (pts.length < 2) return;
+  routeLine = L.polyline(pts, { color: '#0B6EF2', weight: 3, opacity: 0.55, dashArray: '2 8', lineCap: 'round', interactive: false }).addTo(map);
+  const req = ++routeReq;
+  fetchRoute(pts).then((line) => {
+    if (req !== routeReq || !map) return;
+    routeLine.remove();
+    routeCasing = L.polyline(line, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-casing' }).addTo(map);
+    routeLine = L.polyline(line, { color: '#0B6EF2', weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-line' }).addTo(map);
+    // a rota "se desenha" do hotel até a última parada
+    [routeCasing, routeLine].forEach((pl) => {
+      const el = pl.getElement(); if (!el || !el.getTotalLength) return;
+      const len = el.getTotalLength();
+      el.style.strokeDasharray = len; el.style.strokeDashoffset = len;
+      el.getBoundingClientRect();
+      el.style.transition = 'stroke-dashoffset 1.1s cubic-bezier(.4, 0, .2, 1)';
+      el.style.strokeDashoffset = 0;
+      setTimeout(() => { el.style.strokeDasharray = ''; el.style.transition = ''; }, 1200);
+    });
+    Object.values(markers).forEach((m) => m.bringToFront && m.bringToFront());
+  }).catch(() => { /* fica a linha tracejada */ });
+}
+
+function initMap() {
+  if (map || !window.L) return;
+  // Só a região com blocos baixados (de Balneário Camboriú a Tijucas); fora dela não dá para arrastar.
+  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
+  addBaseMap();
   map.attributionControl.setPrefix(false);
   map.attributionControl.setPosition('bottomleft');
   meMarker = L.marker(FALLBACK_ME.ll, {
@@ -40,51 +112,75 @@ function initMap() {
   }).addTo(map);
 }
 
-/* Painel de lugares: recolhido, metade ou tela cheia. Arraste o puxador ou use o botão. */
+/* Painel em três estágios, como no Uber: recolhido (mais mapa), metade e aberto (mais detalhes).
+   Arraste em qualquer parte do painel; com a lista aberta no topo, puxar para baixo também recolhe.
+   Um gesto rápido (flick) pula para o próximo estágio na direção do movimento. */
+const TAB_SPACE = 84; // a barra flutuante cobre o fim do painel
 function sheetHeights() {
   const H = $('main').clientHeight || 844;
-  return { collapsed: 150, half: Math.round(H * 0.5), full: H - TRIP_CARD_H };
+  return { collapsed: 162 + TAB_SPACE, half: Math.round(H * 0.52), full: H - TRIP_CARD_H };
 }
 const curSheetH = () => parseFloat($('main').style.getPropertyValue('--sheet-h')) || sheetHeights().half;
 function setSheet(state) {
   if (DESK()) state = 'full'; // no desktop o painel é uma coluna sempre aberta
   sheetState = state;
   $('main').style.setProperty('--sheet-h', sheetHeights()[state] + 'px');
-  $('placesSheet').classList.toggle('collapsed', state === 'collapsed');
+  const sh = $('placesSheet');
+  sh.classList.toggle('collapsed', state === 'collapsed');
+  sh.classList.toggle('full', state === 'full');
   $('main').classList.toggle('sheet-full', state === 'full' && !DESK());
   $('grabber').setAttribute('aria-expanded', state !== 'collapsed');
+  if (state !== 'full') $('list').scrollTop = 0;
 }
-let sd = null, justDragged = false;
-$('grabber').addEventListener('pointerdown', (e) => {
-  sd = { y: e.clientY, h: curSheetH(), moved: false };
-  $('grabber').setPointerCapture(e.pointerId);
-});
-$('grabber').addEventListener('pointermove', (e) => {
-  if (!sd) return;
-  const dy = sd.y - e.clientY;
-  if (!sd.moved && Math.abs(dy) < 5) return;
-  sd.moved = true;
-  const hs = sheetHeights();
-  $('main').classList.add('resizing');
-  $('placesSheet').classList.remove('collapsed');
-  $('main').style.setProperty('--sheet-h', Math.max(hs.collapsed, Math.min(hs.full, sd.h + dy)) + 'px');
-});
-function endSheetDrag() {
-  if (!sd) return;
-  $('main').classList.remove('resizing');
-  if (sd.moved) {
-    const hs = sheetHeights(), h = curSheetH();
-    setSheet(Object.keys(hs).sort((a, b) => Math.abs(hs[a] - h) - Math.abs(hs[b] - h))[0]);
-    justDragged = true;
+let sdrag = null, justDragged = false;
+function sheetStart(x, y, inList) {
+  if (DESK()) return;
+  sdrag = { x0: x, y0: y, h0: curSheetH(), last: y, t: performance.now(), v: 0, mode: null, inList };
+}
+function sheetMove(x, y, e) {
+  if (!sdrag) return;
+  const dy = sdrag.y0 - y, dx = x - sdrag.x0;
+  if (!sdrag.mode) {
+    if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;
+    if (Math.abs(dx) > Math.abs(dy)) { sdrag.mode = 'none'; return; } // rolagem lateral dos dias
+    const atTop = $('list').scrollTop <= 0;
+    sdrag.mode = sdrag.inList && sheetState === 'full' && (dy > 0 || !atTop) ? 'scroll' : 'sheet';
+    if (sdrag.mode === 'sheet') { $('main').classList.add('resizing'); $('placesSheet').classList.remove('collapsed'); }
   }
-  sd = null;
+  if (sdrag.mode !== 'sheet') return;
+  if (e && e.cancelable) e.preventDefault();
+  const now = performance.now();
+  sdrag.v = 0.7 * sdrag.v + 0.3 * ((sdrag.last - y) / Math.max(1, now - sdrag.t));
+  sdrag.last = y; sdrag.t = now;
+  const hs = sheetHeights();
+  let h = sdrag.h0 + dy;
+  if (h > hs.full) h = hs.full + (h - hs.full) * 0.2; // resistência nas pontas
+  if (h < hs.collapsed) h = hs.collapsed - (hs.collapsed - h) * 0.2;
+  $('main').style.setProperty('--sheet-h', h + 'px');
 }
-$('grabber').addEventListener('pointerup', endSheetDrag);
-$('grabber').addEventListener('pointercancel', endSheetDrag);
-$('grabber').addEventListener('click', () => {
-  if (justDragged) { justDragged = false; return; }
-  setSheet({ collapsed: 'half', half: 'full', full: 'collapsed' }[sheetState]);
-});
+function sheetEnd() {
+  const d = sdrag; sdrag = null;
+  if (!d || d.mode !== 'sheet') return;
+  $('main').classList.remove('resizing');
+  justDragged = true; setTimeout(() => { justDragged = false; }, 80);
+  const hs = sheetHeights(), h = curSheetH(), order = ['collapsed', 'half', 'full'];
+  let target;
+  if (d.v > 0.45) target = order.find((k) => hs[k] > h + 8) || 'full';
+  else if (d.v < -0.45) target = [...order].reverse().find((k) => hs[k] < h - 8) || 'collapsed';
+  else target = order.slice().sort((a, b) => Math.abs(hs[a] - h) - Math.abs(hs[b] - h))[0];
+  setSheet(target);
+}
+const sheetEl = $('placesSheet');
+sheetEl.addEventListener('touchstart', (e) => { const t = e.touches[0]; sheetStart(t.clientX, t.clientY, !!e.target.closest('#list')); }, { passive: true });
+sheetEl.addEventListener('touchmove', (e) => { const t = e.touches[0]; sheetMove(t.clientX, t.clientY, e); }, { passive: false });
+sheetEl.addEventListener('touchend', sheetEnd);
+sheetEl.addEventListener('touchcancel', sheetEnd);
+sheetEl.addEventListener('pointerdown', (e) => { if (e.pointerType === 'mouse' && e.button === 0) sheetStart(e.clientX, e.clientY, !!e.target.closest('#list')); });
+window.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && sdrag) sheetMove(e.clientX, e.clientY, e); });
+window.addEventListener('pointerup', (e) => { if (e.pointerType === 'mouse') sheetEnd(); });
+// depois de arrastar, o clique que vem junto não abre nada
+sheetEl.addEventListener('click', (e) => { if (justDragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+$('grabber').addEventListener('click', () => setSheet({ collapsed: 'half', half: 'full', full: 'collapsed' }[sheetState]));
 window.addEventListener('resize', () => { if (!$('main').hidden) setSheet(sheetState); });
 
 // Centraliza um ponto na parte do mapa que fica visível entre o cartão do topo e o painel.
@@ -163,10 +259,7 @@ function renderDay(fit) {
   const isToday = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY;
   $('tripMeta').textContent = `${isToday ? 'Hoje · ' : ''}${DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
   $('placesMeta').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
-  $('mapDays').innerHTML = S.plan.days.map((_, d) => {
-    const y = dayDate(d);
-    return `<button class="pill day-pill" data-d="${d}" aria-pressed="${d === mapDay}">${svg(wxFor(d)[0], 16, 1.8)}${WEEK[y.getDay()]} ${y.getDate()}</button>`;
-  }).join('');
+  $('mapDays').innerHTML = dayChipsHTML(mapDay, 'data-d', true);
   const left = S.plan.picked.length;
   const edit = `<button class="text-btn rt-edit" data-edit>${left ? `Editar roteiro · ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}</button>`;
   if (!items.length) {
@@ -192,8 +285,7 @@ function renderDay(fit) {
     const sel = it.id === S.sel;
     markers[it.id] = L.marker(it.ll, { icon: pinIcon(i + 1, sel, it.title), title: it.title, keyboard: true, zIndexOffset: sel ? 1000 : 300 }).on('click', () => select(it.id, false)).addTo(map);
   });
-  if (routeLine) routeLine.remove();
-  routeLine = L.polyline([hotel.ll, ...items.map((it) => it.ll)], { color: '#134A8E', weight: 3, opacity: 0.7, dashArray: '1 8', lineCap: 'round', interactive: false }).addTo(map);
+  drawRoute([hotel.ll, ...items.map((it) => it.ll)]);
   if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [48, 48], maxZoom: 15 } : { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
 }
 

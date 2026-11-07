@@ -10,15 +10,16 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, 'pitch'))
 from cdp import Chrome
 
-BRAND, DEEP, LIGHT = '#134A8E', '#0D3466', '#1E5FAE'
+BRAND, DEEP, LIGHT = '#0B6EF2', '#0058D6', '#38C6F4'
 FONT = "https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=block"
 FAMILY = '-apple-system, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif'
 
-# Marca limpa, no padrão Apple: pino de mapa branco com o furo redondo, num quadrado arredondado azul-marinho liso.
+# Marca limpa: pino de mapa branco com o furo redondo, num quadrado arredondado azul liso.
 PIN = 'M256 420s118-104 118-196a118 118 0 0 0-236 0c0 92 118 196 118 196zm0-150a46 46 0 1 1 0-92 46 46 0 0 1 0 92z'
 
 
-def mark(rx=116, grad=False):
+def mark(rx=116):
+    # quadrado azul liso com o pino branco por cima
     return f'<rect width="512" height="512" rx="{rx}" fill="{BRAND}"/><path d="{PIN}" fill="#fff" fill-rule="evenodd"/>'
 
 

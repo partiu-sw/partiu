@@ -13,9 +13,9 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul-marinho liso (`#134A8E`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
+- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul-marinho liso (`#0B6EF2`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
-- Toda página nova leva o favicon e `theme-color #134A8E` no `<head>`, como `app.html` e `index.html`.
+- Toda página nova leva o favicon e `theme-color #0B6EF2` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
 
 ## Cores
@@ -29,9 +29,9 @@ Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando exis
 | `--fill` | `#F3F4F7` | fundos suaves: campo de busca, item ativo, miniaturas, trilho de progresso |
 | `--line` | `#E6E8ED` | divisórias, bordas de cartão, botão desativado |
 | `--ink` | `#1B1F27` | texto principal, barra de navegação flutuante |
-| `--brand` | `#134A8E` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
-| `--brand-deep` | `#0D3466` | hover do botão primário, fundos azuis escuros |
-| `--brand-soft` | `#E3ECF7` | selos e fundos azuis claros |
+| `--brand` | `#0B6EF2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
+| `--brand-deep` | `#0058D6` | hover do botão primário, fundos azuis escuros |
+| `--brand-soft` | `#E6F1FF` | selos e fundos azuis claros |
 | `--glass` / `--glass-line` | branco 16% / 34% | vidro fosco sobre foto (com `backdrop-filter: blur(14–16px)`) |
 | `--sec` | `#7E8492` | texto secundário, legendas, rótulos |
 | `--muted` | `#B9BEC8` | texto desativado (ex.: dias passados no calendário) |
@@ -49,7 +49,7 @@ Cinzas auxiliares já usados (sem token; reutilize estes, não crie novos):
 | `#3A3A3C` | selo/contador secundário sobre fundo `--ink` |
 | `#101012` | moldura do celular |
 
-Categorias do orçamento usam três tons de azul (`#134A8E`, `#5B86C2`, `#B9CDE8`), definidos em `ALLOC` no `js/core.js`.
+Categorias do orçamento usam três tons de azul (`#0B6EF2`, `#5AAEFF`, `#BFE3FF`), definidos em `ALLOC` no `js/core.js`.
 
 Fotos ficam em `img/` (reduzidas, até 1000px) com créditos em `img/CREDITOS.md`; `photoFor(texto)` no `js/core.js` escolhe a foto pelo nome do lugar.
 

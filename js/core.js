@@ -25,6 +25,21 @@ const ICON = {
   parcial: '<path d="M8.5 4.5v1.2M3.7 9.3h1.2M5.1 5.9l.9.9M12 6.8a3.6 3.6 0 0 0-6.6 2.7"/><path d="M9 20h8.5a3.5 3.5 0 0 0 .5-6.96A5 5 0 0 0 8.4 14.5 2.8 2.8 0 0 0 9 20z"/>',
   chuva: '<path d="M7 15.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 9 3.3 3.3 0 0 0 7 15.5z"/><path d="M9 18.5l-1 2M13 18.5l-1 2M17 18.5l-1 2"/>',
   relax: '<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/>',
+  mapa: '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  roteiro: '<rect x="4" y="5" width="16" height="16" rx="3"/><path d="M4 10h16M9 3v4M15 3v4M8 14h3M8 17h6"/>',
+  feed: '<rect x="3" y="7" width="14" height="14" rx="3"/><path d="M7 3.5h10.5A3.5 3.5 0 0 1 21 7v10.5"/><path d="M3.5 17.5l4-4 3 3 2-2 4.5 4.5"/>',
+  conta: '<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
+  heart: '<path d="M12 20s-7.5-4.6-9-9.3C2 7.4 4.2 4.5 7.3 4.5c2 0 3.6 1.2 4.7 2.9 1.1-1.7 2.7-2.9 4.7-2.9 3.1 0 5.3 2.9 4.3 6.2-1.5 4.7-9 9.3-9 9.3z"/>',
+  chat: '<path d="M20 12a8 8 0 0 1-11.7 7.1L4 20l1-4A8 8 0 1 1 20 12z"/>',
+  send: '<path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/>',
+  bookmark: '<path d="M6 3.5h12v17l-6-4.5-6 4.5z"/>',
+  camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5h4"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17.2v.1"/>',
+  logout: '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 16l-4-4 4-4M6 12h10"/>',
+  sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+  route: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
 };
 // Fotos reais do litoral (img/, créditos em img/CREDITOS.md), escolhidas pelo nome do lugar.
 const PHOTOS = [
@@ -43,7 +58,7 @@ const MON = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out
 const QUIZ = ['dest', 'dates', 'budget', 'prefs'];
 const TODAY = 20261106;
 // Categorias do orçamento: ícone, nome e o tom usado na barra de distribuição.
-const ALLOC = [['dormir', 'Hospedagem', '#134A8E', '#FFFFFF'], ['comer', 'Alimentação', '#5B86C2', '#FFFFFF'], ['ver', 'Passeios', '#B9CDE8', '#1B1F27']];
+const ALLOC = [['dormir', 'Hospedagem', '#0B6EF2', '#FFFFFF'], ['comer', 'Alimentação', '#5AAEFF', '#FFFFFF'], ['ver', 'Passeios', '#BFE3FF', '#1B1F27']];
 const DEFAULT_SPLIT = [0.4, 0.35, 0.25];
 // [chave, nome, como aparece no texto de carregamento]
 const INTERESTS = [
@@ -78,8 +93,10 @@ const rangeLabel = () => {
 const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
 
 /* ---------- navegação, com transição entre telas ---------- */
-const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'plan', 'main'];
-const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'main'];
+const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'main', 'plan', 'feed', 'conta'];
+const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'main', 'feed', 'conta'];
+// Abas da barra inferior (área logada): a barra fica fixa e flutuando sobre todas elas.
+const TABS = ['main', 'plan', 'feed', 'conta'];
 let loadTimer, loadRaf, shown = null;
 // Avançar desliza a tela nova da direita; voltar, da esquerda. A anterior some por baixo.
 function showScreen(id, dir) {
@@ -108,7 +125,23 @@ function go(step) {
   else if (QUIZ.includes(step)) { S.maxStep = Math.max(S.maxStep, QUIZ.indexOf(step)); showScreen('quiz', dir); renderQuiz(); }
   else if (step === 'loading') { showScreen('loading', dir); startLoading(); }
   else if (step === 'plan') { showScreen('plan', dir); ensurePlan(); renderPlan({ enter: true }); }
+  else if (step === 'feed') { showScreen('feed', dir); renderFeed(); }
+  else if (step === 'conta') { showScreen('conta', dir); renderConta(); }
   else { showScreen('main', dir); showMain(); }
+  setTabbar(step);
+  if (TABS.includes(step)) saveTrip();
+  if (typeof syncRoute === 'function') syncRoute(step);
+}
+// Barra inferior: aparece só nas abas, marca a atual e anima a pílula azul até ela.
+function setTabbar(step) {
+  const bar = $('tabbar'), on = TABS.includes(step);
+  bar.hidden = !on;
+  if (!on) return;
+  bar.querySelectorAll('[data-tab]').forEach((b) => { if (b.dataset.tab === step) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  requestAnimationFrame(() => {
+    const cur = bar.querySelector('[aria-current]');
+    if (cur) { bar.style.setProperty('--ix', cur.offsetLeft + 'px'); bar.style.setProperty('--iw', cur.offsetWidth + 'px'); }
+  });
 }
 // Reinicia uma animação de entrada num elemento (usada nas trocas de etapa e de slide).
 function replay(el, cls) {

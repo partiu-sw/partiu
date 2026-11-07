@@ -7,18 +7,22 @@
 <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
-<meta name="theme-color" content="#134A8E">
+<meta name="theme-color" content="#0B6EF2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap">
-<link rel="stylesheet" href="css/base.css?v=14">
-<link rel="stylesheet" href="css/screens/onboarding.css?v=14">
-<link rel="stylesheet" href="css/screens/quiz.css?v=14">
-<link rel="stylesheet" href="css/screens/loading.css?v=14">
-<link rel="stylesheet" href="css/screens/plan.css?v=14">
-<link rel="stylesheet" href="css/screens/map.css?v=14">
-<link rel="stylesheet" href="css/screens/login.css?v=14">
-<link rel="stylesheet" href="css/motion.css?v=14">
-<link rel="stylesheet" href="css/desktop.css?v=14">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
+<link rel="stylesheet" href="css/base.css?v=16">
+<link rel="stylesheet" href="css/screens/onboarding.css?v=16">
+<link rel="stylesheet" href="css/screens/quiz.css?v=16">
+<link rel="stylesheet" href="css/screens/loading.css?v=16">
+<link rel="stylesheet" href="css/screens/plan.css?v=16">
+<link rel="stylesheet" href="css/screens/map.css?v=16">
+<link rel="stylesheet" href="css/screens/login.css?v=16">
+<link rel="stylesheet" href="css/screens/feed.css?v=16">
+<link rel="stylesheet" href="css/screens/conta.css?v=16">
+<link rel="stylesheet" href="css/pill.css?v=16">
+<link rel="stylesheet" href="css/motion.css?v=16">
+<link rel="stylesheet" href="css/desktop.css?v=16">
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
@@ -27,13 +31,12 @@
   <!-- Login (MVP): redes sociais ou e-mail; conta existente vai para a viagem, conta nova para o cadastro -->
   <section id="login" class="screen" aria-label="Entrar" hidden>
     <div class="lg-hero">
-      <img src="img/post1.jpg" alt="">
+      <img src="img/post2.jpg" alt="">
       <div class="lg-top">
         <button class="icon-btn" id="loginBack" aria-label="Voltar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
         <span class="lg-brand"><img src="brand/icon.svg" alt="" width="22" height="22">Partiu</span>
         <span style="width:44px"></span>
       </div>
-      <span class="lg-place"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Meia Praia, Itapema</span>
     </div>
     <div class="lg-body" id="loginBody"></div>
   </section>
@@ -84,10 +87,9 @@
 
   <!-- Roteiro: 1) escolher lugares por categoria, deslizando  2) organizar na linha do tempo -->
   <section id="plan" class="screen" hidden>
-    <header class="plan-head">
-      <button class="icon-btn" id="planBack" aria-label="Voltar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="plan-title"><strong>Seu roteiro</strong><span id="planMeta"></span></div>
-      <button class="icon-btn" id="planClose" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <header class="plan-head tab-head">
+      <div class="tab-title"><h1>Seu <em>roteiro</em></h1><span id="planMeta"></span></div>
+      <button class="btn-sec sm" id="openDiscover"></button>
     </header>
     <div class="day-strip" id="dayStrip" role="group" aria-label="Dias da viagem"></div>
     <div class="tray" id="tray" hidden>
@@ -96,11 +98,6 @@
     </div>
     <div class="tl-head"><strong id="dayTitle"></strong><span id="dayCount"></span></div>
     <div class="tl" id="timeline"></div>
-    <div class="plan-foot">
-      <button class="btn-sec" id="openDiscover"></button>
-      <button class="btn-primary" id="planGo">Ver no mapa</button>
-    </div>
-
     <!-- Antes de escolher: montar na mão ou usar as recomendações -->
     <div class="choose" id="choose" role="dialog" aria-label="Como montar o roteiro" hidden>
       <header class="choose-head"><button class="icon-btn" id="chooseClose" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
@@ -164,13 +161,9 @@
     </div>
     <div class="sheet" id="placesSheet">
       <button class="grabber-btn" id="grabber" aria-label="Expandir ou recolher a lista"><span></span></button>
-      <div class="places-head"><div><h2>Seu roteiro</h2><span id="placesMeta"></span></div></div>
-      <div class="chips" id="mapDays" role="group" aria-label="Dias da viagem"></div>
+      <div class="places-head"><div><h2>Roteiro do dia</h2><span id="placesMeta"></span></div></div>
+      <div class="day-strip" id="mapDays" role="group" aria-label="Dias da viagem"></div>
       <div class="list" id="list"></div>
-      <nav class="tabbar" aria-label="Navegação">
-        <button aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Explorar</button>
-        <button id="tabPlan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Roteiro</button>
-      </nav>
     </div>
     <div class="found" id="found" role="status" hidden></div>
 
@@ -184,18 +177,55 @@
       <div class="sv-list" id="searchList" aria-live="polite"></div>
     </div>
   </section>
+  <!-- Feed: o que outros viajantes estão vivendo no litoral -->
+  <section id="feed" class="screen" aria-label="Feed" hidden>
+    <header class="tab-head feed-head">
+      <div class="tab-title"><h1>Feed</h1><span id="feedMeta"></span></div>
+      <button class="icon-btn round" id="feedNew" aria-label="Nova publicação"></button>
+    </header>
+    <div class="feed-scroll" id="feedScroll">
+      <div class="stories" id="stories" role="list" aria-label="Destaques"></div>
+      <div class="seg feed-seg" id="feedSeg" role="group" aria-label="Filtrar publicações"></div>
+      <div class="posts" id="posts" aria-live="polite"></div>
+    </div>
+    <div class="when-wrap compose-wrap" id="compose" hidden>
+      <div class="when-panel compose" role="dialog" aria-label="Nova publicação">
+        <div class="grabber"></div>
+        <div class="sheet-head"><strong>Nova publicação</strong><button class="icon-btn" id="composeClose" aria-label="Fechar"></button></div>
+        <div class="compose-body" id="composeBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conta: perfil, viagens salvas e ajustes -->
+  <section id="conta" class="screen" aria-label="Conta" hidden>
+    <div class="conta-scroll" id="contaScroll"></div>
+  </section>
+
+  <nav class="tabbar" id="tabbar" aria-label="Navegação" hidden>
+    <span class="tab-ind" aria-hidden="true"></span>
+    <button data-tab="main"><span class="tab-ic" data-ic="mapa"></span><span class="tab-l">Explorar</span></button>
+    <button data-tab="plan"><span class="tab-ic" data-ic="roteiro"></span><span class="tab-l">Roteiro</span></button>
+    <button data-tab="feed"><span class="tab-ic" data-ic="feed"></span><span class="tab-l">Feed</span></button>
+    <button data-tab="conta"><span class="tab-ic" data-ic="conta"></span><span class="tab-l">Conta</span></button>
+  </nav>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-<script src="js/data.js?v=14"></script>
-<script src="js/core.js?v=14"></script>
-<script src="js/ui/hnav.js?v=14"></script>
-<script src="js/screens/intro.js?v=14"></script>
-<script src="js/screens/quiz.js?v=14"></script>
-<script src="js/screens/loading.js?v=14"></script>
-<script src="js/screens/plan.js?v=14"></script>
-<script src="js/screens/map.js?v=14"></script>
-<script src="js/screens/login.js?v=14"></script>
-<script src="js/main.js?v=14"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="js/data.js?v=16"></script>
+<script src="js/core.js?v=16"></script>
+<script src="js/ui/hnav.js?v=16"></script>
+<script src="js/screens/intro.js?v=16"></script>
+<script src="js/screens/quiz.js?v=16"></script>
+<script src="js/screens/loading.js?v=16"></script>
+<script src="js/screens/plan.js?v=16"></script>
+<script src="js/screens/map.js?v=16"></script>
+<script src="js/trips.js?v=16"></script>
+<script src="js/screens/feed.js?v=16"></script>
+<script src="js/screens/conta.js?v=16"></script>
+<script src="js/screens/login.js?v=16"></script>
+<script src="js/main.js?v=16"></script>
 </body>
 </html>

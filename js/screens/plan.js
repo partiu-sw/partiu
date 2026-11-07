@@ -104,10 +104,13 @@ function ensurePlan() {
   stage = STAGES[0];
 }
 
-function dayChipsHTML(sel, attr) {
+// Dias da viagem num formato só, igual no mapa e no roteiro: dia da semana (ou "Hoje"), número e quantos lugares.
+// No mapa, o ícone do clima do dia aparece ao lado do dia da semana.
+function dayChipsHTML(sel, attr, withWx) {
   return S.plan.days.map((items, d) => {
-    const x = dayDate(d), n = items.length;
-    return `<button class="day-chip${d === sel ? ' on' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'atividade', 'atividades')}"><span>${WEEK[x.getDay()]}</span><b>${x.getDate()}</b><i class="${n ? 'has' : ''}">${n}</i></button>`;
+    const x = dayDate(d), n = items.length, today = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY;
+    const wx = withWx && typeof wxFor === 'function' ? svg(wxFor(d)[0], 13, 2) : '';
+    return `<button class="day-chip${d === sel ? ' on' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" style="--i:${d}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'lugar', 'lugares')}"><span class="dc-w">${wx}${today ? 'Hoje' : WEEK[x.getDay()]}</span><b>${x.getDate()}</b><small>${n ? plural(n, 'lugar', 'lugares') : 'livre'}</small></button>`;
   }).join('');
 }
 
@@ -233,12 +236,13 @@ $('autoPlace').onclick = autoOrganize;
 
 /* ---------- antes de escolher: na mão ou com as recomendações ---------- */
 function openChoose() {
+  if (location.hash !== '#/itinerary/choose') history.replaceState(null, '', '#/itinerary/choose');
   const n = S.plan.sugg.length + S.plan.skipped.length;
   $('chooseSub').textContent = `Encontramos ${plural(n, 'sugestão', 'sugestões')} em ${city().name} para ${plural(S.plan.days.length, 'dia', 'dias')}.`;
   $('choose').hidden = false;
   replay($('choose').querySelector('.choose-body'), 'step-f');
 }
-function closeChoose() { $('choose').hidden = true; }
+function closeChoose() { $('choose').hidden = true; if (location.hash === '#/itinerary/choose') history.replaceState(null, '', '#/itinerary'); }
 // Recomendações: até 3 lugares por dia, alternando os tipos, e já organizados nos dias.
 function useRecommended() {
   const pool = [...S.plan.sugg, ...S.plan.skipped], take = [], max = S.plan.days.length * 3;
@@ -498,7 +502,3 @@ function endSwipe() {
 $('stack').addEventListener('pointerup', endSwipe);
 $('stack').addEventListener('pointercancel', endSwipe);
 
-$('planGo').onclick = () => go('main');
-$('planBack').onclick = () => go('prefs');
-$('planClose').onclick = () => go('main');
-$('tabPlan').onclick = () => go('plan');

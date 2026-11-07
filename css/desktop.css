@@ -17,7 +17,6 @@
   #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 0 16px 16px; border-radius: 36px; }
   #login .lg-top { top: 24px; left: 24px; right: 24px; }
   #login .lg-body { flex: 0 0 min(520px, 44%); justify-content: center; padding: 48px clamp(32px, 4vw, 72px); gap: 18px; }
-  #login .lg-place { left: auto; right: 28px; bottom: 26px; font-size: 15px; }
 
   /* perguntas e carregamento: coluna central */
   #quiz > * { width: min(680px, 100%); margin-inline: auto; }
@@ -26,9 +25,8 @@
   .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   /* roteiro: coluna central; escolher lugares e horários como janelas no centro */
-  #plan > :not(.disc):not(.when-wrap):not(.toast) { width: min(820px, 100%); margin-inline: auto; }
-  #plan .plan-head { padding-top: 28px; }
-  #plan .plan-foot { padding-bottom: 32px; border-top: 0; }
+  #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose) { width: min(820px, 100%); margin-inline: auto; }
+  #plan .tab-head { padding-top: 36px; }
   .disc { background: var(--screen); }
   .disc > * { width: min(560px, 100%); margin-inline: auto; }
   .when-wrap { align-items: center; justify-content: center; }
@@ -46,7 +44,6 @@
   #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
   #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); }
   #main .leaflet-bottom.leaflet-right { margin-right: 76px; }
-  #main .tabbar { margin-bottom: 18px; }
 }
 @media (min-width: 1400px) {
   #main .sheet, #main .search-view { width: 440px; }
@@ -66,4 +63,15 @@
   .choose-body { width: min(820px, 100%); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; align-content: center; gap: 20px; }
   .choose-body .q-title { grid-column: 1 / -1; }
   .choice { min-height: 380px; max-height: none; }
+}
+@media (min-width: 900px) {
+  /* feed e conta: coluna central */
+  #feed .tab-head, .feed-scroll > *, .conta-scroll > * { width: min(680px, 100%); margin-inline: auto; }
+  #feed .tab-head { padding-top: 36px; }
+  .posts { padding: 0; }
+  .feed-seg { width: min(648px, calc(100% - 32px)); }
+  .ct-hero { width: min(760px, calc(100% - 32px)); margin-top: 16px; border-radius: 36px; }
+  .trips { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .compose-wrap { align-items: center; justify-content: center; }
+  .tabbar { bottom: 22px; }
 }

@@ -1,0 +1,19 @@
+/* Partiu — formato pílula em todo o app: controles, campos, chips e avisos são arredondados por completo.
+   Cartões com foto e painéis continuam com cantos grandes (20–28px). Carrega depois das telas. */
+.search, .lg-field, .sv-head .search, #quiz .search { border-radius: 999px; padding-left: 18px; padding-right: 18px; }
+.icon-btn { border-radius: 50%; }
+.seg, .feed-seg { border-radius: 999px; padding: 3px; }
+.seg button, .feed-seg button { border-radius: 999px; }
+.time-chip, .stage, .ins.end, .load-steps li, .ev-time, .pa, .amount-field, .cat-in, .stamp { border-radius: 999px; }
+.day-chip { border-radius: 999px; min-height: 84px; }
+.stop, .ev-card, .tcard { border-radius: 22px; }
+.ev-card { padding-right: 4px; }
+.trip-card { border-radius: 999px; padding: 8px 10px 8px 22px; }
+.map-note, .pin-label, .toast { border-radius: 999px; }
+.toast { padding-left: 20px; padding-right: 10px; }
+.now { border-radius: 26px; }
+.now-ic, .pph, .found-top .ic, .cat .ic, .cicon { border-radius: 50%; }
+.planb { border-radius: 999px; padding: 10px 10px 10px 12px; }
+.rows, .ct-list { border-radius: 26px; }
+.found { border-radius: 28px; }
+.tl-empty, .rt-empty, .disc-empty { border-radius: 28px; }
