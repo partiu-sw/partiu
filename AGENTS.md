@@ -4,7 +4,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Princípios
 
-1. **Litoral, vidro e azul-marinho.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é o azul-marinho `--brand`; o texto é grafite `--ink` sobre branco. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
+1. **Litoral, vidro e azul praia.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é um azul vivo, de praia e tecnologia (`--brand`), sempre **sólido: sem degradê no azul**. O app é azul e branco; o texto é grafite `--ink`. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
 2. **Celular primeiro, desktop de verdade.** As telas são desenhadas para 390 × 844 dentro de `.phone`. Abaixo de 500px ocupam a tela inteira; acima de 900px (`css/desktop.css`) o app ocupa a janela toda, sem moldura de celular: login em duas colunas (foto e formulário), perguntas e roteiro numa coluna central, e no mapa o painel vira uma coluna lateral fixa à esquerda (`DESK()` e `SIDE_W` no `js/core.js`).
 3. **Selecionado = azul.** Um item escolhido troca para fundo `--brand` e texto branco. Não use outra cor, sombra extra ou ícone de check para indicar seleção.
 4. **Foto em primeiro lugar.** Sobre foto: degradê escuro embaixo para o texto branco e vidro fosco (`--glass`, `--glass-line`, `backdrop-filter: blur`) nos controles. Fora da foto: bordas finas de 1px e sombras suaves só no que flutua.
@@ -13,7 +13,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul-marinho liso (`#0B6EF2`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
+- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul liso (`#0B6EF2`, sem degradê). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
 - Toda página nova leva o favicon e `theme-color #0B6EF2` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
@@ -31,7 +31,8 @@ Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando exis
 | `--ink` | `#1B1F27` | texto principal, barra de navegação flutuante |
 | `--brand` | `#0B6EF2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
 | `--brand-deep` | `#0058D6` | hover do botão primário, fundos azuis escuros |
-| `--brand-soft` | `#E6F1FF` | selos e fundos azuis claros |
+| `--brand-soft` | `#E6F1FF` | selos, faixa de datas no calendário e fundos azuis claros |
+| `--brand-sky` | `#38C6F4` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
 | `--glass` / `--glass-line` | branco 16% / 34% | vidro fosco sobre foto (com `backdrop-filter: blur(14–16px)`) |
 | `--sec` | `#7E8492` | texto secundário, legendas, rótulos |
 | `--muted` | `#B9BEC8` | texto desativado (ex.: dias passados no calendário) |
@@ -89,17 +90,14 @@ Regras:
 
 ## Formas
 
+**Pílula primeiro.** Todo controle é arredondado por completo (`css/pill.css`, carregado depois das telas): botões, campos de texto e busca, chips de dia e de horário, segmentos, abas, avisos, cartão da viagem no mapa, selos. Botões só com ícone são círculos.
+
 | Raio | Onde |
 | --- | --- |
-| 48px | moldura do celular (branca) |
-| 28px | ilustração da apresentação |
-| 20–22px | painéis que sobem de baixo (`20px 20px 0 0`), cartões de deslizar, estados vazios |
-| 16–18px | cartões (bento, categorias, cartão da viagem) |
-| 999px | botões primário, secundário e contornado (pílula) |
-| 14px | cartões de lista, chips de dia, miniaturas de foto |
-| 12px | botões de ícone, busca, miniaturas, chips de horário |
-| 8–10px | controles segmentados, etiquetas pequenas |
-| 50% / altura÷2 | pílulas, botões redondos, pins, pontos |
+| 999px / 50% | botões, campos, chips, segmentos, barra de abas, avisos, selos, botões de ícone, miniaturas redondas |
+| 36–48px | blocos grandes da landing, topo da conta |
+| 26–28px | cartões com foto (feed, viagens, escolha), painéis que sobem de baixo, estados vazios |
+| 20–22px | cartões de lista (paradas, linha do tempo), cartão de deslizar |
 
 Sombras (só para o que flutua):
 
@@ -145,7 +143,10 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - `.toast` — aviso escuro flutuante com ação "Desfazer" sublinhada.
 - `.map-note` — aviso curto escuro sobre o mapa.
 - Estados vazios (`.tl-empty`, `.disc-empty`, `.stage-done`) — caixa com borda tracejada `1.5px dashed #D0D0D5`, texto centralizado, título 17px/600 + explicação em `--sec` + ação.
-- `.tabbar` — barra escura (`--ink`) flutuante em pílula, com 2 abas (Explorar e Roteiro); a atual fica em pílula azul `--brand`.
+- `.tabbar` — barra escura de vidro, flutuante e fixa em todas as abas da área logada (Explorar, Roteiro, Feed, Conta), fora das telas, no fim do `.phone`. A aba atual mostra o nome numa pílula azul sólida que desliza até ela (`setTabbar()` no `core.js`). Some quando um painel cobre a tela (escolher lugares, horários, busca, publicar).
+- `.tab-head` — cabeçalho das abas: título grande (`h1` com a palavra-chave em `<em>`) e uma ação à direita.
+- Painel do mapa (`.sheet`) — três estágios como no Uber (recolhido, metade, aberto); arrasta em qualquer parte, com resistência nas pontas e gesto rápido para pular de estágio.
+- `.day-chip` — o mesmo chip de dia no mapa e no roteiro: dia da semana (ou "Hoje"), número e quantos lugares; no mapa, com o ícone do clima.
 
 ## Ícones
 
@@ -187,8 +188,8 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 
 - Sem build e sem framework: HTML + CSS + JS puro, abre direto no navegador.
 - Um CSS e um JS por tela (`css/screens/`, `js/screens/`); o compartilhado fica em `css/base.css` e `js/core.js`. A marcação das telas fica em `app.html`.
-- Toda tela nova precisa entrar também na prévia do `telas.html` e na tabela de endereços do `README.md`. A página de apresentação é o `index.html`.
-- Bibliotecas externas só via cdnjs com versão fixa (ex.: Leaflet 1.9.4). O CSS do Leaflet está embutido em `map.css`.
+- Rotas em inglês no formato `#/caminho` (tabela em `ROUTES` no `js/main.js` e no `README.md`). A área logada só abre com sessão (`js/trips.js`). Toda tela nova entra nas rotas, no `README.md` e na prévia local `telas.html` (que não vai para o deploy, ver `.vercelignore`). A página de apresentação é o `index.html`.
+- Bibliotecas externas com versão fixa, de preferência pelo cdnjs (Leaflet 1.9.4, MapLibre GL 4.7.1); o que não existe lá vem do jsDelivr (`@maplibre/maplibre-gl-leaflet` 0.0.22). O CSS do Leaflet está embutido em `map.css`.
 - HTML gerado em JS passa pelo `esc()` quando mostra texto vindo de dados.
 - Variações de design que não entraram no app ficam em `explorations/` como referência.
 
@@ -201,4 +202,5 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - [ ] Ícones no estilo de traço do `ICON`, com `aria-hidden` e `aria-label` no botão.
 - [ ] Animações com a curva padrão e desligadas em movimento reduzido.
 - [ ] Funciona em 390 × 844, em tela cheia abaixo de 500px e no desktop acima de 900px (ajustes em `css/desktop.css`).
-- [ ] Tela aparece no `telas.html` e no `README.md`.
+- [ ] Tela tem rota em inglês e aparece no `README.md` e no `telas.html`.
+- [ ] Azul sólido, sem degradê; controles em formato pílula.

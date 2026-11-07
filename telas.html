@@ -80,9 +80,11 @@ footer { font-size: 13px; line-height: 1.5; color: var(--sec); max-width: 640px;
 </main>
 <script>
 // Cada cartão mostra a tela ao vivo (app.html aberto naquela tela), em escala reduzida.
+// Página só de desenvolvimento (fica fora do site publicado). As telas da área logada usam a sessão de demonstração.
+try { localStorage.setItem('partiu.sessao', JSON.stringify({ name: 'Ana', email: 'demo@partiu.app' })); } catch (e) { /* ok */ }
 const SCREENS = [
-  ['login', 'Entrar'], ['intro', 'Apresentação'], ['dest', 'Destino'], ['dates', 'Datas'], ['budget', 'Orçamento'], ['prefs', 'Interesses'],
-  ['loading', 'Busca de lugares'], ['choose', 'Montar o roteiro'], ['discover', 'Escolher lugares'], ['organize', 'Organizar roteiro'], ['main', 'Explorar no mapa']
+  ['/welcome', 'Apresentação'], ['/new-trip/destination', 'Destino'], ['/new-trip/dates', 'Datas'], ['/new-trip/budget', 'Orçamento'], ['/new-trip/interests', 'Interesses'],
+  ['/new-trip/searching', 'Busca de lugares'], ['/itinerary/choose', 'Montar o roteiro'], ['/itinerary/discover', 'Escolher lugares'], ['/explore', 'Explorar'], ['/itinerary', 'Roteiro'], ['/feed', 'Feed'], ['/account', 'Conta']
 ];
 document.getElementById('shots').innerHTML = SCREENS.map(([id, name], i) => `
   <a class="shot" href="app.html#${id}">

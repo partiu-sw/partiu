@@ -75,3 +75,6 @@
   .compose-wrap { align-items: center; justify-content: center; }
   .tabbar { bottom: 22px; }
 }
+@media (min-width: 900px) {
+  .post-photo { aspect-ratio: 16 / 11; }
+}
