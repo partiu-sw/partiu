@@ -237,8 +237,8 @@ $('autoPlace').onclick = autoOrganize;
 /* ---------- antes de escolher: na mão ou com as recomendações ---------- */
 function openChoose() {
   if (location.hash !== '#/itinerary/choose') history.replaceState(null, '', '#/itinerary/choose');
-  const n = S.plan.sugg.length + S.plan.skipped.length;
-  $('chooseSub').textContent = `Encontramos ${plural(n, 'sugestão', 'sugestões')} em ${city().name} para ${plural(S.plan.days.length, 'dia', 'dias')}.`;
+  const n = S.plan.sugg.length + S.plan.skipped.length + chosen().length;
+  $('chooseSub').textContent = `${plural(n, 'lugar', 'lugares')} em ${city().name} para ${plural(S.plan.days.length, 'dia', 'dias')}.`;
   $('choose').hidden = false;
   replay($('choose').querySelector('.choose-body'), 'step-f');
 }
