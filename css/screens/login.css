@@ -4,7 +4,8 @@
 .lg-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
 .lg-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,22,48,.35), rgba(6,22,48,0) 40%, rgba(6,22,48,.55)); }
 .lg-top { position: absolute; left: 16px; right: 16px; top: 48px; display: flex; align-items: center; justify-content: space-between; }
-.lg-brand { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font-weight: 800; font-size: 16px; letter-spacing: -0.3px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.lg-brand img { border-radius: 7px; }
+.lg-brand { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; font-style: italic; border-radius: 999px; font-weight: 800; font-size: 16px; letter-spacing: -0.3px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 #loginBack { color: #fff; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .lg-place { position: absolute; left: 20px; bottom: 18px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
 .lg-body { flex: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 26px; display: flex; flex-direction: column; gap: 16px; }

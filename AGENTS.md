@@ -11,6 +11,13 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 5. **Toque confortável.** Toda área clicável tem no mínimo 44 × 44px (botões principais 56px de altura).
 6. **Muito movimento, sempre suave.** Entradas em cascata, fotos que respiram (zoom lento), pinos que caem, toques com resposta. Fica em `css/motion.css` e tudo respeita `prefers-reduced-motion`.
 
+## Marca
+
+- Logo em `brand/`: o símbolo é um pino de mapa branco com duas ondas do mar dentro, num quadrado arredondado em degradê azul (`#1E5FAE` → `#0D3466`). O nome "Partiu" vai em Plus Jakarta Sans ExtraBold itálico.
+- Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
+- Toda página nova leva o favicon e `theme-color #134A8E` no `<head>`, como `app.html` e `landing.html`.
+- Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
+
 ## Cores
 
 Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando existir.

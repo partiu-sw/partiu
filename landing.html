@@ -1,5 +1,9 @@
 <meta charset="utf-8">
 <title>Partiu</title>
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<meta name="theme-color" content="#134A8E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,7 +47,8 @@ h2 .soft { color: var(--sec); font-style: italic; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 21; background: var(--bg); }
 .nav-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 8px 8px 8px 20px; border-radius: 999px; background: rgba(255,255,255,.82); backdrop-filter: saturate(1.6) blur(16px); -webkit-backdrop-filter: saturate(1.6) blur(16px); box-shadow: 0 6px 24px rgba(19,40,80,.06); }
 .logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 21px; letter-spacing: -0.04em; text-decoration: none; color: var(--brand); }
-.logo svg { width: 22px; height: 22px; }
+.logo { font-style: italic; }
+.logo img { width: 30px; height: 30px; border-radius: 9px; }
 .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 600; color: var(--sec); }
 .nav-links a { text-decoration: none; }
 .nav-links a:hover { color: var(--ink); }
@@ -199,7 +204,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 <header class="nav">
   <div class="wrap">
     <div class="nav-bar">
-      <a class="logo" href="#topo" aria-label="Partiu, início"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor" stroke="none"/></svg>Partiu</a>
+      <a class="logo" href="#topo" aria-label="Partiu, início"><img src="brand/icon.svg" alt="" width="30" height="30">Partiu</a>
       <nav class="nav-links" aria-label="Seções">
         <a href="#problema">Problema</a><a href="#solucao">Solução</a><a href="#modelo">Modelo de negócio</a><a href="#jornada">Jornada</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc3ryFzWCyA51aWQ6B4gV7X-O76FFA51r5XBaJhOz7qp9kWbw/viewform" target="_blank" rel="noopener">Para comércios</a>

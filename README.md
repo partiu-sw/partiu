@@ -1,3 +1,5 @@
+<p align="center"><img src="brand/logo.svg" alt="Partiu" width="320"></p>
+
 # Partiu
 
 Protótipo navegável de um app para decidir o que fazer no litoral catarinense quando você já está no destino: a pessoa responde algumas perguntas, escolhe lugares deslizando cartões e organiza tudo numa linha do tempo por dia. No mapa, o bloco "Agora" mostra o que está aberto perto dela e, com previsão de chuva, um plano B troca a praia por um lugar coberto.
@@ -37,6 +39,7 @@ Cada tela também abre direto pelo endereço:
 landing.html               página de apresentação (problema, solução, modelo de negócio)
 index.html                 página de desenvolvimento com a prévia de todas as telas
 app.html                   o app (marcação das telas)
+brand/                     logo, favicon, ícones e imagens para o GitHub (gerar.py recria os PNGs)
 img/                       fotos do litoral usadas no app e na landing (créditos em img/CREDITOS.md)
 css/
   base.css                 cores, tipografia, botões e moldura do celular
