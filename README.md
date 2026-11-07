@@ -78,4 +78,4 @@ Mapa: OpenFreeMap © OpenMapTiles © OpenStreetMap contributors. Blocos de reser
 
 ## Dados
 
-Os pontos turísticos (praias, Cristo Luz, Unipraias, igrejas) têm coordenadas conferidas no OpenStreetMap. Restaurantes, hotéis, notas e preços são fictícios. Sem acesso ao GPS, a localização usada é o Shopping Russi & Russi, em Itapema.
+Os pontos turísticos (praias, mirantes, Cristo Luz, Unipraias, igrejas, centros históricos) são lugares reais, com coordenadas aproximadas do OpenStreetMap: são 41 lugares nas quatro cidades, mais 14 empresas de exemplo perto de cada hotel. Restaurantes, hotéis, notas, preços, as publicações do feed e os viajantes são fictícios. No desktop, o botão "Ver no celular" mostra o app na moldura de celular. Sem acesso ao GPS, a localização usada é o Shopping Russi & Russi, em Itapema.

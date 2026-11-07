@@ -15,10 +15,10 @@ const STAGES = Object.keys(TYPES);
 const MIN_GAP = 60; // minutos mínimos entre dois lugares no mesmo dia
 // Atividades sugeridas a partir dos interesses (exemplos): [nome, detalhe, ícone da foto, tipo]
 const GENERIC = {
-  praia: [['Manhã de praia', 'Praia', 'praia', 'praia'], ['Pôr do sol na orla', 'Passeio · fim de tarde', 'praia', 'praia']],
+  praia: [['Manhã de praia', 'Praia', 'praia', 'praia'], ['Pôr do sol na orla', 'Passeio · fim de tarde', 'praia', 'praia'], ['Aula de stand up paddle', 'Praia · 1 h', 'praia', 'praia']],
   comida: [['Almoço de frutos do mar', 'Restaurante', 'comer', 'refeicao'], ['Jantar no centro', 'Restaurante', 'comer', 'refeicao']],
-  noite: [['Bar com música ao vivo', 'Vida noturna', 'noite', 'noite']],
-  natureza: [['Trilha até o mirante', 'Natureza · 2 h', 'natureza', 'passeio']],
+  noite: [['Bar com música ao vivo', 'Vida noturna', 'noite', 'noite'], ['Feirinha noturna da orla', 'Vida noturna · artesanato', 'noite', 'noite']],
+  natureza: [['Trilha até o mirante', 'Natureza · 2 h', 'natureza', 'passeio'], ['Observação de golfinhos', 'Natureza · barco', 'natureza', 'passeio']],
   cultura: [['Passeio pelo centro histórico', 'História · a pé', 'ver', 'passeio']],
   compras: [['Tarde de compras', 'Compras', 'compras', 'passeio']],
   aventura: [['Passeio de barco', 'Aventura · 3 h', 'aventura', 'passeio']],
