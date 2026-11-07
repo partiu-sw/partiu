@@ -75,30 +75,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* celular de demonstração */
 .phone { justify-self: end; width: min(300px, 100%); aspect-ratio: 300 / 610; border-radius: 48px; background: #fff; padding: 9px; box-shadow: 0 30px 70px rgba(0,0,0,.35); color: var(--ink); }
+.scr.shot { padding: 0; display: block; }
+.scr.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .scr { height: 100%; border-radius: 40px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; gap: 10px; padding: 18px 12px 12px; position: relative; }
-.ph-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 4px 0; }
-.ph-head small { display: block; font-size: 10px; color: var(--sec); }
-.ph-head b { font-size: 14px; letter-spacing: -0.02em; }
-.ph-head .circ { width: 34px; height: 34px; background: #fff; }
-.ph-title { font-size: 20px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; padding: 0 4px; }
-.ph-title em { font-style: italic; color: var(--brand); }
-.ph-planb { display: flex; align-items: center; gap: 8px; background: var(--brand); color: #fff; border-radius: 18px; padding: 9px; font-size: 11px; }
-.ph-planb i { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.16); display: grid; place-items: center; flex: none; font-style: normal; }
-.ph-planb span { flex: 1; line-height: 1.25; }
-.ph-planb small { display: block; opacity: .75; }
-.ph-planb em { font-style: normal; background: #fff; color: var(--brand); border-radius: 999px; padding: 5px 10px; font-weight: 700; }
-.ph-sec { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 4px 0; font-size: 13px; font-weight: 700; }
-.ph-sec small { font-size: 10px; color: var(--sec); font-weight: 600; }
-.ph-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; min-height: 0; }
-.ph-card { position: relative; border-radius: 22px; overflow: hidden; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; isolation: isolate; }
-.ph-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-.ph-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 45%, rgba(6,22,48,.75)); }
-.ph-card small { font-size: 9px; opacity: .85; }
-.ph-card b { font-size: 12px; line-height: 1.2; }
-.ph-card .go { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-line); display: grid; place-items: center; font-size: 11px; }
-.ph-tab { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: #1B1F27; }
-.ph-tab span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #9AA0AB; }
-.ph-tab span.on { background: var(--brand); color: #fff; }
 
 /* números */
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 40px; }
@@ -232,20 +211,8 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
             <a class="swipe" href="#solucao"><span class="circ"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></span>Ver como funciona<span class="arr" aria-hidden="true">››</span></a>
           </div>
         </div>
-        <div class="phone" role="img" aria-label="Tela do app: plano B para a chuva e lugares abertos perto">
-          <div class="scr">
-            <div class="ph-head"><span><small>Hoje, sexta · Itapema</small><b>Boa tarde!</b></span><span class="circ">☀︎</span></div>
-            <div class="ph-title">O que fazer <em>agora?</em></div>
-            <div class="ph-planb"><i>☂</i><span>Chuva às 16h · plano B<small>Trocar a praia por um café coberto</small></span><em>Trocar</em></div>
-            <div class="ph-sec">Aberto perto de você <small>15:30</small></div>
-            <div class="ph-cards">
-              <div class="ph-card"><img src="img/cafe.jpg" alt=""><span class="go">↗</span><small>300 m · até 19h</small><b>Café Grão da Ilha</b></div>
-              <div class="ph-card"><img src="img/laranjeiras.jpg" alt=""><span class="go">↗</span><small>1,2 km · grátis</small><b>Praia de Laranjeiras</b></div>
-              <div class="ph-card"><img src="img/frutos-mar.jpg" alt=""><span class="go">↗</span><small>650 m · $$</small><b>Mar & Brasa</b></div>
-              <div class="ph-card"><img src="img/unipraias.jpg" alt=""><span class="go">↗</span><small>2 km · $$$</small><b>Parque Unipraias</b></div>
-            </div>
-            <div class="ph-tab" aria-hidden="true"><span class="on">⌂</span><span>⌕</span><span>▦</span><span>◯</span></div>
-          </div>
+        <div class="phone">
+          <div class="scr shot"><img src="img/app-mapa.jpg" alt="Tela do app: roteiro do dia no mapa, com o que está aberto perto agora" width="390" height="844"></div>
         </div>
         <span class="credit">Foto: Renato Soares, MTur Destinos (domínio público)</span>
       </div>

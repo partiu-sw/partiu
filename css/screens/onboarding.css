@@ -20,3 +20,11 @@
 #introNext .go-ic { width: 52px; height: 52px; border-radius: 50%; background: #fff; color: var(--brand); display: grid; place-items: center; flex: none; }
 #introNext span:nth-child(2) { flex: 1; text-align: center; }
 #introNext .go-arr { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,.12); display: grid; place-items: center; letter-spacing: -2px; font-size: 20px; }
+/* controle de deslizar: a bolinha anda com o dedo e o texto some aos poucos */
+#introNext { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
+#introNext .go-ic { position: relative; z-index: 1; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+#introNext span:nth-child(2) { opacity: calc(1 - var(--slide, 0) * 1.4); }
+#introNext .go-arr { opacity: calc(1 - var(--slide, 0) * 2); }
+#introNext.nudge .go-ic { animation: nudge .7s cubic-bezier(.2, .8, .2, 1); }
+@keyframes nudge { 30% { transform: translateX(38px); } 55% { transform: translateX(0); } 75% { transform: translateX(14px); } }
+@media (prefers-reduced-motion: reduce) { #introNext.nudge .go-ic { animation: none; } }

@@ -75,6 +75,7 @@ function updateFoot() {
 }
 function renderQuiz() {
   const i = QUIZ.indexOf(S.step);
+  if (renderQuiz.last !== S.step) { $('quiz').scrollTop = 0; renderQuiz.last = S.step; } // etapa nova começa do topo
   $('qStep').textContent = `Etapa ${i + 1} de 4`;
   $('qProg').innerHTML = QUIZ.map((q, j) => `<button data-step="${j}" class="${j <= i ? 'on' : ''}" ${j > S.maxStep ? 'disabled' : ''} aria-label="Ir para a etapa ${j + 1}"${j === i ? ' aria-current="step"' : ''}><i></i></button>`).join('');
   const b = $('qBody');

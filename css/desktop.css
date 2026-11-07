@@ -62,3 +62,8 @@
   .disc > .stack { width: min(440px, calc(100% - 40px)); max-height: 600px; margin: 16px auto 0; }
   .disc .disc-acts { padding-bottom: 32px; }
 }
+@media (min-width: 900px) {
+  .choose-body { width: min(820px, 100%); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; align-content: center; gap: 20px; }
+  .choose-body .q-title { grid-column: 1 / -1; }
+  .choice { min-height: 380px; max-height: none; }
+}

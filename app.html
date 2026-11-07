@@ -10,15 +10,15 @@
 <meta name="theme-color" content="#134A8E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap">
-<link rel="stylesheet" href="css/base.css?v=13">
-<link rel="stylesheet" href="css/screens/onboarding.css?v=13">
-<link rel="stylesheet" href="css/screens/quiz.css?v=13">
-<link rel="stylesheet" href="css/screens/loading.css?v=13">
-<link rel="stylesheet" href="css/screens/plan.css?v=13">
-<link rel="stylesheet" href="css/screens/map.css?v=13">
-<link rel="stylesheet" href="css/screens/login.css?v=13">
-<link rel="stylesheet" href="css/motion.css?v=13">
-<link rel="stylesheet" href="css/desktop.css?v=13">
+<link rel="stylesheet" href="css/base.css?v=14">
+<link rel="stylesheet" href="css/screens/onboarding.css?v=14">
+<link rel="stylesheet" href="css/screens/quiz.css?v=14">
+<link rel="stylesheet" href="css/screens/loading.css?v=14">
+<link rel="stylesheet" href="css/screens/plan.css?v=14">
+<link rel="stylesheet" href="css/screens/map.css?v=14">
+<link rel="stylesheet" href="css/screens/login.css?v=14">
+<link rel="stylesheet" href="css/motion.css?v=14">
+<link rel="stylesheet" href="css/desktop.css?v=14">
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
@@ -101,6 +101,25 @@
       <button class="btn-primary" id="planGo">Ver no mapa</button>
     </div>
 
+    <!-- Antes de escolher: montar na mão ou usar as recomendações -->
+    <div class="choose" id="choose" role="dialog" aria-label="Como montar o roteiro" hidden>
+      <header class="choose-head"><button class="icon-btn" id="chooseClose" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+      <div class="choose-body">
+        <div class="q-title"><h1>Como quer montar seu <em>roteiro?</em></h1><p class="sub" id="chooseSub"></p></div>
+        <button class="choice" data-choose="auto">
+          <img src="img/post3.jpg" alt="">
+          <span class="choice-tag">Mais rápido</span>
+          <span class="choice-tx"><strong>Usar as recomendações</strong><small>O Partiu escolhe os melhores lugares e organiza os dias. Dá para mudar depois.</small></span>
+          <span class="choice-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </button>
+        <button class="choice" data-choose="manual">
+          <img src="img/laranjeiras.jpg" alt="">
+          <span class="choice-tx"><strong>Escolher na mão</strong><small>Deslize os cartões e fique só com o que quiser.</small></span>
+          <span class="choice-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </button>
+      </div>
+    </div>
+
     <!-- Etapa 1: escolher lugares, um por vez -->
     <div class="disc" id="disc" role="dialog" aria-label="Escolher lugares" hidden>
       <header class="disc-head">
@@ -168,15 +187,15 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-<script src="js/data.js?v=13"></script>
-<script src="js/core.js?v=13"></script>
-<script src="js/ui/hnav.js?v=13"></script>
-<script src="js/screens/intro.js?v=13"></script>
-<script src="js/screens/quiz.js?v=13"></script>
-<script src="js/screens/loading.js?v=13"></script>
-<script src="js/screens/plan.js?v=13"></script>
-<script src="js/screens/map.js?v=13"></script>
-<script src="js/screens/login.js?v=13"></script>
-<script src="js/main.js?v=13"></script>
+<script src="js/data.js?v=14"></script>
+<script src="js/core.js?v=14"></script>
+<script src="js/ui/hnav.js?v=14"></script>
+<script src="js/screens/intro.js?v=14"></script>
+<script src="js/screens/quiz.js?v=14"></script>
+<script src="js/screens/loading.js?v=14"></script>
+<script src="js/screens/plan.js?v=14"></script>
+<script src="js/screens/map.js?v=14"></script>
+<script src="js/screens/login.js?v=14"></script>
+<script src="js/main.js?v=14"></script>
 </body>
 </html>

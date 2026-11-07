@@ -36,7 +36,7 @@ function startLoading() {
     });
     if (k < 1) { loadRaf = requestAnimationFrame(frame); return; }
     $('loadTitle').textContent = `Encontramos ${found} sugestões`;
-    loadTimer = setTimeout(() => { go('plan'); if (!S.plan.days.some((d) => d.length) && !S.plan.picked.length) openDiscover(); }, 700 + Math.random() * 300);
+    loadTimer = setTimeout(() => { go('plan'); if (!S.plan.days.some((d) => d.length) && !S.plan.picked.length) openChoose(); }, 700 + Math.random() * 300);
   };
   loadRaf = requestAnimationFrame(frame);
 }

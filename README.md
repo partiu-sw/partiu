@@ -31,6 +31,7 @@ Cada tela também abre direto pelo endereço:
 | `app.html#budget` | Orçamento |
 | `app.html#prefs` | Interesses |
 | `app.html#loading` | Busca de lugares |
+| `app.html#choose` | Montar na mão ou usar as recomendações |
 | `app.html#discover` | Escolher lugares |
 | `app.html#organize` | Organizar roteiro (com exemplo preenchido) |
 | `app.html#main` | Explorar no mapa |
@@ -53,20 +54,20 @@ js/
   ui/hnav.js               rolagem lateral com setas
   screens/                 um arquivo por tela: login, intro, quiz, loading, plan, map
   main.js                  inicialização e abertura de uma tela pelo endereço
-tiles/                     blocos do mapa (CARTO Positron), zoom 11 a 15
-scripts/download-tiles.js  baixa os blocos do mapa de novo
+tiles/                     blocos do mapa (Esri Light Gray), zoom 11 a 15
+scripts/baixar-tiles.py    baixa os blocos do mapa de novo
 explorations/              variações de design que ficaram de referência
 ```
 
 ## Mapa
 
-O mapa usa [Leaflet 1.9.4](https://leafletjs.com) (via cdnjs) com os blocos do estilo CARTO Positron salvos em `tiles/`, cobrindo as quatro cidades. Para baixar de novo ou ampliar a área, edite as coordenadas em `scripts/download-tiles.js` e rode:
+O mapa usa [Leaflet 1.9.4](https://leafletjs.com) (via cdnjs) com os blocos do estilo Esri Light Gray (base e nomes, com um leve tom azul aplicado no CSS) salvos em `tiles/`, cobrindo de Balneário Camboriú a Tijucas. Fora dessa área o mapa não deixa arrastar. Para baixar de novo ou ampliar a área, edite as coordenadas em `scripts/baixar-tiles.py` e rode:
 
 ```bash
-node scripts/download-tiles.js
+python3 -I scripts/baixar-tiles.py
 ```
 
-Mapa: © OpenStreetMap contributors © CARTO.
+Mapa: Esri, HERE, Garmin, © OpenStreetMap contributors.
 
 ## Dados
 

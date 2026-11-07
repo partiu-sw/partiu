@@ -76,13 +76,13 @@ footer { font-size: 13px; line-height: 1.5; color: var(--sec); max-width: 640px;
     </div>
   </section>
 
-  <footer>Dados de exemplo: os pontos turísticos foram conferidos no OpenStreetMap; restaurantes, hotéis, notas e preços são fictícios. Mapa © OpenStreetMap © CARTO.</footer>
+  <footer>Dados de exemplo: os pontos turísticos foram conferidos no OpenStreetMap; restaurantes, hotéis, notas e preços são fictícios. Mapa: Esri, HERE, Garmin, © OpenStreetMap.</footer>
 </main>
 <script>
 // Cada cartão mostra a tela ao vivo (app.html aberto naquela tela), em escala reduzida.
 const SCREENS = [
   ['login', 'Entrar'], ['intro', 'Apresentação'], ['dest', 'Destino'], ['dates', 'Datas'], ['budget', 'Orçamento'], ['prefs', 'Interesses'],
-  ['loading', 'Busca de lugares'], ['discover', 'Escolher lugares'], ['organize', 'Organizar roteiro'], ['main', 'Explorar no mapa']
+  ['loading', 'Busca de lugares'], ['choose', 'Montar o roteiro'], ['discover', 'Escolher lugares'], ['organize', 'Organizar roteiro'], ['main', 'Explorar no mapa']
 ];
 document.getElementById('shots').innerHTML = SCREENS.map(([id, name], i) => `
   <a class="shot" href="app.html#${id}">

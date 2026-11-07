@@ -231,6 +231,35 @@ function autoOrganize() {
 }
 $('autoPlace').onclick = autoOrganize;
 
+/* ---------- antes de escolher: na mão ou com as recomendações ---------- */
+function openChoose() {
+  const n = S.plan.sugg.length + S.plan.skipped.length;
+  $('chooseSub').textContent = `Encontramos ${plural(n, 'sugestão', 'sugestões')} em ${city().name} para ${plural(S.plan.days.length, 'dia', 'dias')}.`;
+  $('choose').hidden = false;
+  replay($('choose').querySelector('.choose-body'), 'step-f');
+}
+function closeChoose() { $('choose').hidden = true; }
+// Recomendações: até 3 lugares por dia, alternando os tipos, e já organizados nos dias.
+function useRecommended() {
+  const pool = [...S.plan.sugg, ...S.plan.skipped], take = [], max = S.plan.days.length * 3;
+  const types = [...new Set(pool.map((s) => s.type))];
+  for (let r = 0; take.length < max && take.length < pool.length; r++) {
+    let added = false;
+    types.forEach((ty) => { const it = pool.filter((s) => s.type === ty)[r]; if (it && take.length < max) { take.push(it); added = true; } });
+    if (!added) break;
+  }
+  S.plan.sugg = pool.filter((s) => !take.includes(s)); S.plan.skipped = [];
+  S.plan.picked.push(...take);
+  closeChoose();
+  autoOrganize();
+}
+$('chooseClose').onclick = closeChoose;
+$('choose').addEventListener('click', (e) => {
+  const c = e.target.closest('[data-choose]');
+  if (!c) return;
+  if (c.dataset.choose === 'auto') useRecommended(); else { closeChoose(); openDiscover(); }
+});
+
 // Arrastar pelo puxador: solte entre dois lugares para reordenar (o horário se ajusta) ou
 // num dia da faixa de cima para levar o lugar para aquele dia.
 let drag = null;

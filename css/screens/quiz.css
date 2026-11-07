@@ -142,3 +142,17 @@
 #quiz .search { background: var(--surface); border-radius: 999px; }
 #quiz .rows { background: var(--surface); border-radius: 24px; padding: 0 16px; }
 #quiz .rows .row-btn:last-child { border-bottom: 0; }
+
+/* a tela inteira rola: o botão Continuar fica no fim do conteúdo, não preso embaixo */
+#quiz { overflow-y: auto; overscroll-behavior: contain; }
+#quiz .q-body { flex: 1 0 auto; min-height: auto; overflow: visible; }
+#quiz .q-foot { border-top: 0; padding-top: 4px; }
+/* faixa entre a ida e a volta, visível sobre o fundo cinza */
+#quiz .day.in { background: var(--brand-soft); }
+#quiz .day.in span { color: var(--brand); font-weight: 600; }
+#quiz .day.s.both { background: linear-gradient(to right, transparent 50%, var(--brand-soft) 50%); }
+#quiz .day.e.both { background: linear-gradient(to right, var(--brand-soft) 50%, transparent 50%); }
+#quiz .cal-grid > .day:nth-child(7n + 1).in { border-radius: 22px 0 0 22px; }
+#quiz .cal-grid > .day:nth-child(7n).in { border-radius: 0 22px 22px 0; }
+/* trilho do orçamento aparece no fundo cinza */
+#quiz .ring .trk { stroke: var(--line); }

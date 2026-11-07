@@ -24,10 +24,11 @@ let me = null, sheetState = 'half', noteT;
 
 function initMap() {
   if (map || !window.L) return;
-  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 11, maxZoom: 16 });
+  // Só a região com blocos baixados (de Balneário Camboriú a Tijucas); fora dela não dá para arrastar.
+  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
   // Blocos do mapa (Esri Light Gray, base + nomes) publicados junto com a página; onde faltar, aparece a grade do fundo.
   L.tileLayer('tiles/{z}/{x}/{y}.png', {
-    minZoom: 11, maxZoom: 16, maxNativeZoom: 15,
+    minZoom: 12, maxZoom: 16, maxNativeZoom: 15,
     errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap'
   }).addTo(map);
@@ -50,6 +51,7 @@ function setSheet(state) {
   sheetState = state;
   $('main').style.setProperty('--sheet-h', sheetHeights()[state] + 'px');
   $('placesSheet').classList.toggle('collapsed', state === 'collapsed');
+  $('main').classList.toggle('sheet-full', state === 'full' && !DESK());
   $('grabber').setAttribute('aria-expanded', state !== 'collapsed');
 }
 let sd = null, justDragged = false;

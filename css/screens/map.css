@@ -138,3 +138,6 @@
 .planb-tx strong { font-size: 15px; font-weight: 600; }
 .planb-tx small { font-size: 13px; color: rgba(255,255,255,.78); line-height: 1.35; }
 .planb-go { background: var(--surface); color: var(--brand); border-color: var(--surface); }
+/* painel aberto até o topo: os botões redondos saem para não cobrir o cartão da viagem */
+#main.sheet-full .fab { opacity: 0; pointer-events: none; transform: scale(.8); }
+.fab { transition: bottom .3s cubic-bezier(.2, .8, .2, 1), opacity .2s, transform .2s; }

@@ -17,3 +17,4 @@ Fotos do Wikimedia Commons, reduzidas para o app. Mesmas fotos usadas no pitch (
 - `frutos-mar.jpg`: Seafood platter at Trennerys Hotel on the Wild Coast (9261400916).jpg, por South African Tourism from South Africa (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Seafood_platter_at_Trennerys_Hotel_on_the_Wild_Coast_(9261400916).jpg
 - `jantar.jpg`: Table set for dinner in a restaurant.jpg, por Shixart1985 (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Table_set_for_dinner_in_a_restaurant.jpg
 - `hotel.jpg`: Hotel Lutetia Paris Room 419.jpg, por Gary Bembridge from London, UK (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Hotel_Lutetia_Paris_Room_419.jpg
+- `app-mapa.jpg`: captura da tela do mapa do próprio Partiu (mapa: Esri, HERE, Garmin, © OpenStreetMap), usada na landing.
