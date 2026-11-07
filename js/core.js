@@ -75,8 +75,8 @@ const rangeLabel = () => {
 const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
 
 /* ---------- navegação, com transição entre telas ---------- */
-const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'plan', 'main'];
-const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'main'];
+const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'plan', 'home', 'main', 'detail'];
+const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'home', 'main', 'detail'];
 let loadTimer, loadRaf, shown = null;
 // Avançar desliza a tela nova da direita; voltar, da esquerda. A anterior some por baixo.
 function showScreen(id, dir) {
@@ -105,6 +105,8 @@ function go(step) {
   else if (QUIZ.includes(step)) { S.maxStep = Math.max(S.maxStep, QUIZ.indexOf(step)); showScreen('quiz', dir); renderQuiz(); }
   else if (step === 'loading') { showScreen('loading', dir); startLoading(); }
   else if (step === 'plan') { showScreen('plan', dir); ensurePlan(); renderPlan({ enter: true }); }
+  else if (step === 'home') { showScreen('home', dir); showHome(); }
+  else if (step === 'detail') { showScreen('detail', dir); renderDetail(); }
   else { showScreen('main', dir); showMain(); }
 }
 // Reinicia uma animação de entrada num elemento (usada nas trocas de etapa e de slide).

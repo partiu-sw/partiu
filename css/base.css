@@ -17,7 +17,8 @@ img { max-width: 100%; }
   --brand-soft: #E3ECF7;
   --glass: rgba(255, 255, 255, .16);
   --glass-line: rgba(255, 255, 255, .34);
-  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --screen: #F2F3F6;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
   color-scheme: light;
 }
 html, body { height: 100%; }
@@ -27,7 +28,9 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font); displ
 button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 h1, h2, p { margin: 0; }
-h1 { font-size: 30px; font-weight: 800; font-style: italic; line-height: 1.15; letter-spacing: -0.8px; text-wrap: balance; }
+h1 { font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.7px; text-wrap: balance; }
+.q-title h1 { font-style: italic; font-weight: 600; color: #3A3F4A; }
+.q-title h1 em { font-weight: 700; }
 h1 em { font-style: italic; color: var(--brand); }
 
 .phone { position: relative; width: 390px; height: 844px; max-height: calc(100% - 32px); background: var(--surface); border-radius: 48px; overflow: hidden; box-shadow: 0 0 0 10px #FFFFFF, 0 0 0 11px #DADDE3, 0 40px 90px rgba(19,40,80,.18); }

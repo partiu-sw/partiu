@@ -73,7 +73,7 @@ function renderLogin() {
 function loginNav(step, dir = 1) { S.stepDir = dir; loginStep = step; renderLogin(); }
 function enterApp(name, isNew) {
   S.user = { name: firstName(name), email: loginEmail };
-  if (isNew) { S.slide = 0; go('intro'); } else go('main');
+  if (isNew) { S.slide = 0; go('intro'); } else go('home');
 }
 function loginError(show) { const e = $('loginErr'); if (e) e.hidden = !show; }
 

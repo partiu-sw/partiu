@@ -13,7 +13,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com duas ondas do mar dentro, num quadrado arredondado em degradê azul (`#1E5FAE` → `#0D3466`). O nome "Partiu" vai em Plus Jakarta Sans ExtraBold itálico.
+- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul-marinho liso (`#134A8E`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
 - Toda página nova leva o favicon e `theme-color #134A8E` no `<head>`, como `app.html` e `landing.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
@@ -57,7 +57,7 @@ O app só tem tema claro (`color-scheme: light`). Não adicione tema escuro sem 
 
 ## Tipografia
 
-Fonte: **Plus Jakarta Sans** (400 a 800, itálico 700 e 800) via Google Fonts, com fallback do sistema em `--font`.
+Fonte: **fonte do sistema (SF Pro no Apple) com Inter como alternativa** (400 a 700, itálico 600 e 700) via Google Fonts, com fallback do sistema em `--font`.
 
 | Papel | Tamanho | Peso | Extra |
 | --- | --- | --- | --- |
