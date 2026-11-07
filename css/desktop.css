@@ -1,79 +1,85 @@
-/* Partiu — desktop. Acima de 900px o app deixa de ser um celular na tela: ocupa a janela toda,
+/* Partiu — desktop. O botão "Ver no celular" (classe phone-mode no <html>) desliga tudo isto e mostra a moldura do celular.
+   Partiu — desktop. Acima de 900px o app deixa de ser um celular na tela: ocupa a janela toda,
    o conteúdo fica numa coluna central e, no mapa, o painel vira uma coluna lateral fixa. */
 @media (min-width: 900px) {
-  body { display: block; }
-  .phone { width: 100%; height: 100%; max-height: none; border-radius: 0; box-shadow: none; background: var(--screen); }
-  .dev-link { top: auto; bottom: 16px; left: 16px; opacity: .85; }
+  html:not(.phone-mode) body { display: block; }
+  html:not(.phone-mode) .phone { width: 100%; height: 100%; max-height: none; border-radius: 0; box-shadow: none; background: var(--screen); }
+  html:not(.phone-mode) .dev-link { top: auto; bottom: 16px; left: 16px; opacity: .85; }
 
   /* apresentação: foto em tela cheia, texto e botão centralizados */
-  #intro { padding: 40px max(48px, 6vw) 48px; }
-  .intro-text { align-self: center; max-width: 680px; }
-  .intro-text h1 { font-size: clamp(44px, 4.6vw, 64px); }
-  .intro-text .sub { font-size: 20px; }
-  .intro-foot { align-self: center; width: min(460px, 100%); }
+  html:not(.phone-mode) #intro { padding: 40px max(48px, 6vw) 48px; }
+  html:not(.phone-mode) .intro-text { align-self: center; max-width: 680px; }
+  html:not(.phone-mode) .intro-text h1 { font-size: clamp(44px, 4.6vw, 64px); }
+  html:not(.phone-mode) .intro-text .sub { font-size: 20px; }
+  html:not(.phone-mode) .intro-foot { align-self: center; width: min(460px, 100%); }
 
   /* login: foto grande à esquerda e o formulário à direita */
-  #login { flex-direction: row; background: var(--screen); }
-  #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 0 16px 16px; border-radius: 36px; }
-  #login .lg-top { top: 24px; left: 24px; right: 24px; }
-  #login .lg-body { flex: 0 0 min(520px, 44%); justify-content: center; padding: 48px clamp(32px, 4vw, 72px); gap: 18px; }
+  html:not(.phone-mode) #login { flex-direction: row; background: var(--screen); }
+  html:not(.phone-mode) #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 0 16px 16px; border-radius: 36px; }
+  html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
+  html:not(.phone-mode) #login .lg-body { flex: 0 0 min(520px, 44%); justify-content: center; padding: 48px clamp(32px, 4vw, 72px); gap: 18px; }
 
   /* perguntas e carregamento: coluna central */
-  #quiz > * { width: min(680px, 100%); margin-inline: auto; }
-  #quiz .q-head { padding-top: 32px; }
-  #quiz .q-foot { padding-bottom: 40px; }
-  .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  html:not(.phone-mode) #quiz > * { width: min(680px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) #quiz .q-head { padding-top: 32px; }
+  html:not(.phone-mode) #quiz .q-foot { padding-bottom: 40px; }
+  html:not(.phone-mode) .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   /* roteiro: coluna central; escolher lugares e horários como janelas no centro */
-  #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose) { width: min(820px, 100%); margin-inline: auto; }
-  #plan .tab-head { padding-top: 36px; }
-  .disc { background: var(--screen); }
-  .disc > * { width: min(560px, 100%); margin-inline: auto; }
-  .when-wrap { align-items: center; justify-content: center; }
-  .when-panel { width: min(560px, calc(100% - 48px)); border-radius: 28px; max-height: 82%; padding-bottom: 24px; }
-  .toast { left: 50%; right: auto; transform: translateX(-50%); width: min(480px, calc(100% - 32px)); bottom: 40px; }
+  html:not(.phone-mode) #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose) { width: min(820px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) #plan .tab-head { padding-top: 36px; }
+  html:not(.phone-mode) .disc { background: var(--screen); }
+  html:not(.phone-mode) .disc > * { width: min(560px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) .when-wrap { align-items: center; justify-content: center; }
+  html:not(.phone-mode) .when-panel { width: min(560px, calc(100% - 48px)); border-radius: 28px; max-height: 82%; padding-bottom: 24px; }
+  html:not(.phone-mode) .toast { left: 50%; right: auto; transform: translateX(-50%); width: min(480px, calc(100% - 32px)); bottom: 40px; }
 
   /* mapa: tela cheia com o painel como coluna lateral */
-  #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); transition: none; }
-  #main .grabber-btn { display: none; }
-  #main .places-head { padding-top: 20px; }
-  #main .trip-card { left: 432px; right: auto; top: 16px; width: min(460px, calc(100% - 448px)); }
-  #main .map-note { left: 432px; top: 92px; }
-  #main .fab { bottom: 24px; right: 24px; }
-  #main .fab.fab-search { bottom: 76px; }
-  #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
-  #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); }
-  #main .leaflet-bottom.leaflet-right { margin-right: 76px; }
+  html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); transition: none; }
+  html:not(.phone-mode) #main .grabber-btn { display: none; }
+  html:not(.phone-mode) #main .places-head { padding-top: 20px; }
+  html:not(.phone-mode) #main .trip-card { left: 432px; right: auto; top: 16px; width: min(460px, calc(100% - 448px)); }
+  html:not(.phone-mode) #main .map-note { left: 432px; top: 92px; }
+  html:not(.phone-mode) #main .fab { bottom: 24px; right: 24px; }
+  html:not(.phone-mode) #main .fab.fab-search { bottom: 76px; }
+  html:not(.phone-mode) #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
+  html:not(.phone-mode) #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); }
+  html:not(.phone-mode) #main .leaflet-bottom.leaflet-right { margin-right: 76px; }
 }
 @media (min-width: 1400px) {
-  #main .sheet, #main .search-view { width: 440px; }
-  #main .trip-card, #main .map-note, #main .found { left: 472px; }
+  html:not(.phone-mode) #main .sheet, html:not(.phone-mode) #main .search-view { width: 440px; }
+  html:not(.phone-mode) #main .trip-card, html:not(.phone-mode) #main .map-note, html:not(.phone-mode) #main .found { left: 472px; }
 }
 @media (min-width: 900px) {
-  #main .list { padding-bottom: 96px; } /* espaço para a barra de navegação que flutua no fim do painel */
+  html:not(.phone-mode) #main .list { padding-bottom: 96px; } /* espaço para a barra de navegação que flutua no fim do painel */
 }
 @media (min-width: 900px) {
   /* carregamento, calendário e escolher lugares: compactos e centralizados */
-  .load-wrap { width: min(480px, 100%); margin-inline: auto; }
-  #quiz .cal-head, #quiz .cal-week, #quiz .cal-grid { width: min(520px, 100%); margin-inline: auto; }
-  .disc > .stack { width: min(440px, calc(100% - 40px)); max-height: 600px; margin: 16px auto 0; }
-  .disc .disc-acts { padding-bottom: 32px; }
+  html:not(.phone-mode) .load-wrap { width: min(480px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) #quiz .cal-head, html:not(.phone-mode) #quiz .cal-week, html:not(.phone-mode) #quiz .cal-grid { width: min(520px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) .disc > .stack { width: min(440px, calc(100% - 40px)); max-height: 600px; margin: 16px auto 0; }
+  html:not(.phone-mode) .disc .disc-acts { padding-bottom: 32px; }
 }
 @media (min-width: 900px) {
-  .choose-body { width: min(820px, 100%); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; align-content: center; gap: 20px; }
-  .choose-body .q-title { grid-column: 1 / -1; }
-  .choice { min-height: 380px; max-height: none; }
+  html:not(.phone-mode) .choose-body { width: min(820px, 100%); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; align-content: center; gap: 20px; }
+  html:not(.phone-mode) .choose-body .q-title { grid-column: 1 / -1; }
+  html:not(.phone-mode) .choice { min-height: 380px; max-height: none; }
 }
 @media (min-width: 900px) {
   /* feed e conta: coluna central */
-  #feed .tab-head, .feed-scroll > *, .conta-scroll > * { width: min(680px, 100%); margin-inline: auto; }
-  #feed .tab-head { padding-top: 36px; }
-  .posts { padding: 0; }
-  .feed-seg { width: min(648px, calc(100% - 32px)); }
-  #conta .tab-head { padding-top: 36px; }
-  .compose-wrap { align-items: center; justify-content: center; }
-  .tabbar { bottom: 22px; }
+  html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *, html:not(.phone-mode) .conta-scroll > * { width: min(680px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) #feed .tab-head { padding-top: 36px; }
+  html:not(.phone-mode) .posts { padding: 0; }
+  html:not(.phone-mode) .feed-seg { width: min(648px, calc(100% - 32px)); }
+  html:not(.phone-mode) #conta .tab-head { padding-top: 36px; }
+  html:not(.phone-mode) .compose-wrap { align-items: center; justify-content: center; }
+  html:not(.phone-mode) .tabbar { bottom: 22px; }
 }
 @media (min-width: 900px) {
-  .post-photo { aspect-ratio: 16 / 11; }
+  html:not(.phone-mode) .post-photo { aspect-ratio: 16 / 11; max-height: 60vh; }
+}
+@media (min-width: 900px) {
+  html:not(.phone-mode) .trip-hero { min-height: 170px; padding: 22px 26px; }
+  html:not(.phone-mode) .th-tx strong { font-size: 30px; }
+  html:not(.phone-mode) .th-wx small { display: inline; }
 }

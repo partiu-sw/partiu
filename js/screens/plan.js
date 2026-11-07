@@ -127,6 +127,11 @@ function flip(update) {
 }
 function renderPlan(opts = {}) {
   $('planMeta').textContent = `${city().name} · ${rangeLabel()}`;
+  // capa da viagem: foto da cidade, datas, total de lugares e o clima do dia escolhido
+  const total = S.plan.days.reduce((n, d) => n + d.length, 0), wxd = typeof wxFor === 'function' ? wxFor(curDay) : null;
+  $('tripHero').innerHTML = `<img src="${(typeof CITY_PHOTO !== 'undefined' && CITY_PHOTO[S.city]) || 'img/post2.jpg'}" alt="">
+    <span class="th-tx"><small>Sua viagem</small><strong>${esc(city().name)}</strong><span>${rangeLabel()} · ${plural(S.plan.days.length, 'dia', 'dias')} · ${plural(total, 'lugar', 'lugares')}</span></span>
+    ${wxd ? `<span class="th-wx">${svg(wxd[0], 20, 1.9)}<b>${wxd[2]}°</b><small>${esc(wxd[1])}</small></span>` : ''}`;
   $('dayStrip').innerHTML = dayChipsHTML(curDay, 'data-day');
   const pk = S.plan.picked, h = hotelLL();
   $('tray').hidden = !pk.length;
@@ -136,7 +141,8 @@ function renderPlan(opts = {}) {
       <span class="tph">${scene(it.icon, it.title + ' ' + it.sub)}</span><strong>${esc(it.title)}</strong>${distTag(it, h)}
     </button>`).join('');
   const x = dayDate(curDay), items = dayItems(curDay);
-  $('dayTitle').textContent = `${DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
+  const isToday = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY, nowMin = typeof NOW === 'string' ? toMin(NOW) : 0;
+  $('dayTitle').textContent = `${isToday ? 'Hoje, ' : ''}${isToday ? DAYNAME[x.getDay()].toLowerCase() : DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
   $('dayCount').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
   const tl = $('timeline');
   if (!items.length) {
@@ -147,15 +153,19 @@ function renderPlan(opts = {}) {
     // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
     let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
     let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>`;
+    let nowShown = false;
     items.forEach((it, i) => {
       const w = windowOf(it, it.time);
+      // hoje: marca o horário de agora na linha do tempo e o que já passou
+      const past = isToday && toMin(it.time) + 60 <= nowMin, live = isToday && !past && toMin(it.time) <= nowMin;
+      if (isToday && !nowShown && toMin(it.time) > nowMin) { html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`; nowShown = true; }
       html += `<div class="leg" style="--i:${i * 2}">${distTag(it, prev ? prev.ll : h, prev ? '' : 'do hotel')}</div>
-        <div class="ev${it.id === flashId ? ' flash' : ''}" data-id="${it.id}" style="--i:${i * 2 + 1}">
+        <div class="ev${it.id === flashId ? ' flash' : ''}${past ? ' past' : ''}${live ? ' live' : ''}" data-id="${it.id}" style="--i:${i * 2 + 1}">
           <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}<small>${w ? w[2] : ''}</small></button>
-          <span class="ev-dot" aria-hidden="true">${i + 1}</span>
+          <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card">
             <span class="pph" role="img" aria-label="Foto de ${esc(it.title)}">${scene(it.icon, it.title + ' ' + it.sub)}</span>
-            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${typeIcon(it, 13)}${esc(it.sub)}</span></span>
+            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${typeIcon(it, 13)}${esc(it.sub)}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
             <button class="rm" data-rm="${it.id}" aria-label="Tirar ${esc(it.title)} do dia">${svg('x', 15, 2.2)}</button>
             <span class="handle" data-drag="${it.id}" title="Arraste para reordenar">${svg('grip', 16, 2)}</span>
           </div>
@@ -163,6 +173,7 @@ function renderPlan(opts = {}) {
         ${i < items.length - 1 ? `<button class="ins" data-add="${toMin(it.time)}" style="--i:${i * 2 + 1}" aria-label="Adicionar um lugar depois de ${esc(it.title)}"><span>${svg('plus', 13, 2.4)}</span></button>` : ''}`;
       prev = it;
     });
+    if (isToday && !nowShown) html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`;
     html += `<button class="ins end" data-add="${toMin(items[items.length - 1].time)}" style="--i:${items.length * 2}">${svg('plus', 14, 2.4)}Adicionar</button>`;
     tl.innerHTML = html;
   }
@@ -299,7 +310,9 @@ function onDrag(e) {
   if (evs[idx]) evs[idx].before(line); else (evs[evs.length - 1] || $('timeline').firstChild)?.after(line);
   drag.target = { idx };
   const tl = $('timeline'), tr = tl.getBoundingClientRect();
-  if (e.clientY > tr.bottom - 40) tl.scrollTop += 10; else if (e.clientY < tr.top + 40) tl.scrollTop -= 10;
+  // a tela inteira do roteiro rola: perto das bordas, desce ou sobe sozinha enquanto arrasta
+  const sc = $('plan'), sr = sc.getBoundingClientRect();
+  if (e.clientY > sr.bottom - 110) sc.scrollTop += 12; else if (e.clientY < sr.top + 60) sc.scrollTop -= 12;
 }
 function endDrag() {
   window.removeEventListener('pointermove', onDrag);

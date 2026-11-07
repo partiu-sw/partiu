@@ -33,6 +33,24 @@ window.addEventListener('hashchange', route);
 // Página de desenvolvimento com todas as telas: só aparece rodando localmente.
 if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) { const d = document.querySelector('.dev-link'); if (d) d.remove(); }
 
+// No desktop, um botão alterna entre tela cheia e ver no formato de celular (fica guardado no navegador).
+const PHONE_IC = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="3"/><path d="M11 18.5h2"/></svg>';
+const WIDE_IC = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 17.5V21"/></svg>';
+function paintViewToggle() {
+  const on = document.documentElement.classList.contains('phone-mode');
+  $('viewToggle').innerHTML = on ? `${WIDE_IC}Tela cheia` : `${PHONE_IC}Ver no celular`;
+  $('viewToggle').setAttribute('aria-pressed', on);
+}
+$('viewToggle').onclick = () => {
+  const on = document.documentElement.classList.toggle('phone-mode');
+  try { localStorage.setItem('partiu.modo', on ? 'celular' : 'tela'); } catch (e) { /* ok */ }
+  paintViewToggle();
+  // o layout muda: painel do mapa, mapa e barra se ajustam
+  setSheet(DESK() ? 'full' : 'half');
+  setTimeout(() => { if (map) map.invalidateSize(); setTabbar(S.step); if (S.step === 'main') renderDay(true); }, 60);
+};
+paintViewToggle();
+
 // Barra inferior: ícones e troca de aba.
 $('tabbar').querySelectorAll('[data-ic]').forEach((s) => { s.innerHTML = svg(s.dataset.ic, 22, 1.9); });
 $('tabbar').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b && b.dataset.tab !== S.step) go(b.dataset.tab); });

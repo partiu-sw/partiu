@@ -75,7 +75,7 @@ const S = {
 };
 
 // Desktop: o app ocupa a tela inteira e o painel do mapa vira uma coluna lateral (css/desktop.css).
-const DESK = () => window.matchMedia('(min-width: 900px)').matches;
+const DESK = () => !document.documentElement.classList.contains('phone-mode') && window.matchMedia('(min-width: 900px)').matches;
 const SIDE_W = 432; // largura da coluna lateral do mapa no desktop, com margem
 const keyOf = (y, m, d) => y * 10000 + (m + 1) * 100 + d;
 const dateOf = (k) => new Date(Math.floor(k / 10000), Math.floor(k / 100) % 100 - 1, k % 100);

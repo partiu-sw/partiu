@@ -206,3 +206,32 @@
 .tcard:hover .tph img { transform: scale(1.06); }
 .tcard .dist svg { color: var(--brand); }
 .drop-line { margin-left: 80px; }
+
+/* capa da viagem no topo do roteiro */
+.trip-hero { position: relative; flex: none; margin: 6px 20px 4px; min-height: 104px; border-radius: 28px; overflow: hidden; isolation: isolate; color: #fff; display: flex; align-items: flex-end; gap: 12px; padding: 16px 18px; -webkit-mask-image: -webkit-radial-gradient(white, black); animation: rise-in .5s cubic-bezier(.2, .8, .2, 1) backwards; }
+.trip-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; animation: m-kenburns 12s cubic-bezier(.2, .8, .2, 1) both; }
+.trip-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 25, 55, .05), rgba(0, 25, 55, .62)); }
+.th-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.th-tx small { font-size: 12px; font-weight: 600; opacity: .85; }
+.th-tx strong { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.th-tx > span { font-size: 13px; opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.th-wx { flex: none; display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); font-size: 12px; }
+.th-wx b { font-size: 16px; font-weight: 700; }
+.th-wx small { display: none; }
+/* agora na linha do tempo e paradas que já passaram */
+.tl-now { position: relative; display: flex; align-items: center; margin: 6px 0 6px 52px; height: 26px; animation: rise-in .5s .2s cubic-bezier(.2, .8, .2, 1) backwards; }
+.tl-now::before { content: ""; position: absolute; left: 4px; right: 0; top: 50%; height: 2px; background: var(--brand); border-radius: 2px; }
+.tl-now::after { content: ""; position: absolute; left: 0; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); animation: now-pulse 2s ease-out infinite; }
+@keyframes now-pulse { 0% { box-shadow: 0 0 0 0 rgba(42, 120, 194, .45); } 100% { box-shadow: 0 0 0 10px rgba(42, 120, 194, 0); } }
+.tl-now span { position: relative; margin-left: 26px; padding: 4px 12px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ev.past .ev-card { opacity: .62; }
+.ev.past .ev-time { color: var(--sec); }
+.ev.past .ev-dot { background: var(--brand-soft); color: var(--brand); }
+.ev.live .ev-card { border-color: var(--brand); box-shadow: 0 8px 22px rgba(42, 120, 194, .16); }
+.ev.live .ev-dot { animation: now-pulse 2s ease-out infinite; }
+.ev-tag { align-self: flex-start; margin-top: 3px; padding: 2px 9px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; }
+.ev-tag.done { background: var(--fill); color: var(--brand); }
+/* a tela do roteiro rola inteira (capa, dias e linha do tempo juntos), como uma página */
+#plan { overflow-y: auto; overscroll-behavior: contain; }
+#plan .tl { flex: none; min-height: auto; overflow: visible; }
+#plan .tab-head, #plan .trip-hero, #plan .day-strip, #plan .tray, #plan .tl-head { flex: none; }

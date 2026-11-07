@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<script>try { if (localStorage.getItem('partiu.modo') === 'celular') document.documentElement.classList.add('phone-mode'); } catch (e) {}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Partiu</title>
 <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
@@ -11,21 +12,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
-<link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/screens/onboarding.css?v=23">
-<link rel="stylesheet" href="css/screens/quiz.css?v=23">
-<link rel="stylesheet" href="css/screens/loading.css?v=23">
-<link rel="stylesheet" href="css/screens/plan.css?v=23">
-<link rel="stylesheet" href="css/screens/map.css?v=23">
-<link rel="stylesheet" href="css/screens/login.css?v=23">
-<link rel="stylesheet" href="css/screens/feed.css?v=23">
-<link rel="stylesheet" href="css/screens/conta.css?v=23">
-<link rel="stylesheet" href="css/pill.css?v=23">
-<link rel="stylesheet" href="css/motion.css?v=23">
-<link rel="stylesheet" href="css/desktop.css?v=23">
+<link rel="stylesheet" href="css/base.css?v=25">
+<link rel="stylesheet" href="css/screens/onboarding.css?v=25">
+<link rel="stylesheet" href="css/screens/quiz.css?v=25">
+<link rel="stylesheet" href="css/screens/loading.css?v=25">
+<link rel="stylesheet" href="css/screens/plan.css?v=25">
+<link rel="stylesheet" href="css/screens/map.css?v=25">
+<link rel="stylesheet" href="css/screens/login.css?v=25">
+<link rel="stylesheet" href="css/screens/feed.css?v=25">
+<link rel="stylesheet" href="css/screens/conta.css?v=25">
+<link rel="stylesheet" href="css/pill.css?v=25">
+<link rel="stylesheet" href="css/motion.css?v=25">
+<link rel="stylesheet" href="css/desktop.css?v=25">
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
+<button class="view-toggle" id="viewToggle" type="button"></button>
 <div class="phone">
 
   <!-- Login (MVP): redes sociais ou e-mail; conta existente vai para a viagem, conta nova para o cadastro -->
@@ -91,6 +93,7 @@
       <div class="tab-title"><h1>Seu <em>roteiro</em></h1><span id="planMeta"></span></div>
       <button class="btn-sec sm" id="openDiscover"></button>
     </header>
+    <div class="trip-hero" id="tripHero"></div>
     <div class="day-strip" id="dayStrip" role="group" aria-label="Dias da viagem"></div>
     <div class="tray" id="tray" hidden>
       <div class="tray-head"><strong id="trayTitle"></strong><button class="link-sm" id="autoPlace">Organizar automático</button></div>
@@ -214,18 +217,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/data.js?v=23"></script>
-<script src="js/core.js?v=23"></script>
-<script src="js/ui/hnav.js?v=23"></script>
-<script src="js/screens/intro.js?v=23"></script>
-<script src="js/screens/quiz.js?v=23"></script>
-<script src="js/screens/loading.js?v=23"></script>
-<script src="js/screens/plan.js?v=23"></script>
-<script src="js/screens/map.js?v=23"></script>
-<script src="js/trips.js?v=23"></script>
-<script src="js/screens/feed.js?v=23"></script>
-<script src="js/screens/conta.js?v=23"></script>
-<script src="js/screens/login.js?v=23"></script>
-<script src="js/main.js?v=23"></script>
+<script src="js/data.js?v=25"></script>
+<script src="js/core.js?v=25"></script>
+<script src="js/ui/hnav.js?v=25"></script>
+<script src="js/screens/intro.js?v=25"></script>
+<script src="js/screens/quiz.js?v=25"></script>
+<script src="js/screens/loading.js?v=25"></script>
+<script src="js/screens/plan.js?v=25"></script>
+<script src="js/screens/map.js?v=25"></script>
+<script src="js/trips.js?v=25"></script>
+<script src="js/screens/feed.js?v=25"></script>
+<script src="js/screens/conta.js?v=25"></script>
+<script src="js/screens/login.js?v=25"></script>
+<script src="js/main.js?v=25"></script>
 </body>
 </html>
