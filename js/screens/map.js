@@ -24,7 +24,7 @@ const wxFor = (d) => (devWx ? DEV_WX[devWx] : WX[(Math.max(0, CITIES.findIndex((
 
 // Onde a pessoa está: GPS quando o navegador permite; senão, o Shopping Russi & Russi (Itapema).
 const FALLBACK_ME = { ll: [-27.12853, -48.60103], name: 'Shopping Russi & Russi, em Itapema' };
-const TRIP_CARD_H = 112; // área ocupada pelo cartão da viagem no topo do mapa
+const TRIP_CARD_H = 160; // área ocupada pelo cartão da viagem no topo do mapa
 let me = null, sheetState = 'half', noteT;
 
 // Mapa base: vetorial (OpenFreeMap, estilo Liberty), colorido e vivo como uma foto: mar azul, verde dos parques,
@@ -333,11 +333,21 @@ function renderDay(fit) {
   drawRoute([hotel.ll, ...items.map((it) => it.ll)]);
   // parceiros em destaque no mapa: pílula preta com estrela e nome; tocar abre o cartão com a oferta
   (window.ptMarkers || []).forEach((m) => m.remove());
-  window.ptMarkers = (typeof partnerPool === 'function' ? partnerPool() : []).filter((p) => !inPlan(p)).map((p) => L.marker(p.ll, {
-    icon: L.divIcon({ className: '', iconSize: [10, 10], iconAnchor: [5, 5], html: `<div class="pin-pt"><span class="pin-pt-ic">${svg(p.icon, 14, 2)}</span><span class="pin-pt-tx">${esc(p.name)}</span><span class="pin-pt-star">${PARTNER_IC}</span></div>` }),
-    title: `${p.name} (parceiro)`, keyboard: true, zIndexOffset: 400
+  const pts = (typeof partnerPool === 'function' ? partnerPool() : []).filter((p) => !inPlan(p));
+  window.ptMarkers = pts.map((p, i) => L.marker(p.ll, {
+    icon: L.divIcon({ className: '', iconSize: [10, 10], iconAnchor: [5, 5], html: `<div class="pin-pt" style="--i:${i}"><span class="pin-pt-ring" aria-hidden="true"></span><span class="pin-pt-ic">${svg(p.icon, 15, 2)}</span><span class="pin-pt-tx"><b>${esc(p.name)}</b><small>${PARTNER_IC}${esc(partnerOf(p.name).offer)}</small></span></div>` }),
+    title: `${p.name} (parceiro)`, keyboard: true, zIndexOffset: 900
   }).on('click', () => showFound(p)).addTo(map));
-  if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [48, 48], maxZoom: 15 } : { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
+  renderPtStrip(pts);
+  if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll), ...pts.map((p) => p.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [220, 48], maxZoom: 15 } : { paddingTopLeft: [24, TRIP_CARD_H + 12], paddingBottomRight: [140, curSheetH() + 24], maxZoom: 15 });
+}
+
+// faixa "Parceiros perto" sobre o mapa: cada parceiro com a oferta; tocar abre o cartão do lugar
+function renderPtStrip(pts) {
+  const el = $('ptStrip'); if (!el) return;
+  el.hidden = !pts.length;
+  el.innerHTML = `<span class="pts-lab">${PARTNER_IC}Parceiros perto</span>` + pts.map((p, i) => `<button class="pts-chip" style="--i:${i}" data-pts="${p.id}"><span class="pts-ic">${svg(p.icon, 14, 2)}</span><b>${esc(p.name)}</b><small>${esc(partnerOf(p.name).offer)}</small></button>`).join('');
+  el.onclick = (e) => { const b = e.target.closest('[data-pts]'); if (!b) return; const p = pts.find((x) => x.id === b.dataset.pts); if (p) showFound(p); };
 }
 
 function select(id, fromList) {

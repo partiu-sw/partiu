@@ -22,7 +22,7 @@
 .sheet.full .list { overscroll-behavior: contain; }
 .grabber-btn { flex: none; width: 100%; height: 22px; border: 0; background: none; display: grid; place-items: center; cursor: grab; touch-action: none; }
 .grabber-btn span { width: 36px; height: 5px; border-radius: 3px; background: #D1D1D6; }
-.map-note { position: absolute; z-index: 1001; top: 120px; left: 16px; right: 16px; margin: 0 auto; width: fit-content; max-width: calc(100% - 32px); padding: 8px 14px; border-radius: 12px; background: var(--brand); color: var(--surface); font-size: 13px; line-height: 1.4; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.map-note { position: absolute; z-index: 1001; top: calc(var(--safe-top) + 122px); left: 16px; right: 16px; margin: 0 auto; width: fit-content; max-width: calc(100% - 32px); padding: 8px 14px; border-radius: 12px; background: var(--brand); color: var(--surface); font-size: 13px; line-height: 1.4; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
 .grabber { width: 36px; height: 5px; border-radius: 3px; background: #D1D1D6; margin: 8px auto 0; }
 .places-head { flex: none; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 20px; }
 .places-head div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -170,12 +170,25 @@
 .map-tl .ev-time { pointer-events: auto; }
 .list .rt-start { margin-bottom: 6px; }
 /* parceiros no mapa: pílula preta com ícone, nome e estrela, sempre visível */
-.pin-pt { position: absolute; left: 0; top: 0; transform: translate(-16px, -50%); display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border-radius: 999px; background: #111; color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.28); white-space: nowrap; font-size: 12px; font-weight: 700; animation: pt-pop .5s cubic-bezier(.34, 1.56, .64, 1) backwards; }
-.pin-pt-ic { width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; }
-.pin-pt-star { display: grid; color: #FFD34D; }
-.pin-pt::after { content: ""; position: absolute; left: 14px; bottom: -5px; width: 10px; height: 10px; background: #111; transform: rotate(45deg); border-radius: 2px; z-index: -1; }
-@keyframes pt-pop { from { opacity: 0; transform: translate(-16px, -50%) scale(.6); } }
-/* com vários parceiros perto, o pino fica compacto (ícone e estrela); o nome aparece no hover e no cartão */
-.pin-pt { padding: 3px 7px 3px 3px; gap: 4px; }
-.pin-pt-tx { display: none; }
-.pin-pt:hover .pin-pt-tx { display: inline; }
+/* parceiros em destaque: pílula preta grande com nome, oferta e um anel que pulsa */
+.pin-pt { position: absolute; left: 0; top: 0; transform: translate(-20px, -50%); display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px 5px 5px; border-radius: 999px; background: #111; color: #fff; box-shadow: 0 8px 22px rgba(0,0,0,.35); white-space: nowrap; animation: pt-pop .6s cubic-bezier(.34, 1.56, .64, 1) backwards; animation-delay: calc(var(--i, 0) * 90ms + .3s); transition: transform .2s cubic-bezier(.2, .8, .2, 1); cursor: pointer; }
+.pin-pt:hover { transform: translate(-20px, -50%) scale(1.06); }
+.pin-pt-ic { position: relative; z-index: 1; width: 30px; height: 30px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; }
+.pin-pt-ring { position: absolute; left: 5px; top: 50%; width: 30px; height: 30px; margin-top: -15px; border-radius: 50%; border: 2px solid #111; animation: pt-ring 1.8s cubic-bezier(.2, .8, .2, 1) infinite; pointer-events: none; }
+.pin-pt-tx { display: flex; flex-direction: column; line-height: 1.15; }
+.pin-pt-tx b { font-size: 13px; font-weight: 800; letter-spacing: -0.2px; }
+.pin-pt-tx small { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #C7C7CC; }
+.pin-pt-tx small svg { color: #fff; width: 10px; height: 10px; }
+.pin-pt::after { content: ""; position: absolute; left: 16px; bottom: -5px; width: 12px; height: 12px; background: #111; transform: rotate(45deg); border-radius: 2px; z-index: -1; }
+@keyframes pt-pop { from { opacity: 0; transform: translate(-20px, -50%) scale(.5); } }
+@keyframes pt-ring { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+/* faixa de ofertas dos parceiros logo abaixo do cartão da viagem */
+.pt-strip { position: absolute; z-index: 1001; left: 0; right: 0; top: calc(var(--safe-top) + 70px); display: flex; align-items: center; gap: 8px; padding: 2px 16px 8px; overflow-x: auto; scrollbar-width: none; }
+.pt-strip::-webkit-scrollbar { display: none; }
+.pts-lab { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 40px; padding: 0 14px; border-radius: 999px; background: #111; color: #fff; font-size: 13px; font-weight: 800; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+.pts-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px 0 5px; border: 0; border-radius: 999px; background: #fff; color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,.14); font: inherit; white-space: nowrap; animation: up .5s cubic-bezier(.34, 1.56, .64, 1) backwards; animation-delay: calc(var(--i) * 70ms + .2s); transition: transform .15s; }
+.pts-chip:active { transform: scale(.95); }
+.pts-ic { width: 30px; height: 30px; border-radius: 50%; background: #111; color: #fff; display: grid; place-items: center; }
+.pts-chip b { font-size: 13px; font-weight: 700; }
+.pts-chip small { font-size: 12px; color: var(--sec); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .pin-pt, .pin-pt-ring, .pts-chip { animation: none; } }

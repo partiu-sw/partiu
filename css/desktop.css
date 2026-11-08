@@ -35,11 +35,12 @@
   html:not(.phone-mode) .toast { left: 50%; right: auto; transform: translateX(-50%); width: min(480px, calc(100% - 32px)); bottom: 40px; }
 
   /* mapa: tela cheia com o painel como coluna lateral */
-  html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); transition: none; }
+  html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); transition: none; }
   html:not(.phone-mode) #main .grabber-btn { display: none; }
   html:not(.phone-mode) #main .places-head { padding-top: 20px; }
   html:not(.phone-mode) #main .trip-card { left: calc(432px + (100% - 432px) / 2); right: auto; top: 16px; width: min(460px, calc(100% - 464px)); transform: translateX(-50%); }
-  html:not(.phone-mode) #main .map-note { left: 432px; top: 92px; }
+  html:not(.phone-mode) #main .map-note { left: 432px; top: 140px; }
+  html:not(.phone-mode) #main .pt-strip { left: 432px; top: 86px; justify-content: safe center; }
   html:not(.phone-mode) #main .fab { bottom: 24px; right: 24px; }
   html:not(.phone-mode) #main .fab.fab-search { bottom: 76px; }
   html:not(.phone-mode) #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
@@ -48,7 +49,7 @@
 }
 @media (min-width: 1400px) {
   html:not(.phone-mode) #main .sheet, html:not(.phone-mode) #main .search-view { width: 440px; }
-  html:not(.phone-mode) #main .map-note, html:not(.phone-mode) #main .found { left: 472px; }
+  html:not(.phone-mode) #main .map-note, html:not(.phone-mode) #main .found, html:not(.phone-mode) #main .pt-strip { left: 472px; }
   html:not(.phone-mode) #main .trip-card { left: calc(472px + (100% - 472px) / 2); width: min(460px, calc(100% - 504px)); }
 }
 /* ilha do topo no centro da tela quando cabe sem encostar no painel */
