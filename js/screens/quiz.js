@@ -133,11 +133,14 @@ function renderQuiz() {
 function renderDestList() {
   const q = norm(S.query);
   const exact = CITIES.find((c) => norm(c.name) === q);
+  // foto e frase de cada cidade na escolha do destino
+  const CITY_PIC = { bc: 'img/praia-central.jpg', itapema: 'img/post1.jpg', portobelo: 'img/bombas.jpg', tijucas: 'img/rio-tijucas.jpg' };
+  const CITY_SUB = { bc: 'Orla, bondinho e vida noturna', itapema: 'Meia Praia e praias de trilha', portobelo: 'Ilha, mar calmo e ostras', tijucas: 'Centro histórico e beira-rio' };
   const list = exact || !q ? CITIES : CITIES.filter((c) => norm(c.name).includes(q));
   $('destList').innerHTML = list.length ? list.map((c) => `
     <button class="row-btn" data-act="city" data-id="${c.id}" aria-pressed="${c.id === S.city}">
-      <span class="ic">${svg('pin', 18)}</span>
-      <span class="tx"><strong>${c.name}</strong><small>Santa Catarina</small></span>
+      <span class="ic city-ph"><img src="${CITY_PIC[c.id] || 'img/post2.jpg'}" alt=""></span>
+      <span class="tx"><strong>${c.name}</strong><small>${CITY_SUB[c.id] || 'Santa Catarina'}</small></span>
       ${c.id === S.city ? svg('check', 20, 2.5) : ''}
     </button>`).join('') : '<p class="empty">Ainda não temos esse destino. Tente uma das cidades do litoral catarinense.</p>';
 }
