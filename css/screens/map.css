@@ -73,7 +73,7 @@
 .leaflet-tile-loaded { visibility: inherit; }
 .leaflet-pane { z-index: 400; }
 .leaflet-tile-pane { z-index: 200; }
-#map.raster .leaflet-tile-pane { filter: sepia(.25) hue-rotate(178deg) saturate(1.6) brightness(1.02); } /* puxa o cinza do mapa para o azul da marca */
+#map.raster .leaflet-tile-pane { filter: grayscale(1) contrast(1.04); } /* mapa em preto e branco, como a marca */
 .leaflet-overlay-pane { z-index: 400; }
 .leaflet-shadow-pane { z-index: 500; }
 .leaflet-marker-pane { z-index: 600; }

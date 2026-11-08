@@ -197,7 +197,7 @@
 .lg-body > :nth-child(4) { animation-delay: .32s; } .lg-body > :nth-child(5) { animation-delay: .40s; }
 .lg-social > * { animation: m-rise .5s var(--ease) backwards; }
 .lg-social > :nth-child(1) { animation-delay: .34s; } .lg-social > :nth-child(2) { animation-delay: .40s; } .lg-social > :nth-child(3) { animation-delay: .46s; }
-.lg-soc:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(8, 30, 70, .10); }
+.lg-soc:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, .10); }
 .lg-field { transition: box-shadow .25s var(--ease), transform .25s var(--ease); }
 .lg-field:focus-within { transform: scale(1.01); }
 
@@ -206,7 +206,7 @@
 .btn-primary::after { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 0; width: 45%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .28), transparent); transform: translateX(-120%) skewX(-18deg); pointer-events: none; }
 .btn-primary:not(:disabled):hover::after { animation: m-shine .9s var(--ease); }
 .btn-primary:not(:disabled):active { transform: scale(.97); }
-.btn-primary:not(:disabled):hover, .btn-sec:hover, .btn-out:hover { box-shadow: 0 10px 24px rgba(42, 120, 194, .25); }
+.btn-primary:not(:disabled):hover, .btn-sec:hover, .btn-out:hover { box-shadow: 0 10px 24px rgba(17, 17, 17, .25); }
 
 /* abas: título, conteúdo e barra entram juntos; ícone da aba atual dá um pulinho */
 .tab-head > * { animation: m-rise .5s var(--ease) backwards; }
@@ -214,7 +214,7 @@
 #feed.enter-f .stories, #feed.enter-b .stories { animation: m-rise .5s .1s var(--ease) backwards; }
 .tabbar button[aria-current="page"] .tab-ic { animation: m-pop .45s var(--spring); }
 #plan .tl .ev-card { transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
-#plan .tl .ev-card:hover { transform: translateX(3px); box-shadow: 0 6px 16px rgba(8, 30, 70, .06); }
+#plan .tl .ev-card:hover { transform: translateX(3px); box-shadow: 0 6px 16px rgba(0, 0, 0, .06); }
 
 /* escolher como montar: cartões entram e a foto aproxima no hover */
 .choice { animation: m-rise .6s var(--ease) backwards; }

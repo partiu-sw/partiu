@@ -4,18 +4,18 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Princípios
 
-1. **Litoral, vidro e azul praia.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O destaque é um azul oceano calmo (`--brand`), sempre **sólido: sem degradê no azul**. O app é azul e branco; o texto é grafite `--ink`. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação escura flutuante.
+1. **Litoral, vidro, preto e branco.** A identidade vem de fotos reais do litoral em tela cheia, com controles de vidro fosco por cima. O app é só preto e branco: o destaque (`--brand`) é preto `#111111`, os fundos são brancos e os tons suaves são cinzas bem claros. Sem azul e sem degradê. Referências: apps de viagem com foto grande, cartões de foto com local e seta, barra de navegação flutuante.
 2. **Celular primeiro, desktop de verdade.** As telas são desenhadas para 390 × 844 dentro de `.phone`. Abaixo de 500px ocupam a tela inteira; acima de 900px (`css/desktop.css`) o app ocupa a janela toda, sem moldura de celular: login em duas colunas (foto e formulário), perguntas e roteiro numa coluna central, e no mapa o painel vira uma coluna lateral fixa à esquerda (`DESK()` e `SIDE_W` no `js/core.js`).
-3. **Selecionado = azul.** Um item escolhido troca para fundo `--brand` e texto branco. Não use outra cor, sombra extra ou ícone de check para indicar seleção.
+3. **Selecionado = preto.** Um item escolhido troca para fundo `--brand` e texto branco. Não use outra cor, sombra extra ou ícone de check para indicar seleção.
 4. **Foto em primeiro lugar.** Sobre foto: degradê escuro embaixo para o texto branco e vidro fosco (`--glass`, `--glass-line`, `backdrop-filter: blur`) nos controles. Fora da foto: bordas finas de 1px e sombras suaves só no que flutua.
 5. **Toque confortável.** Toda área clicável tem no mínimo 44 × 44px (botões principais 56px de altura).
 6. **Muito movimento, sempre suave.** Entradas em cascata, fotos que respiram (zoom lento), pinos que caem, toques com resposta. Fica em `css/motion.css` e tudo respeita `prefers-reduced-motion`.
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado azul liso (`#2A78C2`, sem degradê). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
+- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado preto liso (`#111111`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
-- Toda página nova leva o favicon e `theme-color #2A78C2` no `<head>`, como `app.html` e `index.html`.
+- Toda página nova leva o favicon e `theme-color #111111` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.
 
 ## Cores
@@ -26,13 +26,13 @@ Os tokens ficam em `:root` no `css/base.css`. Use sempre a variável quando exis
 | --- | --- | --- |
 | `--bg` | `#FFFFFF` | fundo da página (branco puro) |
 | `--surface` | `#FFFFFF` | fundo das telas, cartões, painéis |
-| `--fill` | `#F1F6FC` | fundos suaves em azul bem claro (nunca cinza): campo de busca, chips, resumo do dia |
-| `--line` | `#E2EAF3` | divisórias e bordas de cartão |
+| `--fill` | `#F4F4F5` | fundos suaves em azul bem claro (nunca cinza): campo de busca, chips, resumo do dia |
+| `--line` | `#E8E8EA` | divisórias e bordas de cartão |
 | `--ink` | `#1B1F27` | texto principal, barra de navegação flutuante |
-| `--brand` | `#2A78C2` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
-| `--brand-deep` | `#1F5F9E` | hover do botão primário, fundos azuis escuros |
-| `--brand-soft` | `#EAF2FA` | selos, faixa de datas no calendário e fundos azuis claros |
-| `--brand-sky` | `#7CC0EA` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
+| `--brand` | `#111111` | botão primário, estado selecionado, destaque nos títulos, rota no mapa |
+| `--brand-deep` | `#000000` | hover do botão primário, fundos azuis escuros |
+| `--brand-soft` | `#F2F2F3` | selos, faixa de datas no calendário e fundos azuis claros |
+| `--brand-sky` | `#8A8A8E` | ciano do mar, só em detalhes pequenos (nunca em degradê com o azul) |
 | `--glass` / `--glass-line` | branco 16% / 34% | vidro fosco sobre foto (com `backdrop-filter: blur(14–16px)`) |
 | `--screen` | `#FFFFFF` | fundo de todas as telas: branco puro, com o azul como única cor |
 | `--sec` | `#7E8492` | texto secundário, legendas, rótulos |
@@ -51,7 +51,7 @@ Cinzas auxiliares já usados (sem token; reutilize estes, não crie novos):
 | `#3A3A3C` | selo/contador secundário sobre fundo `--ink` |
 | `#101012` | moldura do celular |
 
-Categorias do orçamento usam três tons de azul (`#2A78C2`, `#6FA6D8`, `#C5DCF0`), definidos em `ALLOC` no `js/core.js`.
+Categorias do orçamento usam três tons de azul (`#111111`, `#6B6B70`, `#CFCFD3`), definidos em `ALLOC` no `js/core.js`.
 
 Fotos ficam em `img/` (reduzidas, até 1000px) com créditos em `img/CREDITOS.md`; `photoFor(texto)` no `js/core.js` escolhe a foto pelo nome do lugar.
 
@@ -204,4 +204,4 @@ Reutilize estas classes antes de criar novas. As globais estão em `css/base.css
 - [ ] Animações com a curva padrão e desligadas em movimento reduzido.
 - [ ] Funciona em 390 × 844, em tela cheia abaixo de 500px e no desktop acima de 900px (ajustes em `css/desktop.css`).
 - [ ] Tela tem rota em inglês e aparece no `README.md` e no `telas.html`.
-- [ ] Azul sólido, sem degradê; controles em formato pílula.
+- [ ] Só preto e branco (sem azul, sem degradê); controles em formato pílula.

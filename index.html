@@ -6,7 +6,7 @@
 <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
-<meta name="theme-color" content="#2A78C2">
+<meta name="theme-color" content="#111111">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Chegou no litoral? O Partiu mostra o que fazer, comer e curtir perto de você, na hora.">
 <meta property="og:title" content="Partiu">
@@ -17,7 +17,7 @@
 <style>
 /* Landing do Partiu: azul e branco, formato pílula, pouco texto e muito movimento. */
 :root {
-  --brand: #2A78C2; --brand-deep: #1F5F9E; --brand-soft: #EAF2FA;
+  --brand: #111111; --brand-deep: #000000; --brand-soft: #F2F2F3;
   --ink: #0E1726; --sec: #6B7486; --line: #E4E8EF; --bg: #FFFFFF; --soft: #F3F7FC;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif;
   --ease: cubic-bezier(.2, .8, .2, 1); --spring: cubic-bezier(.34, 1.56, .64, 1);
@@ -32,7 +32,7 @@ h1, h2, h3 { letter-spacing: -0.04em; line-height: .98; }
 em { font-style: italic; color: var(--brand); }
 
 /* navegação flutuante */
-.nav { position: fixed; z-index: 50; top: 14px; left: 50%; transform: translateX(-50%); width: min(1180px, calc(100% - 24px)); display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 16px; border-radius: 999px; background: rgba(255,255,255,.78); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); box-shadow: 0 8px 30px rgba(8, 30, 70, .08), inset 0 0 0 1px rgba(14, 23, 38, .06); animation: drop .8s var(--ease) backwards; }
+.nav { position: fixed; z-index: 50; top: 14px; left: 50%; transform: translateX(-50%); width: min(1180px, calc(100% - 24px)); display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 16px; border-radius: 999px; background: rgba(255,255,255,.78); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); box-shadow: 0 8px 30px rgba(0, 0, 0, .08), inset 0 0 0 1px rgba(14, 23, 38, .06); animation: drop .8s var(--ease) backwards; }
 @keyframes drop { from { opacity: 0; transform: translate(-50%, -24px); } }
 .logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 19px; letter-spacing: -0.03em; }
 .logo img { width: 30px; height: 30px; border-radius: 9px; }
@@ -42,8 +42,8 @@ em { font-style: italic; color: var(--brand); }
 .pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-size: 15px; font-weight: 700; white-space: nowrap; transition: transform .25s var(--spring), box-shadow .25s, background .2s; }
 .pill:hover { transform: translateY(-2px); }
 .pill:active { transform: scale(.96); }
-.pill.blue { background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(42, 120, 194, .3); }
-.pill.blue:hover { background: var(--brand-deep); box-shadow: 0 14px 30px rgba(42, 120, 194, .38); }
+.pill.blue { background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(17, 17, 17, .3); }
+.pill.blue:hover { background: var(--brand-deep); box-shadow: 0 14px 30px rgba(17, 17, 17, .38); }
 .pill.line { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
 .pill.line:hover { box-shadow: inset 0 0 0 1.5px var(--brand); color: var(--brand); }
 .pill.white { background: #fff; color: var(--brand); }
@@ -70,14 +70,14 @@ em { font-style: italic; color: var(--brand); }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; animation: fade 1s .5s var(--ease) backwards; }
 .stage { position: relative; height: 640px; display: grid; place-items: center; }
 .sun { position: absolute; width: 470px; height: 470px; border-radius: 50%; background: var(--brand); animation: grow 1.2s var(--ease) backwards, breathe 8s 1.2s ease-in-out infinite; }
-.ring { position: absolute; width: 600px; height: 600px; border-radius: 50%; border: 1.5px dashed rgba(42, 120, 194, .25); animation: spin 60s linear infinite; }
+.ring { position: absolute; width: 600px; height: 600px; border-radius: 50%; border: 1.5px dashed rgba(17, 17, 17, .25); animation: spin 60s linear infinite; }
 @keyframes grow { from { transform: scale(.4); opacity: 0; } }
 @keyframes breathe { 50% { transform: scale(1.04); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-.phone { position: relative; width: 290px; aspect-ratio: 390 / 844; border-radius: 46px; padding: 9px; background: #fff; box-shadow: 0 40px 80px rgba(8, 30, 70, .28), 0 0 0 1px rgba(14,23,38,.06); transform-style: preserve-3d; transition: transform .2s ease-out; animation: rise 1.1s .2s var(--ease) backwards; }
+.phone { position: relative; width: 290px; aspect-ratio: 390 / 844; border-radius: 46px; padding: 9px; background: #fff; box-shadow: 0 40px 80px rgba(0, 0, 0, .28), 0 0 0 1px rgba(14,23,38,.06); transform-style: preserve-3d; transition: transform .2s ease-out; animation: rise 1.1s .2s var(--ease) backwards; }
 @keyframes rise { from { opacity: 0; transform: translateY(80px) rotate(4deg); } }
 .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; }
-.chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: #fff; box-shadow: 0 14px 34px rgba(8, 30, 70, .16); font-size: 14px; font-weight: 700; white-space: nowrap; animation: pop .7s var(--spring) backwards, bob 5s ease-in-out infinite; }
+.chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: #fff; box-shadow: 0 14px 34px rgba(0, 0, 0, .16); font-size: 14px; font-weight: 700; white-space: nowrap; animation: pop .7s var(--spring) backwards, bob 5s ease-in-out infinite; }
 .chip small { display: block; font-size: 12px; font-weight: 600; color: var(--sec); }
 .chip .d { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); flex: none; }
 .chip .d.b { background: var(--brand); color: #fff; }
@@ -126,7 +126,7 @@ h2 { font-size: clamp(42px, 6vw, 84px); font-weight: 800; margin: 18px 0 0; }
 .pin-pulse::before { content: ""; position: absolute; inset: -4px; border-radius: 50%; background: rgba(11,110,242,.45); animation: wave 2s ease-out infinite; }
 @keyframes wave { to { transform: scale(4); opacity: 0; } }
 .deck { position: relative; height: 230px; margin: 22px auto 0; width: 190px; }
-.card { position: absolute; inset: 0; border-radius: 26px; overflow: hidden; box-shadow: 0 16px 34px rgba(8, 30, 70, .18); background: #fff; }
+.card { position: absolute; inset: 0; border-radius: 26px; overflow: hidden; box-shadow: 0 16px 34px rgba(0, 0, 0, .18); background: #fff; }
 .card img { width: 100%; height: 100%; object-fit: cover; }
 .card:nth-child(1) { transform: rotate(-8deg) translateX(-18px); }
 .card:nth-child(2) { transform: rotate(5deg) translateX(14px); }
@@ -147,7 +147,7 @@ h2 { font-size: clamp(42px, 6vw, 84px); font-weight: 800; margin: 18px 0 0; }
 .screens { margin-top: 50px; display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 20px 4px 40px; scrollbar-width: none; }
 .screens::-webkit-scrollbar { display: none; }
 .shot { flex: none; width: 260px; scroll-snap-align: center; text-align: center; }
-.shot .phone { width: 100%; animation: none; box-shadow: 0 30px 60px rgba(8, 30, 70, .18), 0 0 0 1px rgba(14,23,38,.06); transition: transform .5s var(--ease); }
+.shot .phone { width: 100%; animation: none; box-shadow: 0 30px 60px rgba(0, 0, 0, .18), 0 0 0 1px rgba(14,23,38,.06); transition: transform .5s var(--ease); }
 .shot:nth-child(even) .phone { transform: translateY(36px); }
 .shot:hover .phone { transform: translateY(-8px) rotate(-1.5deg); }
 .shot span { display: inline-flex; margin-top: 20px; padding: 8px 16px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 700; }
@@ -169,7 +169,7 @@ h2 { font-size: clamp(42px, 6vw, 84px); font-weight: 800; margin: 18px 0 0; }
 /* comércio */
 .biz { position: relative; border-radius: 48px; overflow: hidden; min-height: 520px; display: flex; align-items: flex-end; color: #fff; isolation: isolate; }
 .biz img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transform: scale(1.1); transition: transform .1s linear; }
-.biz::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(0, 20, 50, .82) 10%, rgba(0, 20, 50, .1) 70%); }
+.biz::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(0, 0, 0, .82) 10%, rgba(0, 0, 0, .1) 70%); }
 .biz-in { padding: clamp(28px, 5vw, 60px); max-width: 720px; }
 .biz h2 { color: #fff; }
 .biz p { margin: 18px 0 26px; font-size: 20px; opacity: .9; line-height: 1.4; }

@@ -35,7 +35,7 @@
   html:not(.phone-mode) .toast { left: 50%; right: auto; transform: translateX(-50%); width: min(480px, calc(100% - 32px)); bottom: 40px; }
 
   /* mapa: tela cheia com o painel como coluna lateral */
-  html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); transition: none; }
+  html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); transition: none; }
   html:not(.phone-mode) #main .grabber-btn { display: none; }
   html:not(.phone-mode) #main .places-head { padding-top: 20px; }
   html:not(.phone-mode) #main .trip-card { left: 432px; right: auto; top: 16px; width: min(460px, calc(100% - 448px)); }
@@ -43,7 +43,7 @@
   html:not(.phone-mode) #main .fab { bottom: 24px; right: 24px; }
   html:not(.phone-mode) #main .fab.fab-search { bottom: 76px; }
   html:not(.phone-mode) #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
-  html:not(.phone-mode) #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(19, 40, 80, .16); }
+  html:not(.phone-mode) #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); }
   html:not(.phone-mode) #main .leaflet-bottom.leaflet-right { margin-right: 76px; }
 }
 @media (min-width: 1400px) {

@@ -70,11 +70,11 @@
 .stepper .icon-btn { width: 40px; height: 40px; }
 
 .pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill { flex: none; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: var(--surface); color: var(--sec); font-size: 15px; font-weight: 500; white-space: nowrap; box-shadow: 0 1px 2px rgba(19, 40, 80, .06); }
+.pill { flex: none; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: var(--surface); color: var(--sec); font-size: 15px; font-weight: 500; white-space: nowrap; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
 .pill[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: var(--surface); }
 .seg { display: grid; padding: 2px; gap: 2px; background: var(--fill); border-radius: 10px; }
 .seg button { min-height: 40px; border: 0; border-radius: 8px; background: transparent; font-size: 14px; font-weight: 500; }
-.seg button[aria-pressed="true"] { background: var(--brand); color: #fff; font-weight: 600; box-shadow: 0 2px 8px rgba(42, 120, 194, .25); }
+.seg button[aria-pressed="true"] { background: var(--brand); color: #fff; font-weight: 600; box-shadow: 0 2px 8px rgba(17, 17, 17, .25); }
 .group { display: flex; flex-direction: column; gap: 10px; }
 .group-head { display: flex; align-items: baseline; justify-content: space-between; }
 /* interesses: grade em mosaico, cada cartão com sua própria ilustração que ganha vida ao ser escolhido */
