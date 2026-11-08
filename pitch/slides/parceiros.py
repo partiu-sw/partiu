@@ -8,7 +8,7 @@ TELAS = [('parceiro-mapa', 'Mapa'), ('parceiro-roteiro', 'Roteiro'), ('parceiro-
 def b64(n): return 'data:image/png;base64,' + base64.b64encode(open(os.path.join(M, f'celular-{n}.png'), 'rb').read()).decode()
 cols = ''.join(f'<figure><img src="{b64(n)}"><figcaption><b>{i+1}</b>{t}</figcaption></figure>' for i, (n, t) in enumerate(TELAS))
 html = f'''<!doctype html><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
-<style>html{{filter:grayscale(1)}} html,body{{margin:0;width:1920px;height:1080px;background:#fff;font-family:Montserrat,sans-serif;color:#111;overflow:hidden}}
+<style>html,body{{margin:0;width:1920px;height:1080px;background:#fff;font-family:Montserrat,sans-serif;color:#111;overflow:hidden}}
 .k{{position:absolute;top:70px;width:100%;text-align:center;font-size:20px;font-weight:700;letter-spacing:4px;color:#8A8A8E}}
 h1{{position:absolute;top:80px;width:100%;margin:0;text-align:center;font-size:64px;font-weight:800;letter-spacing:-1.5px}}
 .row{{position:absolute;top:220px;left:0;right:0;display:flex;justify-content:center;gap:88px}}
