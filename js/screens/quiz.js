@@ -101,28 +101,33 @@ function renderQuiz() {
       <div class="ring">
         <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="trk" cx="100" cy="100" r="86"/>${ALLOC.map((a) => `<circle class="seg" cx="100" cy="100" r="86" stroke="${a[2]}"/>`).join('')}</svg>
         <div class="ring-center">
-          <label class="amount-field" for="budgetInput"><span>R$</span><input id="budgetInput" type="text" inputmode="numeric" autocomplete="off" aria-label="Orçamento total em reais"></label>
+          <p class="amount-view" aria-live="polite"><span>R$</span><b id="budgetTotal"></b></p>
           <small id="budgetDay"></small>
         </div>
       </div>
+      <div class="total-ctl"><button class="icon-btn" data-act="minus" aria-label="Diminuir o total em R$ 100">${svg('minus', 18, 2.4)}</button><span>Total da viagem</span><button class="icon-btn" data-act="plus" aria-label="Aumentar o total em R$ 100">${svg('plus', 18, 2.4)}</button></div>
+      <div class="quick" id="quick">${[1000, 2000, 3000, 5000].map((v) => `<button class="pill" data-act="quick" data-v="${v}">${money(v)}</button>`).join('')}</div>
       <p class="free" id="free"></p>
       <div class="cat-rows">${ALLOC.map(([k, l, bg], i) => `
         <div class="cat-row" data-i="${i}">
-          <i style="background:${bg}"></i><b>${l}</b>
+          <i style="background:${bg}"></i><b>${svg(k, 16, 2)}${l}</b>
           <button class="icon-btn" data-act="catMinus" data-i="${i}" aria-label="Diminuir ${l.toLowerCase()} em R$ 100">${svg('minus', 16, 2.4)}</button>
           <input class="cat-in" data-cat="${i}" type="text" inputmode="numeric" autocomplete="off" aria-label="Valor para ${l.toLowerCase()}">
           <button class="icon-btn" data-act="catPlus" data-i="${i}" aria-label="Aumentar ${l.toLowerCase()} em R$ 100">${svg('plus', 16, 2.4)}</button>
         </div>`).join('')}
       </div>
 `;
-    renderBudget(true);
+    renderBudget();
   } else if (S.step === 'prefs') {
     b.innerHTML = `
-      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Escolha quantos quiser.</p></div>
+      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque no que combina com você.</p></div>
       <div class="group">
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
-        <div class="bento">${INTERESTS.map(([k, l]) => `
-          <button class="b ${BENTO[k].cls || ''}" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}">${BENTO[k].art}<b>${l}</b><small>${BENTO[k].d}</small></button>`).join('')}
+        <div class="amen">${INTERESTS.map(([k, l], i) => `
+          <button class="am" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i}">
+            <span class="am-ic">${AM_IC[k]}</span><span class="am-ok">${svg('check', 12, 3.2)}</span>
+            <span class="am-tx"><b>${l}</b><small>${BENTO[k].d}</small></span>
+          </button>`).join('')}
         </div>
       </div>`;
     renderPrefs();
@@ -130,14 +135,32 @@ function renderQuiz() {
   updateFoot();
 }
 
+// ícones animados (traço fino, estilo Airbnb) de cada interesse; cada um tem uma parte que se mexe
+const AM = (body) => `<svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const AM_IC = {
+  praia: AM('<g class="a-sway"><path d="M6 15a10 10 0 0 1 20 0z"/><path d="M16 5v10M11 15c0-5 2-9 5-10M21 15c0-5-2-9-5-10"/></g><path d="M16 15l-3 11"/><path class="a-wave" d="M3 27c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0 4 1.5 6 0"/>'),
+  noite: AM('<path d="M20 5a9 9 0 1 0 7 13A7 7 0 0 1 20 5z"/><path class="a-twinkle" d="M8 6v3M6.5 7.5h3"/><path class="a-twinkle d2" d="M25 25v2.5M23.8 26.2h2.4"/>'),
+  comida: AM('<path d="M9 4v24M6 4v6a3 3 0 0 0 6 0V4"/><g class="a-bob"><path d="M22 28V4c-3 1.5-4.5 5.5-4.5 10v3H22"/></g>'),
+  compras: AM('<g class="a-swing"><path d="M7 11h18l-1.5 16h-15z"/><path d="M12 11V9a4 4 0 0 1 8 0v2"/></g>'),
+  cultura: AM('<path d="M4 13l12-7 12 7M6 14v10M11 14v10M16 14v10M21 14v10M26 14v10M3 27h26"/><path class="a-flag" d="M16 6V2.5h4.5l-1.2 1.5 1.2 1.5H16"/>'),
+  natureza: AM('<circle class="a-sun" cx="23" cy="8" r="2.6"/><path d="M3 26l8-13 5 7 3-4 8 10z"/>'),
+  aventura: AM('<circle cx="16" cy="16" r="12"/><path class="a-needle" d="M20.5 11.5l-2.8 6.2-6.2 2.8 2.8-6.2z"/>'),
+  relax: AM('<path d="M6 13h17v6a7 7 0 0 1-7 7h-3a7 7 0 0 1-7-7z"/><path d="M23 15h2a3 3 0 0 1 0 6h-2"/><path class="a-steam" d="M11 4c-1 1.5 1 2.5 0 4M16 4c-1 1.5 1 2.5 0 4"/>')
+};
+// fotos de cada interesse (do litoral), para escolher vendo o lugar
+const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/manha-praia.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/barra-sul.jpg', relax: 'img/cafe.jpg' };
+
 function renderDestList() {
   const q = norm(S.query);
   const exact = CITIES.find((c) => norm(c.name) === q);
+  // foto e frase de cada cidade na escolha do destino
+  const CITY_PIC = { bc: 'img/praia-central.jpg', itapema: 'img/post1.jpg', portobelo: 'img/bombas.jpg', tijucas: 'img/rio-tijucas.jpg' };
+  const CITY_SUB = { bc: 'Orla, bondinho e vida noturna', itapema: 'Meia Praia e praias de trilha', portobelo: 'Ilha, mar calmo e ostras', tijucas: 'Centro histórico e beira-rio' };
   const list = exact || !q ? CITIES : CITIES.filter((c) => norm(c.name).includes(q));
   $('destList').innerHTML = list.length ? list.map((c) => `
     <button class="row-btn" data-act="city" data-id="${c.id}" aria-pressed="${c.id === S.city}">
-      <span class="ic">${svg('pin', 18)}</span>
-      <span class="tx"><strong>${c.name}</strong><small>Santa Catarina</small></span>
+      <span class="ic city-ph"><img src="${CITY_PIC[c.id] || 'img/post2.jpg'}" alt=""></span>
+      <span class="tx"><strong>${c.name}</strong><small>${CITY_SUB[c.id] || 'Santa Catarina'}</small></span>
       ${c.id === S.city ? svg('check', 20, 2.5) : ''}
     </button>`).join('') : '<p class="empty">Ainda não temos esse destino. Tente uma das cidades do litoral catarinense.</p>';
 }
@@ -167,51 +190,52 @@ function renderCal() {
     <div class="cal-grid">${cells}</div>`;
 }
 
-function renderBudget(syncInput) {
-  const input = $('budgetInput');
-  if (syncInput) input.value = S.budget.toLocaleString('pt-BR');
-  input.style.width = Math.max(2, input.value.length) + 'ch';
+// O total é definido pela pessoa (−/+ e valores rápidos); o meio do anel só mostra.
+// As categorias dividem esse total: aumentar uma tira dos outras, sem mudar o total.
+function renderBudget() {
+  if (!Array.isArray(S.alloc) || S.alloc.length !== ALLOC.length) S.alloc = DEFAULT_SPLIT.map((p) => Math.round(S.budget * p / 10) * 10);
+  const diff = S.budget - S.alloc.reduce((a, b) => a + b, 0); S.alloc[0] = Math.max(0, S.alloc[0] + diff);
+  $('budgetTotal').textContent = S.budget.toLocaleString('pt-BR');
   $('budgetDay').textContent = `${money(perDay())} por dia · ${plural(nights(), 'noite', 'noites')}`;
+  document.querySelectorAll('#quick .pill').forEach((p) => p.setAttribute('aria-pressed', +p.dataset.v === S.budget));
   renderCats();
   updateFoot();
 }
-
-// Anel: cada categoria é um arco; o trecho vazio é o que ainda está livre.
-// Uma categoria nunca passa do que sobra do total.
 const RING_C = 2 * Math.PI * 86;
 function renderCats() {
-  const total = S.budget, free = Math.max(0, total - S.alloc.reduce((a, b) => a + b, 0));
-  $('free').textContent = free ? `${money(free)} ainda livres` : 'Tudo distribuído';
+  const total = S.budget, big = S.alloc.indexOf(Math.max(...S.alloc));
+  $('free').textContent = total ? `Maior parte em ${ALLOC[big][1].toLowerCase()} · ${Math.round(S.alloc[big] / total * 100)}%` : '';
   let start = 0;
   document.querySelectorAll('.ring .seg').forEach((s, i) => {
-    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 14);
-    s.style.strokeDasharray = `${vis} ${RING_C}`;
-    s.style.strokeDashoffset = -(start + 7);
-    s.style.opacity = vis > 0 ? 1 : 0;
-    start += len;
+    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 8);
+    s.style.strokeDasharray = `${vis} ${RING_C}`; s.style.strokeDashoffset = -(start + 4); s.style.opacity = vis > 0 ? 1 : 0; start += len;
   });
   document.querySelectorAll('.cat-row').forEach((row) => {
-    const i = +row.dataset.i, inp = row.querySelector('.cat-in');
+    const i = +row.dataset.i, inp = row.querySelector('.cat-in'), others = total - S.alloc[i];
     if (document.activeElement !== inp) inp.value = money(S.alloc[i]);
-    row.querySelector('[data-act="catPlus"]').disabled = free <= 0;
+    row.querySelector('[data-act="catPlus"]').disabled = others <= 0;
     row.querySelector('[data-act="catMinus"]').disabled = S.alloc[i] <= 0;
   });
 }
+// muda uma categoria e compensa nas outras, na proporção de cada uma
 function setAlloc(i, v) {
-  const others = S.alloc.reduce((a, b) => a + b, 0) - S.alloc[i];
-  S.alloc[i] = Math.max(0, Math.min(S.budget - others, Math.round(v)));
-  renderCats();
+  v = Math.max(0, Math.min(S.budget, Math.round(v / 10) * 10));
+  let delta = v - S.alloc[i]; S.alloc[i] = v;
+  const idx = S.alloc.map((_, k) => k).filter((k) => k !== i);
+  while (delta !== 0) {
+    const pool = idx.filter((k) => (delta > 0 ? S.alloc[k] > 0 : true));
+    if (!pool.length) break;
+    const k = pool.sort((a, b) => (delta > 0 ? S.alloc[b] - S.alloc[a] : S.alloc[a] - S.alloc[b]))[0];
+    const step = delta > 0 ? Math.min(delta, S.alloc[k], 10) : Math.max(delta, -10);
+    S.alloc[k] -= step; delta -= step;
+  }
+  renderBudget();
 }
-// Quando o total muda, as categorias acompanham na mesma proporção.
-function rescale(old) {
-  if (old > 0 && S.alloc.some(Boolean)) S.alloc = S.alloc.map((a) => Math.floor(a * S.budget / old / 10) * 10);
-  else S.alloc = DEFAULT_SPLIT.map((p) => Math.floor(S.budget * p / 10) * 10);
-}
+// total novo: as categorias acompanham na mesma proporção
 function setBudget(v) {
-  const old = S.budget;
-  S.budget = Math.max(100, Math.min(100000, Math.round(v)));
-  rescale(old);
-  renderBudget(true);
+  const old = S.budget || 1; S.budget = Math.max(100, Math.min(100000, Math.round(v / 10) * 10));
+  S.alloc = S.alloc.map((a) => Math.round(a * S.budget / old / 10) * 10);
+  renderBudget();
 }
 
 // Atualiza os cartões no lugar, para as transições de seleção rodarem.
@@ -234,6 +258,7 @@ $('qBody').addEventListener('click', (e) => {
   }
   if (act === 'prevMonth') { S.monthOff--; renderCal(); }
   if (act === 'nextMonth') { S.monthOff++; renderCal(); }
+  if (act === 'quick') setBudget(+t.dataset.v);
   if (act === 'minus') setBudget(S.budget - 100);
   if (act === 'plus') setBudget(S.budget + 100);
   if (act === 'catMinus') setAlloc(+t.dataset.i, S.alloc[+t.dataset.i] - 100);
@@ -248,23 +273,14 @@ $('qBody').addEventListener('input', (e) => {
     S.city = exact ? exact.id : null;
     renderDestList(); updateFoot();
   }
-  if (t.id === 'budgetInput') {
-    const n = Math.min(100000, +t.value.replace(/\D/g, '') || 0);
-    const old = S.budget;
-    S.budget = n;
-    rescale(old);
-    t.value = n ? n.toLocaleString('pt-BR') : '';
-    renderBudget(false);
-  }
   if (t.classList.contains('cat-in')) {
     const i = +t.dataset.cat, raw = t.value.replace(/\D/g, '');
     setAlloc(i, raw ? +raw : 0);
     t.value = raw ? S.alloc[i].toLocaleString('pt-BR') : '';
   }
 });
-$('qBody').addEventListener('change', (e) => { if (e.target.id === 'budgetInput') setBudget(S.budget); });
-$('qBody').addEventListener('keydown', (e) => { if ((e.target.id === 'budgetInput' || e.target.classList.contains('cat-in')) && e.key === 'Enter') e.target.blur(); });
-$('qBody').addEventListener('focusin', (e) => { if (e.target.id === 'budgetInput' || e.target.classList.contains('cat-in')) setTimeout(() => e.target.select(), 0); });
+$('qBody').addEventListener('keydown', (e) => { if (e.target.classList.contains('cat-in') && e.key === 'Enter') e.target.blur(); });
+$('qBody').addEventListener('focusin', (e) => { if (e.target.classList.contains('cat-in')) setTimeout(() => e.target.select(), 0); });
 $('qBody').addEventListener('focusout', (e) => { if (e.target.classList.contains('cat-in')) setTimeout(renderCats, 0); });
 
 $('qNext').onclick = () => {

@@ -5,7 +5,7 @@
 <script>
 // ?embed=1: o app roda dentro dos celulares da landing, com a conta de demonstração e sem gravar nada no navegador.
 window.EMBED = new URLSearchParams(location.search).has('embed');
-if (EMBED) { document.documentElement.classList.add('embed'); try { Storage.prototype.setItem = function () {}; Storage.prototype.removeItem = function () {}; } catch (e) {} }
+if (EMBED) { document.documentElement.classList.add('embed'); try { const mem = {}; Storage.prototype.getItem = function (k) { return k in mem ? mem[k] : null; }; Storage.prototype.setItem = function (k, v) { mem[k] = String(v); }; Storage.prototype.removeItem = function (k) { delete mem[k]; }; } catch (e) {} } // dados só em memória, não mexem no navegador
 else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.documentElement.classList.add('phone-mode'); } catch (e) {} }
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -17,18 +17,18 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
-<link rel="stylesheet" href="css/base.css?v=43">
-<link rel="stylesheet" href="css/screens/onboarding.css?v=43">
-<link rel="stylesheet" href="css/screens/quiz.css?v=43">
-<link rel="stylesheet" href="css/screens/loading.css?v=43">
-<link rel="stylesheet" href="css/screens/plan.css?v=43">
-<link rel="stylesheet" href="css/screens/map.css?v=43">
-<link rel="stylesheet" href="css/screens/login.css?v=43">
-<link rel="stylesheet" href="css/screens/feed.css?v=43">
-<link rel="stylesheet" href="css/screens/conta.css?v=43">
-<link rel="stylesheet" href="css/pill.css?v=43">
-<link rel="stylesheet" href="css/motion.css?v=43">
-<link rel="stylesheet" href="css/desktop.css?v=43">
+<link rel="stylesheet" href="css/base.css?v=74">
+<link rel="stylesheet" href="css/screens/onboarding.css?v=74">
+<link rel="stylesheet" href="css/screens/quiz.css?v=74">
+<link rel="stylesheet" href="css/screens/loading.css?v=74">
+<link rel="stylesheet" href="css/screens/plan.css?v=74">
+<link rel="stylesheet" href="css/screens/map.css?v=74">
+<link rel="stylesheet" href="css/screens/login.css?v=74">
+<link rel="stylesheet" href="css/screens/feed.css?v=74">
+<link rel="stylesheet" href="css/screens/conta.css?v=74">
+<link rel="stylesheet" href="css/pill.css?v=74">
+<link rel="stylesheet" href="css/motion.css?v=74">
+<link rel="stylesheet" href="css/desktop.css?v=74">
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
@@ -38,8 +38,8 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 
   <!-- Login (MVP): redes sociais ou e-mail; conta existente vai para a viagem, conta nova para o cadastro -->
   <section id="login" class="screen" aria-label="Entrar" hidden>
-    <div class="lg-hero">
-      <img src="img/post2.jpg" alt="">
+    <div class="lg-hero" id="lgHero">
+      <div class="lg-slides" id="lgSlides"></div>
       <div class="lg-top">
         <button class="icon-btn" id="loginBack" aria-label="Voltar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
         <span class="lg-brand"><img src="brand/pin-branco.svg" alt="" width="22" height="22">Partiu</span>
@@ -68,12 +68,14 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 
   <!-- Perguntas -->
   <section id="quiz" class="screen" hidden>
+    <div class="q-top">
     <header class="q-head">
       <button class="icon-btn" id="qBack" aria-label="Voltar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <span id="qStep"></span>
       <button class="link q-skip" id="qSkip">Pular</button>
     </header>
     <div class="progress" id="qProg" role="group" aria-label="Etapas"></div>
+    </div>
     <div class="q-body" id="qBody"></div>
     <footer class="q-foot">
       <p id="qNote" hidden></p>
@@ -83,13 +85,11 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 
   <!-- Carregando -->
   <section id="loading" class="screen" hidden>
-    <div class="load-wrap">
-      <div class="load-ring" aria-hidden="true">
-        <svg viewBox="0 0 112 112"><circle class="trk" cx="56" cy="56" r="50"/><circle class="arc" id="loadArc" cx="56" cy="56" r="50"/></svg>
-        <span id="loadPct">0%</span>
-      </div>
-      <div class="load-text" aria-live="polite"><h1 id="loadTitle">Montando seu roteiro</h1><p id="loadMeta"></p></div>
-      <ul class="load-steps" id="loadSteps"></ul>
+    <div class="load-wrap think">
+      <div class="orbit" id="orbit" aria-hidden="true"><svg class="orb-ring" viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="54"/><circle class="arc" id="orbArc" cx="60" cy="60" r="54"/></svg><span class="orb-track t1"></span><span class="orb-track t2"></span><div class="spin" id="orbSpin"></div><span class="core"><img class="pin" src="brand/pin-branco.svg" alt=""><svg class="ok" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div>
+      <div class="load-text" aria-live="polite"><h1 id="loadTitle">Pensando<i class="dots"><b>.</b><b>.</b><b>.</b></i></h1><p id="loadThought"></p></div>
+      <div class="load-bar"><i id="loadBar"></i></div>
+      <p class="load-meta" id="loadMeta"></p>
     </div>
   </section>
 
@@ -111,16 +111,16 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
     <div class="choose" id="choose" role="dialog" aria-label="Como montar o roteiro" hidden>
       <header class="choose-head"><button class="icon-btn" id="chooseClose" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
       <div class="choose-body">
-        <div class="q-title"><h1>Como quer montar seu <em>roteiro?</em></h1><p class="sub" id="chooseSub"></p></div>
+        <div class="q-title"><h1>Como montar seu <em>roteiro?</em></h1><p class="sub" id="chooseSub"></p></div>
         <button class="choice" data-choose="auto">
           <img src="img/post3.jpg" alt="">
           <span class="choice-tag">Mais rápido</span>
-          <span class="choice-tx"><strong>Usar as recomendações</strong><small>O Partiu escolhe os melhores lugares e organiza os dias. Dá para mudar depois.</small></span>
+          <span class="choice-tx"><strong>Usar as recomendações</strong><small>Pronto em 1 toque</small></span>
           <span class="choice-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </button>
         <button class="choice" data-choose="manual">
           <img src="img/laranjeiras.jpg" alt="">
-          <span class="choice-tx"><strong>Escolher na mão</strong><small>Deslize os cartões e fique só com o que quiser.</small></span>
+          <span class="choice-tx"><strong>Escolher na mão</strong><small>Deslize e escolha</small></span>
           <span class="choice-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </button>
       </div>
@@ -229,21 +229,21 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/data.js?v=43"></script>
-<script src="js/core.js?v=43"></script>
-<script src="js/ui/hnav.js?v=43"></script>
-<script src="js/screens/intro.js?v=43"></script>
-<script src="js/screens/quiz.js?v=43"></script>
-<script src="js/screens/loading.js?v=43"></script>
-<script src="js/screens/plan.js?v=43"></script>
-<script src="js/screens/map.js?v=43"></script>
-<script src="js/trips.js?v=43"></script>
-<script src="js/export.js?v=43"></script>
-<script src="js/screens/feed.js?v=43"></script>
-<script src="js/screens/conta.js?v=43"></script>
-<script src="js/screens/login.js?v=43"></script>
-<script src="js/main.js?v=43"></script>
+<script src="js/data.js?v=74"></script>
+<script src="js/core.js?v=74"></script>
+<script src="js/ui/hnav.js?v=74"></script>
+<script src="js/screens/intro.js?v=74"></script>
+<script src="js/screens/quiz.js?v=74"></script>
+<script src="js/screens/loading.js?v=74"></script>
+<script src="js/screens/plan.js?v=74"></script>
+<script src="js/screens/map.js?v=74"></script>
+<script src="js/trips.js?v=74"></script>
+<script src="js/export.js?v=74"></script>
+<script src="js/screens/feed.js?v=74"></script>
+<script src="js/screens/conta.js?v=74"></script>
+<script src="js/screens/login.js?v=74"></script>
+<script src="js/main.js?v=74"></script>
 <script>window.PHONE_NATIVE = true;</script>
-<script src="js/viewmode.js?v=43"></script>
+<script src="js/viewmode.js?v=74"></script>
 </body>
 </html>

@@ -265,7 +265,7 @@ $('autoPlace').onclick = autoOrganize;
 function openChoose() {
   if (location.hash !== '#/itinerary/choose') history.replaceState(null, '', '#/itinerary/choose');
   const n = S.plan.sugg.length + S.plan.skipped.length + chosen().length;
-  $('chooseSub').textContent = `${plural(n, 'lugar', 'lugares')} em ${city().name} para ${plural(S.plan.days.length, 'dia', 'dias')}.`;
+  $('chooseSub').textContent = `${plural(n, 'lugar', 'lugares')} · ${plural(S.plan.days.length, 'dia', 'dias')}`;
   $('choose').hidden = false;
   replay($('choose').querySelector('.choose-body'), 'step-f');
 }

@@ -64,8 +64,9 @@ const MON = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out
 const QUIZ = ['dest', 'dates', 'budget', 'prefs'];
 const TODAY = 20261106;
 // Categorias do orçamento: ícone, nome e o tom usado na barra de distribuição.
-const ALLOC = [['dormir', 'Hospedagem', '#111111', '#FFFFFF'], ['comer', 'Alimentação', '#6B6B70', '#FFFFFF'], ['ver', 'Passeios', '#CFCFD3', '#1B1F27']];
-const DEFAULT_SPLIT = [0.4, 0.35, 0.25];
+// Categorias do orçamento: ícone, nome e o tom de cinza do anel (do preto ao cinza claro).
+const ALLOC = [['dormir', 'Hospedagem', '#111111'], ['comer', 'Alimentação', '#5E5E64'], ['ver', 'Passeios', '#A2A2A8'], ['aventura', 'Transporte', '#DCDCDF']];
+const DEFAULT_SPLIT = [0.4, 0.3, 0.2, 0.1];
 // [chave, nome, como aparece no texto de carregamento]
 const INTERESTS = [
   ['praia', 'Praia', 'praias'], ['noite', 'Vida noturna', 'bares'], ['comida', 'Gastronomia', 'restaurantes'],
@@ -75,7 +76,7 @@ const INTERESTS = [
 const S = {
   step: 'intro', slide: 0, city: 'bc', query: 'Balneário Camboriú', monthOff: 0,
   // Exemplo: quem já chegou e decide no destino (pesquisa de rua, nov. 2026): começa hoje, fim de semana prolongado.
-  start: 20261106, end: 20261109, budget: 2000, alloc: [800, 700, 500], maxStep: 0,
+  start: 20261106, end: 20261109, budget: 2000, alloc: [800, 600, 400, 200], maxStep: 0,
   interests: new Set(['praia', 'comida']),
   filter: 'all', sel: null
 };
@@ -153,6 +154,8 @@ function setTabbar(step) {
   };
   requestAnimationFrame(place);
   clearTimeout(setTabbar.t); setTabbar.t = setTimeout(place, 430);
+  // acompanha a largura da aba enquanto o nome aparece (evita a pílula desalinhada)
+  if (!setTabbar.ro) { setTabbar.ro = new ResizeObserver(() => { const c = bar.querySelector('[aria-current]'); if (c) { bar.style.setProperty('--ix', c.offsetLeft + 'px'); bar.style.setProperty('--iw', c.offsetWidth + 'px'); } }); bar.querySelectorAll('[data-tab]').forEach((x) => setTabbar.ro.observe(x)); }
 }
 // Reinicia uma animação de entrada num elemento (usada nas trocas de etapa e de slide).
 function replay(el, cls) {

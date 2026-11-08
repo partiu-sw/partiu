@@ -20,3 +20,54 @@
 .load-steps .st svg { opacity: 0; transform: scale(.4); transition: opacity .25s, transform .25s cubic-bezier(.3, 1.6, .5, 1); }
 .load-steps li.done .st svg { opacity: 1; transform: scale(1); }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- pensando: fotos em órbita, pensamento que se escreve e barra fina ---------- */
+.think { gap: 30px; }
+.orbit { position: relative; width: 260px; height: 260px; display: grid; place-items: center; }
+.orbit .core { position: relative; z-index: 2; width: 72px; height: 72px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; animation: think-pulse 1.6s ease-in-out infinite; }
+.orbit .core img { width: 34px; height: 34px; }
+.orbit .core::before, .orbit .core::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 1.5px solid var(--ink); opacity: 0; animation: think-ring 2.4s ease-out infinite; }
+.orbit .core::after { animation-delay: 1.2s; }
+@keyframes think-pulse { 50% { transform: scale(1.06); } }
+@keyframes think-ring { 0% { transform: scale(.8); opacity: .5; } 100% { transform: scale(2.2); opacity: 0; } }
+.orbit .pic { position: absolute; left: 50%; top: 50%; width: var(--s); height: var(--s); margin: calc(var(--s) / -2); border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,.16); transform: translate(var(--x), var(--y)); animation: pic-in .6s cubic-bezier(.34, 1.56, .64, 1) backwards, pic-float 3.6s ease-in-out infinite; animation-delay: var(--d), calc(var(--d) + .6s); }
+.orbit .pic img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes pic-in { from { transform: translate(0, 0) scale(.2); opacity: 0; } }
+@keyframes pic-float { 50% { transform: translate(var(--x), calc(var(--y) - 6px)); } }
+.orbit.done .pic { animation: pic-out .5s cubic-bezier(.4, 0, .2, 1) forwards; animation-delay: 0s; }
+@keyframes pic-out { to { transform: translate(0, 0) scale(.3); opacity: 0; } }
+.orbit.done .core { animation: none; transform: scale(1.12); transition: transform .4s cubic-bezier(.34, 1.56, .64, 1); }
+.think .load-text h1 { font-size: 26px; }
+.think .load-text p { min-height: 22px; font-size: 16px; color: var(--ink); }
+.dots b { display: inline-block; animation: dot 1.2s infinite; font-weight: 700; }
+.dots b:nth-child(2) { animation-delay: .2s; } .dots b:nth-child(3) { animation-delay: .4s; }
+@keyframes dot { 0%, 60%, 100% { opacity: .2; } 30% { opacity: 1; } }
+.load-bar { width: min(240px, 70%); height: 4px; border-radius: 2px; background: var(--fill); overflow: hidden; }
+.load-bar i { display: block; height: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); }
+.load-meta { font-size: 13px; color: var(--sec); }
+.think .load-text h1 { white-space: nowrap; text-wrap: nowrap; } .dots { display: inline-block; font-style: normal; margin-left: 1px; }
+
+/* mais vida: as fotos giram devagar em volta do pino, uma de cada vez se destaca, um anel mostra o progresso
+   e no fim o pino vira um check */
+.orbit .spin { position: absolute; inset: 0; animation: orb-spin 22s linear infinite; }
+@keyframes orb-spin { to { transform: rotate(360deg); } }
+.orbit .spin .pic img { animation: orb-unspin 22s linear infinite; }
+@keyframes orb-unspin { to { transform: rotate(-360deg); } }
+.orbit .pic { transition: box-shadow .25s, scale .3s cubic-bezier(.34, 1.56, .64, 1); }
+.orbit .pic.look { scale: 1.22; box-shadow: 0 0 0 3px var(--ink), 0 12px 26px rgba(0,0,0,.25); z-index: 3; }
+.orb-track { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 1.5px dashed var(--line); pointer-events: none; }
+.orb-track.t1 { width: 156px; height: 156px; margin: -78px; animation: orb-spin 30s linear infinite reverse; }
+.orb-track.t2 { width: 208px; height: 208px; margin: -104px; animation: orb-spin 40s linear infinite; }
+.orb-ring { position: absolute; left: 50%; top: 50%; width: 104px; height: 104px; margin: -52px; transform: rotate(-90deg); z-index: 2; }
+.orb-ring circle { fill: none; stroke-width: 3; }
+.orb-ring .trk { stroke: var(--fill); }
+.orb-ring .arc { stroke: var(--ink); stroke-linecap: round; stroke-dasharray: 339.3; stroke-dashoffset: 339.3; }
+.orbit .core { z-index: 3; }
+.orbit .core .ok { position: absolute; opacity: 0; transform: scale(.4); transition: opacity .3s, transform .4s cubic-bezier(.34, 1.56, .64, 1); }
+.orbit .core .pin { transition: opacity .2s, transform .3s; }
+.orbit.done .core .pin { opacity: 0; transform: scale(.4); }
+.orbit.done .core .ok { opacity: 1; transform: scale(1); }
+.orbit.done .spin { animation-play-state: paused; }
+.orbit.done .orb-track { opacity: 0; transition: opacity .4s; }
+.think .load-text p { transition: opacity .2s; }
+@media (prefers-reduced-motion: reduce) { .orbit .spin, .orbit .spin .pic img, .orb-track { animation: none; } }

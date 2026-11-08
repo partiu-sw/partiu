@@ -15,8 +15,8 @@
   html:not(.phone-mode) .intro-foot { align-self: center; width: min(460px, 100%); }
 
   /* login: foto grande à esquerda e o formulário à direita */
-  html:not(.phone-mode) #login { flex-direction: row; background: var(--screen); }
-  html:not(.phone-mode) #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 0 16px 16px; border-radius: 36px; }
+  html:not(.phone-mode) #login { flex-direction: row-reverse; background: var(--screen); }
+  html:not(.phone-mode) #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 16px 16px 0; border-radius: 36px; }
   html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
   html:not(.phone-mode) #login .lg-body { flex: 0 0 min(520px, 44%); justify-content: center; padding: 48px clamp(32px, 4vw, 72px); gap: 18px; }
 
@@ -27,7 +27,6 @@
   html:not(.phone-mode) .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   /* roteiro: coluna central; escolher lugares e horários como janelas no centro */
-  html:not(.phone-mode) #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose) { width: min(820px, 100%); margin-inline: auto; }
   html:not(.phone-mode) #plan .tab-head { padding-top: 36px; }
   html:not(.phone-mode) .disc { background: var(--screen); }
   html:not(.phone-mode) .disc > * { width: min(560px, 100%); margin-inline: auto; }
@@ -91,3 +90,36 @@
   html:not(.phone-mode) .th-tx strong { font-size: 30px; }
   html:not(.phone-mode) .th-wx small { display: inline; }
 }
+@media (min-width: 900px) {
+  html:not(.phone-mode) .lg-slide figcaption { left: 40px; bottom: 56px; }
+  html:not(.phone-mode) .lg-slide strong { font-size: 34px; letter-spacing: -0.8px; }
+  html:not(.phone-mode) .lg-slide span { font-size: 17px; }
+  html:not(.phone-mode) .lg-dots { left: 40px; bottom: 32px; }
+}
+@media (min-width: 900px) { html:not(.phone-mode) #login .lg-hero { clip-path: inset(0 round 36px); } }
+
+/* Roteiro, Feed e Conta: a mesma coluna centralizada, com a mesma largura nas três */
+@media (min-width: 900px) {
+  html:not(.phone-mode) #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose),
+  html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *,
+  html:not(.phone-mode) .conta-scroll > * { width: min(760px, calc(100% - 48px)); margin-left: auto; margin-right: auto; }
+  html:not(.phone-mode) .feed-seg { width: min(760px, calc(100% - 48px)); }
+  html:not(.phone-mode) .posts, html:not(.phone-mode) .stories { padding-left: 0; padding-right: 0; }
+  html:not(.phone-mode) #plan .trip-hero { margin-left: auto; margin-right: auto; }
+}
+}
+@media (min-width: 900px) {
+  html:not(.phone-mode) #login .lg-hero { margin: 16px 16px 16px 0; flex: 1 1 56%; }
+  html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
+  html:not(.phone-mode) #login .lg-body { justify-content: center; }
+}
+@media (min-width: 900px) {
+  html:not(.phone-mode) .ints { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 96px; }
+  html:not(.phone-mode) .int-natureza { grid-column: span 2; }
+  html:not(.phone-mode) .int-praia { grid-column: span 2; grid-row: span 3; }
+  html:not(.phone-mode) .int-relax { grid-column: span 2; }
+  html:not(.phone-mode) .int-compras { grid-row: span 5; }
+  html:not(.phone-mode) .int-aventura { grid-row: span 3; }
+}
+@media (min-width: 900px) { html:not(.phone-mode) .bubbles { gap: 22px 26px; padding-top: 16px; } html:not(.phone-mode) .bub-ph { width: calc(var(--s) * 1.3); height: calc(var(--s) * 1.3); } html:not(.phone-mode) .bub { width: calc(var(--s) * 1.3 + 8px); } }
+@media (min-width: 900px) { html:not(.phone-mode) .amen { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } html:not(.phone-mode) .am { min-height: 120px; flex-direction: row; align-items: center; justify-content: flex-start; gap: 18px; } html:not(.phone-mode) .am-ic { width: 40px; height: 40px; } }

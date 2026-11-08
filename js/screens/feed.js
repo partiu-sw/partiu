@@ -36,7 +36,7 @@ const kfmt = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' mil
 function renderFeed() {
   const st = feedData(), me = (S.user && S.user.name) || 'Ana';
   $('feedNew').innerHTML = svg('plus', 20, 2.2);
-  $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><img src="img/avatares/ana.svg" alt=""><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
+  $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><img src="img/avatares/ana.jpg" alt=""><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
     STORIES.map(([n, ph], i) => `<button class="story" role="listitem" style="--i:${i}" data-story="${esc(n)}"><span class="story-ring"><img src="${ph}" alt=""></span><small>${esc(n)}</small></button>`).join('');
   const all = [...st.mine, ...POSTS];
   // só a cidade da viagem aberta (as suas publicações aparecem sempre)
@@ -134,7 +134,7 @@ $('compose').addEventListener('click', (e) => {
     const txt = $('composeText').value.trim() || 'Aproveitando o dia por aqui.';
     const me = (S.user && S.user.name) || 'Ana';
     const st = feedData();
-    st.mine.unshift({ id: 'm' + Date.now(), who: me, av: 'img/avatares/ana.svg', at: me.toLowerCase().replace(/\s+/g, ''), place: composePick ? composePick.title : city().name, city: city().name, ago: 'agora', photo: composePick ? photoFor(composePick.title + ' ' + composePick.sub) || 'img/post2.jpg' : 'img/post2.jpg', text: txt, likes: 0, comments: 0, near: true, follow: true, mine: true, tag: 'Você' });
+    st.mine.unshift({ id: 'm' + Date.now(), who: me, av: 'img/avatares/ana.jpg', at: me.toLowerCase().replace(/\s+/g, ''), place: composePick ? composePick.title : city().name, city: city().name, ago: 'agora', photo: composePick ? photoFor(composePick.title + ' ' + composePick.sub) || 'img/post2.jpg' : 'img/post2.jpg', text: txt, likes: 0, comments: 0, near: true, follow: true, mine: true, tag: 'Você' });
     feedSave();
     closeCompose();
     renderFeed();

@@ -22,7 +22,8 @@
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif;
   --ease: cubic-bezier(.2, .8, .2, 1); --spring: cubic-bezier(.34, 1.56, .64, 1);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { display: block; max-width: 100%; }
@@ -79,7 +80,7 @@ em { font-style: italic; color: var(--brand); }
 .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; }
 /* telas ao vivo: o próprio app (app.html?embed=1) dentro do celular, em escala; muda junto com o app */
 .live { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #fff; isolation: isolate; -webkit-mask-image: -webkit-radial-gradient(white, black); }
-.live iframe { position: absolute; left: 0; top: 0; width: 390px; height: 844px; border: 0; transform-origin: 0 0; transform: scale(var(--k, .7)); pointer-events: none; }
+.live iframe { position: absolute; left: 0; top: 0; width: 390px; height: var(--h, 844px); border: 0; transform-origin: 0 0; transform: scale(var(--k, .7)); pointer-events: none; }
 .chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: #fff; box-shadow: 0 14px 34px rgba(0, 0, 0, .16); font-size: 14px; font-weight: 700; white-space: nowrap; animation: pop .7s var(--spring) backwards, bob 5s ease-in-out infinite; }
 .chip small { display: block; font-size: 12px; font-weight: 600; color: var(--sec); }
 .chip .d { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); flex: none; }
@@ -315,7 +316,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space
 <script>
 // Celulares da landing: cada um carrega o app de verdade na tela indicada, só quando chega perto da tela.
 const lives = document.querySelectorAll('.live');
-const fit = (el) => el.style.setProperty('--k', el.clientWidth / 390);
+// escala pela largura e estica a altura do app para preencher a tela do celular inteira (a barra fica no lugar certo)
+const fit = (el) => { const k = el.clientWidth / 390; el.style.setProperty('--k', k); el.style.setProperty('--h', (el.clientHeight / k) + 'px'); };
 const ro = new ResizeObserver((es) => es.forEach((e) => fit(e.target)));
 const lio = new IntersectionObserver((es) => es.forEach((e) => {
   if (!e.isIntersecting || e.target.dataset.on) return;

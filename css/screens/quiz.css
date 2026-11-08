@@ -1,5 +1,5 @@
 /* ---------- perguntas ---------- */
-.q-head { padding: 48px 12px 0; display: flex; align-items: center; justify-content: space-between; }
+.q-head { padding: var(--safe-top) 12px 0; display: flex; align-items: center; justify-content: space-between; }
 .q-head span { font-size: 15px; font-weight: 500; color: var(--sec); }
 .progress { margin: 2px 24px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .progress button { height: 20px; padding: 0; border: 0; background: none; display: flex; align-items: center; }
@@ -156,3 +156,111 @@
 #quiz .cal-grid > .day:nth-child(7n).in { border-radius: 0 22px 22px 0; }
 /* trilho do orçamento aparece no fundo cinza */
 #quiz .ring .trk { stroke: var(--line); }
+
+/* destino: foto redonda da cidade no lugar do pino */
+.row-btn .city-ph { width: 52px; height: 52px; padding: 0; overflow: hidden; background: var(--fill); }
+.row-btn .city-ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+.row-btn:hover .city-ph img { transform: scale(1.08); }
+.row-btn[aria-pressed="true"] .city-ph { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
+
+/* orçamento: total só para ver, no meio do anel */
+.amount-view { display: flex; align-items: baseline; justify-content: center; gap: 6px; margin: 0; }
+.amount-view span { font-size: 18px; font-weight: 600; color: var(--sec); }
+.amount-view b { font-size: 38px; font-weight: 800; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.cat-row b { display: inline-flex; align-items: center; gap: 8px; }
+.cat-row b svg { color: var(--sec); flex: none; }
+.cat-row { min-height: 56px; }
+/* linhas do orçamento alinhadas em colunas fixas */
+.cat-row { display: grid !important; grid-template-columns: 10px minmax(0, 1fr) 40px 88px 40px; align-items: center; column-gap: 10px; }
+.cat-row b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cat-row .cat-in { width: 100%; text-align: center; }
+
+/* cabeçalho das etapas fixo no topo, com um degradê branco embaixo quando o conteúdo rola por trás */
+.q-top { position: sticky; top: 0; z-index: 5; background: var(--surface); padding-bottom: 10px; }
+.q-top::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 28px; background: linear-gradient(var(--surface), rgba(255,255,255,0)); pointer-events: none; }
+/* orçamento: o total se define direto (−/+ e valores rápidos); as categorias dividem esse total */
+.total-ctl { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.total-ctl .icon-btn { width: 48px; height: 48px; border: 1px solid var(--line); }
+.total-ctl .icon-btn:hover { border-color: var(--ink); }
+.total-ctl span { font-size: 14px; font-weight: 600; color: var(--sec); min-width: 110px; text-align: center; }
+.quick { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.quick .pill { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); font-size: 14px; color: var(--ink); }
+.quick .pill[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.quick { flex-wrap: nowrap; gap: 6px; } .quick .pill { flex: 1 1 0; padding: 0 6px; font-size: 13px; min-width: 0; }
+
+/* interesses: grade de fotos; escolhido ganha contorno preto, selo de check e a foto fica viva */
+.ints { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.int { position: relative; aspect-ratio: 1 / 1.05; border: 0; padding: 0; border-radius: 24px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; display: flex; align-items: flex-end; -webkit-mask-image: -webkit-radial-gradient(white, black); animation: rise-in .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i) * 45ms); transition: transform .2s cubic-bezier(.2, .8, .2, 1); }
+.int:active { transform: scale(.96); }
+.int img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: grayscale(.85) brightness(.9); transform: scale(1.04); transition: filter .4s, transform .6s cubic-bezier(.2, .8, .2, 1); }
+.int::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.72)); }
+.int-tx { display: flex; flex-direction: column; gap: 1px; padding: 14px; }
+.int-tx b { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+.int-tx small { font-size: 12px; opacity: .85; }
+.int-ok { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.22); border: 1.5px solid rgba(255,255,255,.7); color: transparent; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background .25s, color .25s, transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.int[aria-pressed="true"] img { filter: none; transform: scale(1); }
+.int[aria-pressed="true"] { box-shadow: inset 0 0 0 3px #111; }
+.int[aria-pressed="true"]::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; box-shadow: inset 0 0 0 3px #111, inset 0 0 0 6px #fff; pointer-events: none; }
+.int[aria-pressed="true"] .int-ok { background: #111; border-color: #fff; color: #fff; transform: scale(1.08); }
+
+/* galeria: tamanhos diferentes e fotos sempre vivas (o escolhido se destaca pelo contorno e pelo check) */
+.ints { grid-auto-rows: 86px; grid-auto-flow: dense; }
+.int { aspect-ratio: auto; grid-row: span 2; }
+.int-praia, .int-compras { grid-row: span 3; }
+.int-natureza { grid-column: 1 / -1; grid-row: span 2; }
+.int img { filter: saturate(1.25) contrast(1.06) brightness(1.04); transform: scale(1.02); }
+.int[aria-pressed="true"] img { filter: saturate(1.3) contrast(1.08) brightness(1.06); }
+.int:not([aria-pressed="true"]) .int-tx { opacity: .95; }
+.int::after { background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.6)); }
+.int-noite img { filter: saturate(1.3) contrast(1.1) brightness(1.25); }
+
+/* interesses em bolhas: fotos redondas de tamanhos variados, flutuando; a escolhida cresce, ganha anel preto e check */
+.bubbles { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 14px 10px; padding: 6px 0 4px; }
+.bub { width: calc(var(--s) + 8px); border: 0; padding: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 8px; animation: bub-in .55s cubic-bezier(.34, 1.56, .64, 1) backwards; animation-delay: calc(var(--i) * 60ms); }
+.bub:nth-child(even) { margin-top: 22px; }
+@keyframes bub-in { from { opacity: 0; transform: scale(.5); } }
+.bub-ph { position: relative; width: var(--s); height: var(--s); border-radius: 50%; padding: 3px; background: transparent; box-shadow: 0 0 0 1.5px var(--line); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), box-shadow .25s; animation: bub-float 5s ease-in-out infinite; animation-delay: calc(var(--i) * -.7s); }
+@keyframes bub-float { 50% { translate: 0 -5px; } }
+.bub-ph img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: saturate(1.2) contrast(1.05); display: block; }
+.bub b { font-size: 14px; font-weight: 600; color: var(--sec); transition: color .2s; white-space: nowrap; }
+.bub-ok { position: absolute; right: 0; bottom: 2px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; border: 3px solid #fff; transform: scale(0); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1); }
+.bub:active .bub-ph { transform: scale(.92); }
+.bub[aria-pressed="true"] .bub-ph { transform: scale(1.08); box-shadow: 0 0 0 3px var(--ink), 0 10px 24px rgba(0,0,0,.18); }
+.bub[aria-pressed="true"] .bub-ok { transform: scale(1); }
+.bub[aria-pressed="true"] b { color: var(--ink); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .bub-ph { animation: none; } }
+
+/* interesses no estilo Airbnb: cartões com ícone de traço animado, nome e frase; escolhido ganha borda preta grossa */
+.amen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.am { position: relative; min-height: 112px; padding: 16px; border: 1px solid #DDDDDD; border-radius: 18px; background: #fff; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; text-align: left; color: var(--ink); animation: rise-in .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i) * 40ms); transition: border-color .15s, box-shadow .15s, background .15s, transform .15s; }
+.am:hover { border-color: var(--ink); }
+.am:active { transform: scale(.96); }
+.am[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: #F7F7F7; }
+.am-ic { display: block; width: 34px; height: 34px; }
+.am-tx { display: flex; flex-direction: column; gap: 2px; }
+.am-tx b { font-size: 16px; font-weight: 600; }
+.am-tx small { font-size: 13px; color: var(--sec); }
+.am-ok { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; transform: scale(0); transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.am[aria-pressed="true"] .am-ok { transform: scale(1); }
+/* partes que se mexem nos ícones (mais rápido quando escolhido) */
+.am svg * { transform-box: fill-box; }
+.a-sway { transform-origin: 50% 100%; animation: a-sway 3s ease-in-out infinite; }
+@keyframes a-sway { 50% { transform: rotate(-6deg); } }
+.a-wave { animation: a-wave 2s linear infinite; }
+@keyframes a-wave { 50% { transform: translateX(-2px); } }
+.a-twinkle { transform-origin: center; animation: a-tw 1.8s ease-in-out infinite; } .a-twinkle.d2 { animation-delay: .9s; }
+@keyframes a-tw { 50% { opacity: .2; transform: scale(.6); } }
+.a-bob { animation: a-bob 1.8s ease-in-out infinite; }
+@keyframes a-bob { 50% { transform: translateY(-2px); } }
+.a-swing { transform-origin: 50% 0; animation: a-swing 2.4s ease-in-out infinite; }
+@keyframes a-swing { 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+.a-flag { transform-origin: 0 50%; animation: a-flag 1.2s ease-in-out infinite; }
+@keyframes a-flag { 50% { transform: scaleX(.75); } }
+.a-sun { animation: a-sun 4s ease-in-out infinite; }
+@keyframes a-sun { 50% { transform: translateY(2px); opacity: .7; } }
+.a-needle { transform-origin: center; animation: a-needle 4s ease-in-out infinite; }
+@keyframes a-needle { 30% { transform: rotate(40deg); } 60% { transform: rotate(-20deg); } }
+.a-steam { animation: a-steam 1.8s ease-in-out infinite; }
+@keyframes a-steam { 0% { opacity: 0; transform: translateY(2px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-2px); } }
+.am[aria-pressed="true"] svg * { animation-duration: 1s; }
+@media (prefers-reduced-motion: reduce) { .am svg * { animation: none !important; } }
