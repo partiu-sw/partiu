@@ -33,7 +33,7 @@ test.describe('Mapa', () => {
     await page.locator('#mapDays [data-d]').first().click();
     const ir = page.locator('[data-now]').first();
     test.skip(!(await ir.isVisible().catch(() => false)), 'sem sugestões abertas agora');
-    const nome = (await ir.getAttribute('aria-label')).replace('Ir agora para ', '');
+    const nome = (await ir.getAttribute('aria-label')).replace('Ir agora para ', '').replace(/, [^,]+$/, ''); // tira a distância do fim
     await ir.click();
     await expect(page.locator('#mapNote')).toContainText(nome);
     expect(await page.evaluate((n) => S.plan.days[0].concat(S.plan.picked).some((x) => x.title === n), nome)).toBe(true);

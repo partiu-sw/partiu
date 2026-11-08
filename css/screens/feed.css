@@ -65,3 +65,10 @@
 /* publicação patrocinada de parceiro */
 .post.sponsored { border: 1.5px solid var(--ink); }
 .post.sponsored { border-radius: 28px; overflow: hidden; }
+
+/* stories de parceiros: anel mais grosso, estrela e rótulo "Parceiro" */
+.story.pt .story-ring { padding: 3px; background: #111; overflow: visible; }
+.story.pt .story-ring img { inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); }
+.story-pt { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: #111; color: #FFD34D; border: 2px solid var(--screen); display: grid; place-items: center; }
+.story.pt small { color: var(--ink); font-weight: 700; }
+.story.pt em { margin-top: -4px; font-style: normal; font-size: 10px; font-weight: 800; color: #fff; background: #111; padding: 1px 7px; border-radius: 999px; }

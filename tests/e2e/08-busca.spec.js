@@ -31,7 +31,9 @@ test.describe('Busca', () => {
   });
 
   test('escolher um resultado mostra no mapa; adicionar e fechar', async ({ page }) => {
-    await page.locator('#searchInput').fill('Sorveteria');
+    // um parceiro que ainda não está no roteiro (a Sorveteria já entra no plano como parceira)
+    const nome = await page.evaluate(() => searchPool().find((p) => !inPlan(p) && p.icon !== 'dormir').name);
+    await page.locator('#searchInput').fill(nome);
     await page.locator('#searchList [data-res]').first().click();
     await expect(page.locator('#searchView')).toBeHidden();
     await expect(page.locator('#found')).toBeVisible();
@@ -44,7 +46,9 @@ test.describe('Busca', () => {
   });
 
   test('resultado já no roteiro leva para organizar', async ({ page }) => {
-    await page.locator('#searchList [data-res]').nth(1).click();
+    const nome = await page.evaluate(() => searchPool().find((p) => !inPlan(p) && p.icon !== 'dormir').name);
+    await page.locator('#searchInput').fill(nome);
+    await page.locator('#searchList [data-res]').first().click();
     await page.locator('#found [data-found="add"]').click();
     await page.locator('#found [data-found="plan"]').click();
     await rota(page, '/itinerary');

@@ -49,7 +49,10 @@ function renderFeed() {
   const st = feedData(), me = (S.user && S.user.name) || 'Ana';
   $('feedNew').innerHTML = svg('plus', 20, 2.2);
   $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><img src="img/avatares/ana.jpg" alt=""><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
+    // modelo de negócio: parceiros da cidade aparecem primeiro nos stories, com selo e anel preto grosso
+    (typeof partnerPool === 'function' ? partnerPool() : []).slice(0, 2).map((q, i) => `<button class="story pt" role="listitem" style="--i:${i}" data-offer="${q.id}" aria-label="${esc(q.name)}, parceiro: ${esc(partnerOf(q.name).offer)}"><span class="story-ring"><img src="${photoFor(q.name + ' ' + q.sub) || 'img/cafe.jpg'}" alt=""><i class="story-pt">${PARTNER_IC}</i></span><small>${esc(q.name.split(' ')[0])}</small><em>Parceiro</em></button>`).join('') +
     STORIES.map(([n, ph], i) => `<button class="story" role="listitem" style="--i:${i}" data-story="${esc(n)}"><span class="story-ring"><img src="${ph}" alt=""></span><small>${esc(n)}</small></button>`).join('');
+  $('stories').onclick = (e) => { const b = e.target.closest('[data-offer]'); if (!b) return; const q = searchPool().find((x) => x.id === b.dataset.offer); go('main'); setTimeout(() => showFound(q), 450); };
   // modelo de negócio: um parceiro da cidade aparece como publicação patrocinada, com a oferta
   window.SPONSORED = (typeof partnerPool === 'function' ? partnerPool() : []).slice(0, 1).map((q) => ({
     id: 'sp-' + q.id, who: q.name, at: norm(q.name).replace(/[^a-z0-9]+/g, ''), place: q.name, city: city().name, ago: 'Patrocinado',

@@ -1,18 +1,18 @@
-// Apresentação (boas-vindas): 3 telas, Continuar, pontinhos, deslizar a foto, teclado e Pular.
+// Apresentação (boas-vindas): 4 telas (uma sobre as ofertas dos parceiros), Continuar, pontinhos, deslizar a foto, teclado e Pular.
 const { test, expect, abrir, rota, deslizar } = require('./apoio');
 
 test.describe('Apresentação', () => {
   test.beforeEach(async ({ page }) => { await abrir(page, '/welcome', { session: true }); });
 
-  test('3 telas com textos diferentes; Continuar avança até o destino', async ({ page }) => {
+  test('4 telas com textos diferentes; Continuar avança até o destino', async ({ page }) => {
     const titulos = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       titulos.push(await page.locator('#introTitle').textContent());
       await expect(page.locator('#dots button.on')).toHaveCount(1);
       await expect(page.locator('#dots button').nth(i)).toHaveClass(/on/);
       await page.locator('#introNext').click();
     }
-    expect(new Set(titulos).size).toBe(3);
+    expect(new Set(titulos).size).toBe(4);
     await rota(page, '/new-trip/destination');
   });
 
@@ -34,8 +34,8 @@ test.describe('Apresentação', () => {
 
   test('os pontinhos levam direto a cada tela', async ({ page }) => {
     const dots = page.locator('#dots button');
-    await dots.nth(2).click();
-    await expect(dots.nth(2)).toHaveAttribute('aria-current', 'step');
+    await dots.nth(3).click();
+    await expect(dots.nth(3)).toHaveAttribute('aria-current', 'step');
     await expect(page.locator('#introNext')).toContainText('Começar agora');
     await dots.nth(0).click();
     await expect(dots.nth(0)).toHaveAttribute('aria-current', 'step');
@@ -55,7 +55,7 @@ test.describe('Apresentação', () => {
   });
 
   test('na última tela aparece Começar agora e o Pular some', async ({ page }) => {
-    await page.locator('#introNext').click(); await page.locator('#introNext').click();
+    for (let i = 0; i < 3; i++) await page.locator('#introNext').click();
     await expect(page.locator('#introNext')).toContainText('Começar agora');
     await expect(page.locator('#skip')).toBeHidden();
   });

@@ -4,6 +4,7 @@
 const SLIDES = [
   { photo: 'img/post2.jpg', title: 'O que fazer, já no destino', text: 'Chegou e não sabe por onde começar? O Partiu sugere o que fazer, onde comer e onde sair perto de você.' },
   { photo: 'img/post3.jpg', title: 'Tudo num lugar só', text: 'Sem pular entre Google, Instagram e o grupo da viagem. Escolha deslizando e o roteiro do dia sai pronto.' },
+  { photo: 'img/frutos-mar.jpg', title: 'Ofertas dos comércios locais', text: 'Cafés, restaurantes e passeios parceiros aparecem em destaque no mapa com descontos só para quem usa o Partiu. Para você, é grátis.' },
   { photo: 'img/cafe.jpg', title: 'Mudou o plano? A gente ajusta', text: 'Choveu, lotou ou fechou: o Partiu sugere outra opção perto de você, na hora.' }
 ];
 

@@ -239,6 +239,26 @@ h2.in .w > i, .w.in > i { transform: none; }
 .plan b i { font-size: 15px; font-style: normal; opacity: .6; }
 .plan span { font-size: 14px; opacity: .8; line-height: 1.35; }
 @media (max-width: 600px) { .plans { grid-template-columns: 1fr; } }
+/* modelo de negócio: grátis para o turista, o comércio paga pelo destaque */
+.money { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-top: 56px; align-items: stretch; }
+.flow { border-radius: 48px; background: #111; color: #fff; padding: clamp(28px, 4vw, 52px); display: flex; flex-direction: column; gap: 14px; }
+.fl { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 999px; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+.fl.on { background: #fff; color: #111; box-shadow: none; }
+.fl .ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #111; }
+.fl.on .ic { background: #111; color: #FFD34D; }
+.fl b { display: block; font-size: clamp(18px, 1.8vw, 22px); font-weight: 800; letter-spacing: -0.3px; }
+.fl small { font-size: 15px; opacity: .7; }
+.fl .pr { font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.fl .pr i { font-style: normal; font-size: 15px; opacity: .6; }
+.flow .arrow { align-self: center; opacity: .5; animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(5px); } }
+.flow p { margin: 8px 0 0; font-size: 15px; opacity: .6; }
+.mphone-wrap { border-radius: 48px; background: var(--soft); display: grid; place-items: center; padding: 36px 20px; position: relative; overflow: hidden; }
+.mphone-wrap .phone { width: min(290px, 100%); animation: none; }
+.mphone-wrap .badge { position: absolute; left: 24px; top: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px; background: #111; color: #fff; font-size: 14px; font-weight: 800; box-shadow: 0 8px 24px rgba(0,0,0,.2); animation: bob 2.2s ease-in-out infinite; }
+@media (max-width: 900px) { .money { grid-template-columns: 1fr; } .fl { grid-template-columns: 48px 1fr; border-radius: 32px; } .fl .ic { width: 48px; height: 48px; } .fl .pr { grid-column: 2; } }
+@media (prefers-reduced-motion: reduce) { .flow .arrow, .mphone-wrap .badge { animation: none; } }
+
 </style>
 </head>
 <body>
@@ -246,7 +266,7 @@ h2.in .w > i, .w.in > i { transform: none; }
 
 <header class="nav">
   <a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a>
-  <nav class="nav-links" aria-label="Seções"><a href="#como">Como funciona</a><a href="#telas">O app</a><a href="#comercio">Para comércios</a></nav>
+  <nav class="nav-links" aria-label="Seções"><a href="#como">Como funciona</a><a href="#telas">O app</a><a href="#modelo">Modelo de negócio</a><a href="#comercio">Para comércios</a></nav>
   <a class="pill blue" href="app.html#/login">Abrir o app</a>
 </header>
 
@@ -328,6 +348,27 @@ h2.in .w > i, .w.in > i { transform: none; }
       <p class="src reveal">22 respostas e 7 entrevistas em Itapema, nov. 2026. <a href="https://claude.ai/artifact/UzgeCmsFM7PdX49H1SjFuj" target="_blank" rel="noopener">Ver a pesquisa</a></p>
     </div>
   </div>
+
+  <section id="modelo">
+    <div class="wrap">
+      <span class="kicker reveal">Modelo de negócio</span>
+      <h2 class="reveal" style="--d:.08s">Grátis pra quem viaja. <em>O comércio paga.</em></h2>
+      <div class="money">
+        <div class="flow reveal" style="--d:.1s">
+          <div class="fl"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><span><b>O turista usa de graça</b><small>Roteiro, mapa e plano B sem pagar nada</small></span><span class="pr">R$ 0</span></div>
+          <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          <div class="fl on"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L12 17.1l-5.7 3.1 1.2-6.3-4.7-4.4 6.4-.8z"/></svg></span><span><b>O comércio paga o Destaque</b><small>Pino no mapa, roteiro, busca e feed</small></span><span class="pr">R$ 99<i>/mês</i></span></div>
+          <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          <div class="fl"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7H8a2.5 2.5 0 1 1 0-5c3 0 4 5 4 5zM12 7h4a2.5 2.5 0 1 0 0-5c-3 0-4 5-4 5z"/></svg></span><span><b>Oferta pra quem chega</b><small>O turista ganha desconto, o comércio ganha cliente</small></span><span class="pr">−10%</span></div>
+          <p>Modelo freemium: aparecer na busca é grátis; o Destaque é a assinatura. Valores de exemplo, em validação.</p>
+        </div>
+        <div class="mphone-wrap reveal" style="--d:.2s">
+          <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L12 17.1l-5.7 3.1 1.2-6.3-4.7-4.4 6.4-.8z"/></svg>Parceiros em destaque no mapa</span>
+          <div class="phone"><div class="live" data-route="/explore"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="comercio">
     <div class="wrap">
