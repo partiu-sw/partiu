@@ -4,8 +4,14 @@ const TRIPS_KEY = 'partiu.viagens';
 const SESSION_KEY = 'partiu.sessao';
 const tripOwner = () => (S.user && S.user.email) || 'demo@partiu.app';
 
+const FIXED_TRIP = (t) => String(t.id).startsWith('v-'); // viagens de exemplo (seedTrips)
 function readTrips() {
-  try { return JSON.parse(localStorage.getItem(TRIPS_KEY) || '{}')[tripOwner()] || []; } catch (e) { return []; }
+  try {
+    const list = JSON.parse(localStorage.getItem(TRIPS_KEY) || '{}')[tripOwner()] || [];
+    // limpa listas antigas: fixas + só a criada mais recente (ou a aberta agora)
+    const own = list.filter((t) => !FIXED_TRIP(t)).sort((a, b) => (b.id === S.tripId) - (a.id === S.tripId) || b.updated - a.updated);
+    return [...list.filter(FIXED_TRIP), ...own.slice(0, 1)];
+  } catch (e) { return []; }
 }
 function writeTrips(list) {
   try {
@@ -32,7 +38,8 @@ function saveTrip() {
     id: S.tripId, city: S.city, query: S.query, start: S.start, end: S.end, budget: S.budget, alloc: S.alloc,
     interests: [...S.interests], plan: S.plan, updated: Date.now()
   };
-  writeTrips([snap, ...readTrips().filter((t) => t.id !== S.tripId)]);
+  // é um mock: ficam só as viagens fixas de exemplo e a última que a pessoa criou
+  writeTrips([snap, ...readTrips().filter((t) => t.id !== S.tripId && FIXED_TRIP(t))]);
 }
 
 function openTrip(id) {
