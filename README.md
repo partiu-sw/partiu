@@ -10,7 +10,7 @@ O foco vem da pesquisa de rua de novembro de 2026 (`pesquisa/insights.md` e o da
 
 Não precisa de build. Abra `index.html` para ver a página de apresentação e `app.html` para seguir o app do começo. Localmente, `telas.html` mostra todas as telas lado a lado (essa página não vai para o site publicado).
 
-Publicado na Vercel: https://partiu-blue.vercel.app (o app fica em `/app`).
+Publicado na Vercel: https://swpartiu.vercel.app (o app fica em `/app`).
 
 A página de apresentação do projeto, com o modelo de negócio e o formulário para comércios, é o `index.html`.
 
