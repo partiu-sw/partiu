@@ -229,3 +229,38 @@
 .bub[aria-pressed="true"] .bub-ok { transform: scale(1); }
 .bub[aria-pressed="true"] b { color: var(--ink); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .bub-ph { animation: none; } }
+
+/* interesses no estilo Airbnb: cartões com ícone de traço animado, nome e frase; escolhido ganha borda preta grossa */
+.amen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.am { position: relative; min-height: 112px; padding: 16px; border: 1px solid #DDDDDD; border-radius: 18px; background: #fff; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; text-align: left; color: var(--ink); animation: rise-in .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i) * 40ms); transition: border-color .15s, box-shadow .15s, background .15s, transform .15s; }
+.am:hover { border-color: var(--ink); }
+.am:active { transform: scale(.96); }
+.am[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: #F7F7F7; }
+.am-ic { display: block; width: 34px; height: 34px; }
+.am-tx { display: flex; flex-direction: column; gap: 2px; }
+.am-tx b { font-size: 16px; font-weight: 600; }
+.am-tx small { font-size: 13px; color: var(--sec); }
+.am-ok { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; transform: scale(0); transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.am[aria-pressed="true"] .am-ok { transform: scale(1); }
+/* partes que se mexem nos ícones (mais rápido quando escolhido) */
+.am svg * { transform-box: fill-box; }
+.a-sway { transform-origin: 50% 100%; animation: a-sway 3s ease-in-out infinite; }
+@keyframes a-sway { 50% { transform: rotate(-6deg); } }
+.a-wave { animation: a-wave 2s linear infinite; }
+@keyframes a-wave { 50% { transform: translateX(-2px); } }
+.a-twinkle { transform-origin: center; animation: a-tw 1.8s ease-in-out infinite; } .a-twinkle.d2 { animation-delay: .9s; }
+@keyframes a-tw { 50% { opacity: .2; transform: scale(.6); } }
+.a-bob { animation: a-bob 1.8s ease-in-out infinite; }
+@keyframes a-bob { 50% { transform: translateY(-2px); } }
+.a-swing { transform-origin: 50% 0; animation: a-swing 2.4s ease-in-out infinite; }
+@keyframes a-swing { 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+.a-flag { transform-origin: 0 50%; animation: a-flag 1.2s ease-in-out infinite; }
+@keyframes a-flag { 50% { transform: scaleX(.75); } }
+.a-sun { animation: a-sun 4s ease-in-out infinite; }
+@keyframes a-sun { 50% { transform: translateY(2px); opacity: .7; } }
+.a-needle { transform-origin: center; animation: a-needle 4s ease-in-out infinite; }
+@keyframes a-needle { 30% { transform: rotate(40deg); } 60% { transform: rotate(-20deg); } }
+.a-steam { animation: a-steam 1.8s ease-in-out infinite; }
+@keyframes a-steam { 0% { opacity: 0; transform: translateY(2px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-2px); } }
+.am[aria-pressed="true"] svg * { animation-duration: 1s; }
+@media (prefers-reduced-motion: reduce) { .am svg * { animation: none !important; } }

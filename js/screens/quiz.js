@@ -123,10 +123,10 @@ function renderQuiz() {
       <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque no que combina com você.</p></div>
       <div class="group">
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
-        <div class="bubbles">${INTERESTS.map(([k, l], i) => `
-          <button class="bub" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i};--s:${[104, 90, 98, 86, 94, 100, 88, 96][i]}px">
-            <span class="bub-ph"><img src="${INT_PIC[k]}" alt=""><span class="bub-ok">${svg('check', 16, 3)}</span></span>
-            <b>${l}</b>
+        <div class="amen">${INTERESTS.map(([k, l], i) => `
+          <button class="am" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i}">
+            <span class="am-ic">${AM_IC[k]}</span><span class="am-ok">${svg('check', 12, 3.2)}</span>
+            <span class="am-tx"><b>${l}</b><small>${BENTO[k].d}</small></span>
           </button>`).join('')}
         </div>
       </div>`;
@@ -135,6 +135,18 @@ function renderQuiz() {
   updateFoot();
 }
 
+// ícones animados (traço fino, estilo Airbnb) de cada interesse; cada um tem uma parte que se mexe
+const AM = (body) => `<svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const AM_IC = {
+  praia: AM('<g class="a-sway"><path d="M6 15a10 10 0 0 1 20 0z"/><path d="M16 5v10M11 15c0-5 2-9 5-10M21 15c0-5-2-9-5-10"/></g><path d="M16 15l-3 11"/><path class="a-wave" d="M3 27c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0 4 1.5 6 0"/>'),
+  noite: AM('<path d="M20 5a9 9 0 1 0 7 13A7 7 0 0 1 20 5z"/><path class="a-twinkle" d="M8 6v3M6.5 7.5h3"/><path class="a-twinkle d2" d="M25 25v2.5M23.8 26.2h2.4"/>'),
+  comida: AM('<path d="M9 4v24M6 4v6a3 3 0 0 0 6 0V4"/><g class="a-bob"><path d="M22 28V4c-3 1.5-4.5 5.5-4.5 10v3H22"/></g>'),
+  compras: AM('<g class="a-swing"><path d="M7 11h18l-1.5 16h-15z"/><path d="M12 11V9a4 4 0 0 1 8 0v2"/></g>'),
+  cultura: AM('<path d="M4 13l12-7 12 7M6 14v10M11 14v10M16 14v10M21 14v10M26 14v10M3 27h26"/><path class="a-flag" d="M16 6V2.5h4.5l-1.2 1.5 1.2 1.5H16"/>'),
+  natureza: AM('<circle class="a-sun" cx="23" cy="8" r="2.6"/><path d="M3 26l8-13 5 7 3-4 8 10z"/>'),
+  aventura: AM('<circle cx="16" cy="16" r="12"/><path class="a-needle" d="M20.5 11.5l-2.8 6.2-6.2 2.8 2.8-6.2z"/>'),
+  relax: AM('<path d="M6 13h17v6a7 7 0 0 1-7 7h-3a7 7 0 0 1-7-7z"/><path d="M23 15h2a3 3 0 0 1 0 6h-2"/><path class="a-steam" d="M11 4c-1 1.5 1 2.5 0 4M16 4c-1 1.5 1 2.5 0 4"/>')
+};
 // fotos de cada interesse (do litoral), para escolher vendo o lugar
 const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/manha-praia.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/barra-sul.jpg', relax: 'img/cafe.jpg' };
 
