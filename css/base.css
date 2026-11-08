@@ -5,6 +5,8 @@ img { max-width: 100%; }
 
 /* Layout: um celular centralizado no desktop e em tela cheia no telefone. Tema claro com azul-marinho de destaque. */
 :root {
+  /* espaço padrão do topo até o conteúdo (área da barra de status / notch), igual em todas as telas */
+  --safe-top: max(52px, calc(env(safe-area-inset-top) + 14px));
   --bg: #FFFFFF;
   --surface: #FFFFFF;
   --fill: #F4F4F5; /* fundos suaves em cinza bem claro */
@@ -87,7 +89,7 @@ h1 em { font-style: italic; color: var(--brand); }
 /* painéis por cima (escolher lugares, horários, busca, publicar) escondem a barra */
 .phone:has(.disc:not([hidden]), .choose:not([hidden]), #when:not([hidden]), .search-view:not([hidden]), .compose-wrap:not([hidden]), #main.has-found) .tabbar { opacity: 0; pointer-events: none; transform: translate(-50%, 140%); }
 /* cabeçalho das abas: título grande, como no restante do app */
-.tab-head { flex: none; display: flex; align-items: center; gap: 12px; padding: 52px 20px 6px; }
+.tab-head { flex: none; display: flex; align-items: center; gap: 12px; padding: calc(var(--safe-top) + 4px) 20px 6px; }
 .tab-title { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .tab-title h1 { font-size: 30px; }
 .tab-title span { font-size: 14px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -117,3 +119,8 @@ html.embed .dev-link, html.embed .view-toggle, html.embed .device-ui { display: 
 /* o iPhone mantém a proporção real (402 × 874): em janelas baixas ele diminui inteiro, em vez de encurtar */
 @media (min-width: 501px) and (max-width: 899px) { .phone { zoom: var(--phone-k, 1); } }
 @media (min-width: 900px) { html.phone-mode .phone { zoom: var(--phone-k, 1); } }
+
+/* dentro da moldura de iPhone (Dynamic Island desenhada), o conteúdo começa mais abaixo, em todas as telas */
+@media (min-width: 501px) and (max-width: 899px) { :root { --safe-top: 68px; } }
+@media (min-width: 900px) { html.phone-mode { --safe-top: 68px; } }
+html.embed { --safe-top: 52px; }

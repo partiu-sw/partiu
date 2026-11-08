@@ -1,5 +1,5 @@
 /* ---------- apresentação: foto em tela cheia, texto branco e botão de vidro ---------- */
-#intro { padding: 52px 24px 34px; color: #fff; background: #0B2A52; }
+#intro { padding: calc(var(--safe-top) + 4px) 24px 34px; color: #fff; background: #0B2A52; }
 #intro > * { position: relative; z-index: 1; }
 #intro > .illus { position: absolute; inset: 0; z-index: 0; }
 .illus img { width: 100%; height: 100%; object-fit: cover; display: block; }

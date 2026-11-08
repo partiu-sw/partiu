@@ -1,5 +1,5 @@
 /* ---------- perguntas ---------- */
-.q-head { padding: 48px 12px 0; display: flex; align-items: center; justify-content: space-between; }
+.q-head { padding: var(--safe-top) 12px 0; display: flex; align-items: center; justify-content: space-between; }
 .q-head span { font-size: 15px; font-weight: 500; color: var(--sec); }
 .progress { margin: 2px 24px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .progress button { height: 20px; padding: 0; border: 0; background: none; display: flex; align-items: center; }
@@ -162,3 +162,15 @@
 .row-btn .city-ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
 .row-btn:hover .city-ph img { transform: scale(1.08); }
 .row-btn[aria-pressed="true"] .city-ph { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
+
+/* orçamento: total só para ver, no meio do anel */
+.amount-view { display: flex; align-items: baseline; justify-content: center; gap: 6px; margin: 0; }
+.amount-view span { font-size: 18px; font-weight: 600; color: var(--sec); }
+.amount-view b { font-size: 38px; font-weight: 800; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.cat-row b { display: inline-flex; align-items: center; gap: 8px; }
+.cat-row b svg { color: var(--sec); flex: none; }
+.cat-row { min-height: 56px; }
+/* linhas do orçamento alinhadas em colunas fixas */
+.cat-row { display: grid !important; grid-template-columns: 10px minmax(0, 1fr) 40px 88px 40px; align-items: center; column-gap: 10px; }
+.cat-row b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cat-row .cat-in { width: 100%; text-align: center; }

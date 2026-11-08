@@ -101,21 +101,21 @@ function renderQuiz() {
       <div class="ring">
         <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="trk" cx="100" cy="100" r="86"/>${ALLOC.map((a) => `<circle class="seg" cx="100" cy="100" r="86" stroke="${a[2]}"/>`).join('')}</svg>
         <div class="ring-center">
-          <label class="amount-field" for="budgetInput"><span>R$</span><input id="budgetInput" type="text" inputmode="numeric" autocomplete="off" aria-label="Orçamento total em reais"></label>
+          <p class="amount-view" aria-live="polite"><span>R$</span><b id="budgetTotal"></b></p>
           <small id="budgetDay"></small>
         </div>
       </div>
       <p class="free" id="free"></p>
       <div class="cat-rows">${ALLOC.map(([k, l, bg], i) => `
         <div class="cat-row" data-i="${i}">
-          <i style="background:${bg}"></i><b>${l}</b>
+          <i style="background:${bg}"></i><b>${svg(k, 16, 2)}${l}</b>
           <button class="icon-btn" data-act="catMinus" data-i="${i}" aria-label="Diminuir ${l.toLowerCase()} em R$ 100">${svg('minus', 16, 2.4)}</button>
           <input class="cat-in" data-cat="${i}" type="text" inputmode="numeric" autocomplete="off" aria-label="Valor para ${l.toLowerCase()}">
           <button class="icon-btn" data-act="catPlus" data-i="${i}" aria-label="Aumentar ${l.toLowerCase()} em R$ 100">${svg('plus', 16, 2.4)}</button>
         </div>`).join('')}
       </div>
 `;
-    renderBudget(true);
+    renderBudget();
   } else if (S.step === 'prefs') {
     b.innerHTML = `
       <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Escolha quantos quiser.</p></div>
@@ -170,52 +170,40 @@ function renderCal() {
     <div class="cal-grid">${cells}</div>`;
 }
 
-function renderBudget(syncInput) {
-  const input = $('budgetInput');
-  if (syncInput) input.value = S.budget.toLocaleString('pt-BR');
-  input.style.width = Math.max(2, input.value.length) + 'ch';
+// O total é a soma das categorias: o meio do anel só mostra; cada + e − muda a categoria e o total junto.
+function renderBudget() {
+  if (!Array.isArray(S.alloc) || S.alloc.length !== ALLOC.length) S.alloc = DEFAULT_SPLIT.map((p) => Math.round(S.budget * p / 10) * 10);
+  S.budget = S.alloc.reduce((a, b) => a + b, 0);
+  $('budgetTotal').textContent = S.budget.toLocaleString('pt-BR');
   $('budgetDay').textContent = `${money(perDay())} por dia · ${plural(nights(), 'noite', 'noites')}`;
   renderCats();
   updateFoot();
 }
-
-// Anel: cada categoria é um arco; o trecho vazio é o que ainda está livre.
-// Uma categoria nunca passa do que sobra do total.
 const RING_C = 2 * Math.PI * 86;
 function renderCats() {
-  const total = S.budget, free = Math.max(0, total - S.alloc.reduce((a, b) => a + b, 0));
-  $('free').textContent = free ? `${money(free)} ainda livres` : 'Tudo distribuído';
+  const total = S.budget;
+  const big = S.alloc.indexOf(Math.max(...S.alloc));
+  $('free').textContent = total ? `Maior parte em ${ALLOC[big][1].toLowerCase()} · ${Math.round(S.alloc[big] / total * 100)}%` : 'Toque em + para começar';
   let start = 0;
   document.querySelectorAll('.ring .seg').forEach((s, i) => {
-    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 14);
+    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 8);
     s.style.strokeDasharray = `${vis} ${RING_C}`;
-    s.style.strokeDashoffset = -(start + 7);
+    s.style.strokeDashoffset = -(start + 4);
     s.style.opacity = vis > 0 ? 1 : 0;
     start += len;
   });
   document.querySelectorAll('.cat-row').forEach((row) => {
     const i = +row.dataset.i, inp = row.querySelector('.cat-in');
     if (document.activeElement !== inp) inp.value = money(S.alloc[i]);
-    row.querySelector('[data-act="catPlus"]').disabled = free <= 0;
+    row.querySelector('[data-act="catPlus"]').disabled = S.budget >= 100000;
     row.querySelector('[data-act="catMinus"]').disabled = S.alloc[i] <= 0;
   });
 }
 function setAlloc(i, v) {
-  const others = S.alloc.reduce((a, b) => a + b, 0) - S.alloc[i];
-  S.alloc[i] = Math.max(0, Math.min(S.budget - others, Math.round(v)));
-  renderCats();
+  S.alloc[i] = Math.max(0, Math.min(50000, Math.round(v)));
+  renderBudget();
 }
-// Quando o total muda, as categorias acompanham na mesma proporção.
-function rescale(old) {
-  if (old > 0 && S.alloc.some(Boolean)) S.alloc = S.alloc.map((a) => Math.floor(a * S.budget / old / 10) * 10);
-  else S.alloc = DEFAULT_SPLIT.map((p) => Math.floor(S.budget * p / 10) * 10);
-}
-function setBudget(v) {
-  const old = S.budget;
-  S.budget = Math.max(100, Math.min(100000, Math.round(v)));
-  rescale(old);
-  renderBudget(true);
-}
+function setBudget(v) { const k = v / Math.max(1, S.budget); S.alloc = S.alloc.map((a) => Math.round(a * k / 10) * 10); renderBudget(); }
 
 // Atualiza os cartões no lugar, para as transições de seleção rodarem.
 function renderPrefs() {
@@ -251,23 +239,14 @@ $('qBody').addEventListener('input', (e) => {
     S.city = exact ? exact.id : null;
     renderDestList(); updateFoot();
   }
-  if (t.id === 'budgetInput') {
-    const n = Math.min(100000, +t.value.replace(/\D/g, '') || 0);
-    const old = S.budget;
-    S.budget = n;
-    rescale(old);
-    t.value = n ? n.toLocaleString('pt-BR') : '';
-    renderBudget(false);
-  }
   if (t.classList.contains('cat-in')) {
     const i = +t.dataset.cat, raw = t.value.replace(/\D/g, '');
     setAlloc(i, raw ? +raw : 0);
     t.value = raw ? S.alloc[i].toLocaleString('pt-BR') : '';
   }
 });
-$('qBody').addEventListener('change', (e) => { if (e.target.id === 'budgetInput') setBudget(S.budget); });
-$('qBody').addEventListener('keydown', (e) => { if ((e.target.id === 'budgetInput' || e.target.classList.contains('cat-in')) && e.key === 'Enter') e.target.blur(); });
-$('qBody').addEventListener('focusin', (e) => { if (e.target.id === 'budgetInput' || e.target.classList.contains('cat-in')) setTimeout(() => e.target.select(), 0); });
+$('qBody').addEventListener('keydown', (e) => { if (e.target.classList.contains('cat-in') && e.key === 'Enter') e.target.blur(); });
+$('qBody').addEventListener('focusin', (e) => { if (e.target.classList.contains('cat-in')) setTimeout(() => e.target.select(), 0); });
 $('qBody').addEventListener('focusout', (e) => { if (e.target.classList.contains('cat-in')) setTimeout(renderCats, 0); });
 
 $('qNext').onclick = () => {
