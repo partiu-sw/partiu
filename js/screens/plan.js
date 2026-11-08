@@ -390,7 +390,7 @@ $('when').addEventListener('click', (e) => { if (e.target === $('when')) closeWh
 /* ---------- etapa 1: escolher lugares, uma categoria por vez (direita = quero ir, esquerda = pular) ---------- */
 let lastAct = null, busy = false;
 const pendingOf = (ty) => S.plan.sugg.filter((s) => s.type === ty);
-const stagesInUse = () => STAGES.filter((k) => [...S.plan.sugg, ...S.plan.skipped, ...chosen()].some((s) => s.type === k));
+const stagesInUse = () => STAGES.filter((k) => [...S.plan.sugg, ...S.plan.skipped].some((s) => s.type === k) || chosen().some((s) => s.type === k));
 const nextStage = () => stagesInUse().find((k) => STAGES.indexOf(k) > STAGES.indexOf(stage) && pendingOf(k).length);
 function openDiscover() {
   if (!S.plan.sugg.length && S.plan.skipped.length) { S.plan.sugg = S.plan.skipped; S.plan.skipped = []; }

@@ -77,8 +77,12 @@ function enterApp(name, isNew) {
   seedTrips();
   // qualquer login começa pelo planejamento: destino, datas, orçamento e interesses.
   // Conta nova vê antes a apresentação (que termina no destino); as viagens já salvas ficam na aba Conta.
-  if (isNew) { S.slide = 0; return go('intro'); }
-  newTrip();
+  // depois de qualquer login: apresentação (3 telas) e, em seguida, o planejamento da viagem
+  S.slide = 0;
+  if (!isNew) saveTrip();
+  Object.assign(S, { tripId: null, plan: null, maxStep: 0, monthOff: 0, sel: null });
+  planSig = ''; mapPlan = null;
+  go('intro');
 }
 function loginError(show) { const e = $('loginErr'); if (e) e.hidden = !show; }
 

@@ -48,7 +48,7 @@
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "13px 15px 16px 17px 30px",
+  "fontSizes": "12px 15px 16px 17px 30px",
   "errs": []
  },
  "celular/orcamento": {
@@ -97,41 +97,45 @@
  },
  "celular/montar": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
-  "cut": [],
+  "cut": [
+   "Praia · Av. Atlântica",
+   "Cantina da Barra",
+   "Italiana · Barra Sul",
+   "Mirante · Nações"
+  ],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
   "errs": []
  },
  "celular/escolher": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
-  "cut": [],
+  "cut": [
+   "Praia · Av. Atlântica",
+   "Cantina da Barra",
+   "Italiana · Barra Sul",
+   "Mirante · Nações"
+  ],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
   "errs": []
  },
  "celular/explorar": {
   "small": [
-   "OpenFreeMap 67x12",
+   "OpenFreeMap 60x11",
    "Expandir ou recolher a lista 390x22"
   ],
   "overflowX": [],
@@ -144,7 +148,7 @@
  },
  "celular/explorar-aberto": {
   "small": [
-   "OpenFreeMap 67x12",
+   "OpenFreeMap 60x11",
    "Buscar lugares e empresas 35x35",
    "Mostrar minha localização 35x35",
    "Expandir ou recolher a lista 390x22"
@@ -159,7 +163,7 @@
  },
  "celular/explorar-busca": {
   "small": [
-   "OpenFreeMap 67x12",
+   "OpenFreeMap 60x11",
    "Expandir ou recolher a lista 390x22"
   ],
   "overflowX": [],
@@ -172,36 +176,40 @@
  },
  "celular/roteiro": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
-  "cut": [],
+  "cut": [
+   "Praia · Av. Atlântica",
+   "Cantina da Barra",
+   "Italiana · Barra Sul",
+   "Mirante · Nações"
+  ],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 20px 22px 30px",
+  "fontSizes": "11px 12px 13px 14px 15px 16px 20px 22px 30px",
   "errs": []
  },
  "celular/roteiro-horario": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
-  "cut": [],
+  "cut": [
+   "Praia · Av. Atlântica",
+   "Cantina da Barra",
+   "Italiana · Barra Sul",
+   "Mirante · Nações"
+  ],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
   "errs": []
  },
  "celular/feed": {
@@ -235,9 +243,7 @@
  "celular/conta": {
   "small": [],
   "overflowX": [],
-  "cut": [
-   "18–21 dez · roteiro por montar"
-  ],
+  "cut": [],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
@@ -293,7 +299,7 @@
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "13px 15px 16px 17px 30px",
+  "fontSizes": "12px 15px 16px 17px 30px",
   "errs": []
  },
  "desktop/orcamento": {
@@ -340,41 +346,35 @@
  },
  "desktop/montar": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
   "cut": [],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "fontSizes": "10px 11px 12px 13px 14px 15px 16px 17px 20px 22px 26px 30px",
   "errs": []
  },
  "desktop/escolher": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
   "cut": [],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
+  "fontSizes": "10px 11px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
   "errs": []
  },
  "desktop/explorar": {
   "small": [
-   "OpenFreeMap 67x12"
+   "OpenFreeMap 60x11"
   ],
   "overflowX": [],
   "cut": [],
@@ -386,7 +386,7 @@
  },
  "desktop/explorar-aberto": {
   "small": [
-   "OpenFreeMap 67x12"
+   "OpenFreeMap 60x11"
   ],
   "overflowX": [],
   "cut": [],
@@ -398,7 +398,7 @@
  },
  "desktop/explorar-busca": {
   "small": [
-   "OpenFreeMap 67x12"
+   "OpenFreeMap 60x11"
   ],
   "overflowX": [],
   "cut": [],
@@ -410,36 +410,30 @@
  },
  "desktop/roteiro": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
   "cut": [],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 20px 22px 30px",
+  "fontSizes": "10px 11px 12px 13px 14px 15px 16px 20px 22px 30px",
   "errs": []
  },
  "desktop/roteiro-horario": {
   "small": [
-   "Tirar Café Atlântico do dia 30x32",
-   "Adicionar um lugar depois de C 28x30",
-   "Tirar Praia Central do dia 30x32",
-   "Adicionar um lugar depois de P 28x30",
-   "Tirar Cantina da Barra do dia 30x32",
-   "Adicionar um lugar depois de C 28x30"
+   "Adicionar um lugar depois de C 32x44",
+   "Adicionar um lugar depois de P 32x44",
+   "Adicionar um lugar depois de C 32x44"
   ],
   "overflowX": [],
   "cut": [],
   "noAlt": 0,
   "broken": [],
   "iconOnlyNoLabel": 0,
-  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "fontSizes": "10px 11px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
   "errs": []
  },
  "desktop/feed": {

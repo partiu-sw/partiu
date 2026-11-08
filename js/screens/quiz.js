@@ -186,7 +186,7 @@ function renderCal() {
         <button class="icon-btn" data-act="nextMonth" aria-label="Próximo mês">${svg('chevR', 18, 2.4)}</button>
       </div>
     </div>
-    <div class="cal-week" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+    <div class="cal-week" aria-hidden="true">${WEEK.map((w) => `<span>${w}</span>`).join('')}</div>
     <div class="cal-grid">${cells}</div>`;
 }
 

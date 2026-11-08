@@ -42,7 +42,7 @@
 @keyframes pop-in { from { opacity: 0; transform: scale(.94); } }
 .ev-time { min-height: 48px; border: 0; border-radius: 10px; background: none; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; padding: 0 4px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: left; }
 .ev-time:hover { background: var(--fill); }
-.ev-time small { font-size: 10px; font-weight: 500; color: var(--sec); }
+.ev-time small { font-size: 11px; font-weight: 500; color: var(--sec); }
 .ev-card { display: flex; align-items: center; gap: 10px; padding: 6px 0 6px 6px; border-radius: 14px; background: var(--fill); }
 .ev.dragging .ev-card { opacity: .3; }
 .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
@@ -177,7 +177,7 @@
 .tl-head { padding-top: 16px; }
 .tl-head strong { font-size: 20px; }
 .tl-sum { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 2px 0 14px; animation: rise-in .4s cubic-bezier(.2, .8, .2, 1) backwards; }
-.tl-sum span { flex: none; display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 11px; border-radius: 999px; background: var(--fill); color: var(--brand); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-sum span { flex: none; display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 11px; border-radius: 999px; background: var(--fill); color: var(--brand); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .ev { grid-template-columns: 44px 20px minmax(0, 1fr); gap: 8px; }
 .ev-time { padding: 0; font-size: 15px; color: var(--ink); }
 .ev-time small { font-size: 11px; line-height: 1.2; }
@@ -238,7 +238,7 @@
 
 /* levar para fora: agenda e Google Maps */
 .tl-out, .when-out, .rt-out { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 14px; }
-.tl-out .pill, .when-out .pill, .rt-out .pill { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+.tl-out .pill, .when-out .pill, .rt-out .pill { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14px; white-space: nowrap; }
 .tl-out .pill:hover, .when-out .pill:hover, .rt-out .pill:hover { border-color: var(--ink); }
 .when-out { margin: 14px 0 4px; justify-content: center; }
 .rt-out { margin: 14px 8px 2px; }
@@ -250,3 +250,12 @@
 /* cartão de deslizar: a foto fica inteira arredondada (em cima e embaixo), com respiro dentro do cartão */
 .dcard { padding: 8px 8px 0; }
 .dcard .photo { border-radius: 18px; }
+
+/* toques confortáveis (mínimo 44px): botões pequenos ganham área invisível de toque */
+.ev-card .rm { width: 40px; height: 44px; }
+.ins { min-height: 44px; }
+.ins span { width: 32px; height: 32px; }
+.ev-card .handle { width: 28px; height: 44px; }
+/* nomes das paradas em até duas linhas, sem cortar */
+.ev-card .tx strong { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ev-card .dist { white-space: normal; }

@@ -264,3 +264,5 @@
 @keyframes a-steam { 0% { opacity: 0; transform: translateY(2px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-2px); } }
 .am[aria-pressed="true"] svg * { animation-duration: 1s; }
 @media (prefers-reduced-motion: reduce) { .am svg * { animation: none !important; } }
+.cat-row { grid-template-columns: 10px minmax(0, 1fr) 36px 84px 36px; column-gap: 8px; }
+.cat-row b svg { display: none; }

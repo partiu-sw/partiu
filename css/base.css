@@ -32,8 +32,6 @@ button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-c
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 h1, h2, p { margin: 0; }
 h1 { font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.7px; text-wrap: balance; }
-.q-title h1 { font-style: italic; font-weight: 600; color: #3A3F4A; }
-.q-title h1 em { font-weight: 700; }
 h1 em { font-style: italic; color: var(--brand); }
 
 .phone { position: relative; width: 402px; height: 874px; max-height: none; background: var(--surface); border-radius: 58px; overflow: hidden; overflow: clip; box-shadow: 0 0 0 11px #0B0B0D, 0 0 0 13px #3B3B40, 0 0 0 14px #1A1A1D, 0 40px 90px rgba(0, 0, 0, .28); } /* proporção do iPhone 17 Pro (402 × 874 pt) */
@@ -127,6 +125,15 @@ html.embed .device-ui { display: flex !important; }
 @media (min-width: 900px) { html.phone-mode { --safe-top: 68px; } }
 html.embed { --safe-top: 68px; }
 /* degradê branco no topo das telas que rolam: o conteúdo some suave embaixo da barra de status / notch */
-.phone::after { content: ""; position: absolute; z-index: 3500; left: 0; right: 0; top: 0; height: calc(var(--safe-top) + 18px); background: linear-gradient(#fff 62%, rgba(255,255,255,0)); pointer-events: none; opacity: 0; transition: opacity .2s; }
+.phone::after { content: ""; position: absolute; z-index: 3500; left: 0; right: 0; top: 0; height: var(--safe-top); background: linear-gradient(#fff 55%, rgba(255,255,255,0)); pointer-events: none; opacity: 0; transition: opacity .2s; }
 html[data-screen="plan"] .phone::after, html[data-screen="feed"] .phone::after, html[data-screen="conta"] .phone::after, html[data-screen="quiz"] .phone::after { opacity: 1; }
 @media (min-width: 900px) { html:not(.phone-mode) .phone::after { display: none; } }
+
+/* padrão único de título: grafite, negrito, só a palavra-chave em itálico (telas de etapa, abas e painéis) */
+h1, .tab-title h1, .q-title h1 { font-weight: 700; color: var(--ink); font-style: normal; letter-spacing: -0.7px; }
+h1 em { font-style: italic; color: inherit; }
+.places-head h2, .tl-head strong, .ct-sec-head h2, .sheet-head strong { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
+/* 11. cabeçalho das etapas: "Etapa x de 4" alinhado à esquerda, junto do voltar, como os outros cabeçalhos */
+.q-head { justify-content: flex-start !important; gap: 6px; }
+.q-head #qStep { flex: 1; font-size: 15px; font-weight: 600; color: var(--ink); }
+.cal-week span { text-transform: capitalize; font-size: 12px; }

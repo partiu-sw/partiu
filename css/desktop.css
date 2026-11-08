@@ -113,3 +113,11 @@
 }
 @media (min-width: 900px) { html:not(.phone-mode) .bubbles { gap: 22px 26px; padding-top: 16px; } html:not(.phone-mode) .bub-ph { width: calc(var(--s) * 1.3); height: calc(var(--s) * 1.3); } html:not(.phone-mode) .bub { width: calc(var(--s) * 1.3 + 8px); } }
 @media (min-width: 900px) { html:not(.phone-mode) .amen { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } html:not(.phone-mode) .am { min-height: 120px; flex-direction: row; align-items: center; justify-content: flex-start; gap: 18px; } html:not(.phone-mode) .am-ic { width: 40px; height: 40px; } }
+@media (min-width: 900px) {
+  html:not(.phone-mode) .choose-body { min-height: calc(100% - 80px); width: min(960px, calc(100% - 64px)); grid-auto-rows: min-content; align-content: center; }
+  html:not(.phone-mode) .choice { min-height: 440px; }
+  html:not(.phone-mode) .choice-tx strong { font-size: 26px; }
+  html:not(.phone-mode) #intro { overflow: hidden; }
+  html:not(.phone-mode) .illus { overflow: hidden; inset: 0; }
+}
+@media (min-width: 900px) { html:not(.phone-mode) .choose-body { margin-left: auto !important; margin-right: auto !important; } html:not(.phone-mode) .choose { align-items: stretch; } }
