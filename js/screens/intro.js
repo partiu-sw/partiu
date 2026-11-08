@@ -8,41 +8,36 @@ const SLIDES = [
 ];
 
 /* ---------- onboarding ---------- */
-function renderIntro() {
+function renderIntro(dir = 1) {
   const s = SLIDES[S.slide];
   $('illus').innerHTML = `<img src="${s.photo}" alt="">`;
   $('introTitle').textContent = s.title;
   $('introText').textContent = s.text;
-  [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === S.slide));
-  $('introNext').innerHTML = `<span class="go-ic">${svg('aventura', 20, 2)}</span><span>${S.slide < 2 ? 'Deslize para explorar' : 'Começar agora'}</span><span class="go-arr" aria-hidden="true">››</span>`;
-  $('skip').style.visibility = S.slide < 2 ? 'visible' : 'hidden';
+  [...$('dots').children].forEach((d, i) => { d.classList.toggle('on', i === S.slide); if (i === S.slide) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current'); });
+  $('introNext').innerHTML = `${S.slide < SLIDES.length - 1 ? 'Continuar' : 'Começar agora'}${svg('chevR', 20, 2.4)}`;
+  $('skip').style.visibility = S.slide < SLIDES.length - 1 ? 'visible' : 'hidden';
   replay($('illus'), 'swap');
-  replay($('introTitle').parentElement, 'swap');
+  replay($('introTitle').parentElement, dir < 0 ? 'step-b' : 'swap');
 }
-function introAdvance() { if (S.slide < 2) { S.slide++; renderIntro(); } else go('dest'); }
+function introGo(i) { if (i < 0 || i >= SLIDES.length || i === S.slide) return; const dir = i > S.slide ? 1 : -1; S.slide = i; renderIntro(dir); }
+function introAdvance() { if (S.slide < SLIDES.length - 1) introGo(S.slide + 1); else go('dest'); }
 $('skip').onclick = () => go('dest');
+$('introNext').onclick = introAdvance;
+$('dots').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) introGo([...$('dots').children].indexOf(b)); });
 
-// O botão é um controle de deslizar: arrastar a bolinha até o fim avança. Um toque só mostra o movimento;
-// pelo teclado (Enter/Espaço) avança direto.
+// Deslizar a foto para o lado troca de tela, como um carrossel (sem precisar arrastar um botão).
 (() => {
-  const b = $('introNext'); let x0 = null, dx = 0, busy = false;
-  const knob = () => b.querySelector('.go-ic');
-  const max = () => b.clientWidth - knob().offsetWidth - 12;
-  const place = (x, anim) => {
-    const k = knob(); k.style.transition = anim ? 'transform .28s cubic-bezier(.2, .8, .2, 1)' : 'none';
-    k.style.transform = x ? `translateX(${x}px)` : '';
-    b.style.setProperty('--slide', (x / max()).toFixed(3));
-  };
-  b.addEventListener('pointerdown', (e) => { if (busy) return; x0 = e.clientX; dx = 0; b.setPointerCapture(e.pointerId); });
-  b.addEventListener('pointermove', (e) => { if (x0 == null) return; dx = Math.max(0, Math.min(max(), e.clientX - x0)); place(dx); });
-  const end = () => {
-    if (x0 == null) return; x0 = null;
-    if (dx > max() * 0.6) {
-      busy = true; place(max(), true);
-      setTimeout(() => { introAdvance(); busy = false; place(0); }, 260);
-    } else if (dx < 6) { b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge'); place(0); }
-    else place(0, true);
-  };
-  b.addEventListener('pointerup', end); b.addEventListener('pointercancel', end);
-  b.addEventListener('click', (e) => { if (e.detail === 0) introAdvance(); }); // teclado
+  const el = $('intro'); let x0 = null, y0 = 0;
+  el.addEventListener('pointerdown', (e) => { if (e.target.closest('button')) return; x0 = e.clientX; y0 = e.clientY; });
+  el.addEventListener('pointerup', (e) => {
+    if (x0 == null) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) introGo(S.slide + (dx < 0 ? 1 : -1));
+  });
+  el.addEventListener('pointercancel', () => { x0 = null; });
+  document.addEventListener('keydown', (e) => {
+    if (S.step !== 'intro') return;
+    if (e.key === 'ArrowRight') introGo(S.slide + 1);
+    if (e.key === 'ArrowLeft') introGo(S.slide - 1);
+  });
 })();

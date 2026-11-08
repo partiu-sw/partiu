@@ -1,56 +1,15 @@
 // Perguntas: destino, datas, orçamento e interesses.
-const WAVE = (y, x0 = 0) => `M${x0} ${y} q10 -5 20 0` + ' t20 0'.repeat(12);
-// Prédios separados: [esquerda, direita, topo]; janelas em grade regular.
-const TOWERS = [[2, 20, 62], [24, 42, 46], [46, 62, 60], [66, 82, 40], [86, 102, 64], [106, 122, 52], [126, 140, 68]];
-const WINDOWS = TOWERS.flatMap(([a, b, top]) => {
-  const cols = b - a >= 18 ? [a + 4, b - 7] : [(a + b) / 2 - 1.5];
-  const out = [];
-  for (let y = top + 7; y <= 82; y += 9) cols.forEach((x) => out.push([x, y]));
-  return out;
-});
-// estrela de quatro pontas com lados curvos
-const SPARK = (x, y, r, d) => `<path class="st" style="animation-delay:${d}s" d="M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z"/>`;
-// pinheiro em gota, com tronco
-const PINE = (x, y, h) => `<path class="mtn" d="M${x - 5} ${y} C ${x - 5} ${y - h * 0.45}, ${x - 1.5} ${y - h * 0.8}, ${x} ${y - h} C ${x + 1.5} ${y - h * 0.8}, ${x + 5} ${y - h * 0.45}, ${x + 5} ${y} Z"/><path d="M${x} ${y}v3"/>`;
-const BENTO = {
-  // pôr do sol no horizonte, gaivotas e mar em movimento
-  praia: { cls: 'wide', d: 'Orlas e ilhas', art: `<svg class="art" style="right:14px;top:8px" width="190" height="52" viewBox="0 0 190 52" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <defs><clipPath id="seaClip"><rect x="0" y="28" width="190" height="24"/></clipPath></defs>
-    <g class="gull"><path d="M58 14 q4 -4 8 0 q4 -4 8 0"/></g>
-    <g class="gull" style="animation-delay:.5s"><path d="M86 22 q3 -3 6 0 q3 -3 6 0"/></g>
-    <g class="rays"><path d="M150 9v-5M139 13l-3-3M161 13l3-3M134 21l-4-1M166 21l4-1"/></g>
-    <path d="M136 26a14 14 0 0 1 28 0"/>
-    <path d="M4 26H190"/>
-    <g clip-path="url(#seaClip)"><g class="w"><path d="${WAVE(35)}" stroke-opacity=".8"/><path d="${WAVE(44, -10)}" stroke-opacity=".4"/></g></g>
-  </svg>` },
-  // prédios separados com telhados variados, janelas alinhadas, lua e estrelas
-  noite: { cls: 'tall', d: 'Bares e baladas', art: `<svg class="art" style="right:12px;top:10px" width="131" height="86" viewBox="0 0 140 92" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-    <path transform="translate(94 0) scale(1.5)" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="1.2"/>
-    <g fill="currentColor" stroke="none">${SPARK(16, 14, 4, 0)}${SPARK(52, 24, 3, 0.6)}${SPARK(84, 10, 2.5, 1.1)}${SPARK(36, 36, 2.2, 0.3)}${SPARK(132, 50, 2.5, 0.9)}</g>
-    <rect class="mtn" x="2" y="62" width="18" height="32" rx="2"/>
-    <rect class="mtn" x="24" y="46" width="18" height="48" rx="2"/><path d="M33 46 V39"/>
-    <path class="mtn" d="M46 94 V60 L54 52 L62 60 V94 Z"/>
-    <rect class="mtn" x="66" y="40" width="16" height="54" rx="2"/><path d="M74 40 V32"/>
-    <path class="mtn" d="M86 94 V64 A8 8 0 0 1 102 64 V94 Z"/>
-    <rect class="mtn" x="106" y="52" width="16" height="42" rx="2"/>
-    <rect class="mtn" x="126" y="68" width="14" height="26" rx="2"/>
-    <g fill="currentColor" stroke="none">${WINDOWS.map(([x, y], i) => `<rect class="win" x="${x}" y="${y}" width="3" height="3.4" rx=".6" style="animation-delay:${(i * 0.43) % 3}s"/>`).join('')}</g>
-    <path d="M0 90 H140"/>
-  </svg>` },
-  comida: { d: 'Frutos do mar e mais', art: `<span class="art wiggle" style="right:14px;top:12px">${svg('comer', 26, 1.8)}</span>` },
-  compras: { d: 'Lojas e feirinhas', art: `<span class="art bounce" style="right:14px;top:12px">${svg('compras', 26, 1.8)}</span>` },
-  cultura: { d: 'Centros históricos', art: `<svg class="art" style="right:12px;top:8px" width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 3V11"/><path class="flag" d="M20 3h9l-2.5 2.6L29 8.2h-9z" fill="currentColor"/><path d="M5 17L20 11L35 17Z"/><path d="M8 19V29M14 19V29M20 19V29M26 19V29M32 19V29"/><path d="M5 31H35M3 34H37"/></svg>` },
-  // duas montanhas com pico arredondado e neve, colina com pinheiros e o sol nascendo atrás
-  natureza: { cls: 'tall', d: 'Mirantes e parques', art: `<svg class="art" style="left:0;right:0;top:12px;margin:auto" width="140" height="84" viewBox="0 0 140 84" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-    <circle class="sun" cx="110" cy="22" r="9"/><g class="moonc"><path transform="translate(99 11)" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
-    <path class="mtn" d="M50 92 L80 52 Q92 36 104 52 L146 92 Z" stroke-opacity=".5"/>
-    <path class="mtn" d="M-6 92 L30 40 Q44 18 58 40 L96 92 Z"/>
-    <path d="M25.8 46 L30 40 Q44 18 58 40 L62.4 46 L56 42.5 L50 47 L44 42.5 L38 47 L32 42.5 Z"/>
-    <path class="mtn" d="M-4 94 C 30 74, 64 78, 90 82 C 108 76, 126 72, 146 78 V94 Z"/>
-    ${PINE(8, 89, 14)}${PINE(19, 86, 18)}${PINE(103, 80, 17)}${PINE(114, 78, 23)}${PINE(125, 76, 18)}${PINE(135, 77, 21)}
-  </svg>` },
-  aventura: { d: 'Esportes radicais', art: `<svg class="art" style="right:14px;top:12px" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="needle" d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>` },
-  relax: { cls: 'wide', d: 'Spas e cafés', art: `<svg class="art" style="right:18px;top:8px" width="56" height="54" viewBox="0 0 56 54" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="stm" d="M18 16 q-4 -5 0 -10"/><path class="stm" d="M26 16 q-4 -5 0 -10" style="animation-delay:.5s"/><path class="stm" d="M34 16 q-4 -5 0 -10" style="animation-delay:1s"/><path d="M8 22h32v10a12 12 0 0 1 -12 12h-8a12 12 0 0 1 -12 -12z"/><path d="M40 26h4a5 5 0 0 1 0 10h-4"/></svg>` }
+// Interesses em galeria de fotos: cada um com foto, frase curta e um lugar no mosaico (3 colunas).
+// Interesses em galeria: cada um com um ícone de traço (do ICON), frase curta, tamanho do ícone e lugar no mosaico.
+const GALLERY = {
+  praia: { ic: 'praia', size: 64, d: 'Orlas e ilhas', mv: 'sway' },
+  noite: { ic: 'noite', size: 34, d: 'Bares e baladas', mv: 'twinkle' },
+  comida: { ic: 'comer', size: 40, d: 'Frutos do mar', mv: 'bob' },
+  natureza: { ic: 'natureza', size: 40, d: 'Mirantes e trilhas', mv: 'rise' },
+  compras: { ic: 'compras', size: 30, d: 'Feirinhas', mv: 'bob' },
+  relax: { ic: 'relax', size: 30, d: 'Cafés e spas', mv: 'steam' },
+  cultura: { ic: 'ver', size: 30, d: 'Centros históricos', mv: 'rise' },
+  aventura: { ic: 'aventura', size: 30, d: 'Bondinho e tirolesa', mv: 'spin' }
 };
 
 /* ---------- perguntas ---------- */
@@ -92,7 +51,7 @@ function renderQuiz() {
     renderDestList();
   } else if (S.step === 'dates') {
     b.innerHTML = `
-      <div class="q-title"><h1>Quando é a <em>viagem?</em></h1><p class="sub">Já chegou? Comece por hoje. Toque na ida e depois na volta.</p></div>
+      <div class="q-title"><h1>Quando é a <em>viagem?</em></h1><p class="sub">Toque na ida e na volta, ou arraste de um dia ao outro.</p></div>
       <div class="group" id="cal"></div>`;
     renderCal();
   } else if (S.step === 'budget') {
@@ -102,12 +61,10 @@ function renderQuiz() {
         <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="trk" cx="100" cy="100" r="86"/>${ALLOC.map((a) => `<circle class="seg" cx="100" cy="100" r="86" stroke="${a[2]}"/>`).join('')}</svg>
         <div class="ring-center">
           <p class="amount-view" aria-live="polite"><span>R$</span><b id="budgetTotal"></b></p>
-          <small id="budgetDay"></small>
         </div>
       </div>
+      <p class="ring-note" id="budgetDay"></p>
       <div class="total-ctl"><button class="icon-btn" data-act="minus" aria-label="Diminuir o total em R$ 100">${svg('minus', 18, 2.4)}</button><span>Total da viagem</span><button class="icon-btn" data-act="plus" aria-label="Aumentar o total em R$ 100">${svg('plus', 18, 2.4)}</button></div>
-      <div class="quick" id="quick">${[1000, 2000, 3000, 5000].map((v) => `<button class="pill" data-act="quick" data-v="${v}">${money(v)}</button>`).join('')}</div>
-      <p class="free" id="free"></p>
       <div class="cat-rows">${ALLOC.map(([k, l, bg], i) => `
         <div class="cat-row" data-i="${i}">
           <i style="background:${bg}"></i><b>${svg(k, 16, 2)}${l}</b>
@@ -123,10 +80,11 @@ function renderQuiz() {
       <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque no que combina com você.</p></div>
       <div class="group">
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
-        <div class="amen">${INTERESTS.map(([k, l], i) => `
-          <button class="am" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i}">
-            <span class="am-ic">${AM_IC[k]}</span><span class="am-ok">${svg('check', 12, 3.2)}</span>
-            <span class="am-tx"><b>${l}</b><small>${BENTO[k].d}</small></span>
+        <div class="gal">${INTERESTS.map(([k, l], i) => `
+          <button class="gal-it" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i};grid-area:${k}">
+            <span class="gal-ic mv-${GALLERY[k].mv}" aria-hidden="true">${svg(GALLERY[k].ic, GALLERY[k].size, 1.6)}</span>
+            <span class="gal-ok" aria-hidden="true">${svg('check', 14, 3)}</span>
+            <span class="gal-tx"><b>${l}</b><small>${GALLERY[k].d}</small></span>
           </button>`).join('')}
         </div>
       </div>`;
@@ -137,16 +95,6 @@ function renderQuiz() {
 
 // ícones animados (traço fino, estilo Airbnb) de cada interesse; cada um tem uma parte que se mexe
 const AM = (body) => `<svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
-const AM_IC = {
-  praia: AM('<g class="a-sway"><path d="M6 15a10 10 0 0 1 20 0z"/><path d="M16 5v10M11 15c0-5 2-9 5-10M21 15c0-5-2-9-5-10"/></g><path d="M16 15l-3 11"/><path class="a-wave" d="M3 27c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0 4 1.5 6 0"/>'),
-  noite: AM('<path d="M20 5a9 9 0 1 0 7 13A7 7 0 0 1 20 5z"/><path class="a-twinkle" d="M8 6v3M6.5 7.5h3"/><path class="a-twinkle d2" d="M25 25v2.5M23.8 26.2h2.4"/>'),
-  comida: AM('<path d="M9 4v24M6 4v6a3 3 0 0 0 6 0V4"/><g class="a-bob"><path d="M22 28V4c-3 1.5-4.5 5.5-4.5 10v3H22"/></g>'),
-  compras: AM('<g class="a-swing"><path d="M7 11h18l-1.5 16h-15z"/><path d="M12 11V9a4 4 0 0 1 8 0v2"/></g>'),
-  cultura: AM('<path d="M4 13l12-7 12 7M6 14v10M11 14v10M16 14v10M21 14v10M26 14v10M3 27h26"/><path class="a-flag" d="M16 6V2.5h4.5l-1.2 1.5 1.2 1.5H16"/>'),
-  natureza: AM('<circle class="a-sun" cx="23" cy="8" r="2.6"/><path d="M3 26l8-13 5 7 3-4 8 10z"/>'),
-  aventura: AM('<circle cx="16" cy="16" r="12"/><path class="a-needle" d="M20.5 11.5l-2.8 6.2-6.2 2.8 2.8-6.2z"/>'),
-  relax: AM('<path d="M6 13h17v6a7 7 0 0 1-7 7h-3a7 7 0 0 1-7-7z"/><path d="M23 15h2a3 3 0 0 1 0 6h-2"/><path class="a-steam" d="M11 4c-1 1.5 1 2.5 0 4M16 4c-1 1.5 1 2.5 0 4"/>')
-};
 // fotos de cada interesse (do litoral), para escolher vendo o lugar
 const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/manha-praia.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/barra-sul.jpg', relax: 'img/cafe.jpg' };
 
@@ -165,30 +113,76 @@ function renderDestList() {
     </button>`).join('') : '<p class="empty">Ainda não temos esse destino. Tente uma das cidades do litoral catarinense.</p>';
 }
 
-function renderCal() {
+function renderCal(dir) {
   const base = new Date(2026, 10 + S.monthOff, 1);
   const y = base.getFullYear(), m = base.getMonth();
   const first = base.getDay(), dim = new Date(y, m + 1, 0).getDate();
-  const both = S.start && S.end;
   let cells = '';
   for (let i = 0; i < first; i++) cells += '<span></span>';
   for (let d = 1; d <= dim; d++) {
     const k = keyOf(y, m, d);
-    const cls = ['day', k === TODAY && 'today', k === S.start && 's', k === S.end && 'e', both && 'both', both && k > S.start && k < S.end && 'in'].filter(Boolean).join(' ');
-    const extra = (k === TODAY ? ', hoje' : '') + (k === S.start ? ', ida' : k === S.end ? ', volta' : '');
-    cells += `<button class="${cls}" data-act="day" data-k="${k}" ${k < TODAY ? 'disabled' : ''} aria-label="${d} de ${MONTHS[m]}${extra}"><span>${d}</span></button>`;
+    cells += `<button class="day${k === TODAY ? ' today' : ''}" data-act="day" data-k="${k}" ${k < TODAY ? 'disabled' : ''}><span>${d}</span></button>`;
   }
   $('cal').innerHTML = `
-    <div class="cal-head">
+    <div class="cal-head" data-swipe>
       <strong>${MONTHS[m][0].toUpperCase() + MONTHS[m].slice(1)} de ${y}</strong>
       <div style="display:flex;gap:4px">
-        <button class="icon-btn" data-act="prevMonth" aria-label="Mês anterior">${svg('chevL', 18, 2.4)}</button>
+        <button class="icon-btn" data-act="prevMonth" aria-label="Mês anterior" ${S.monthOff <= 0 ? 'disabled' : ''}>${svg('chevL', 18, 2.4)}</button>
         <button class="icon-btn" data-act="nextMonth" aria-label="Próximo mês">${svg('chevR', 18, 2.4)}</button>
       </div>
     </div>
-    <div class="cal-week" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
-    <div class="cal-grid">${cells}</div>`;
+    <div class="cal-week" aria-hidden="true" data-swipe><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+    <div class="cal-grid${dir ? (dir < 0 ? ' from-l' : ' from-r') : ''}" id="calGrid">${cells}</div>`;
+  paintCal();
 }
+// Pinta ida, volta e o intervalo nos dias já montados (sem refazer a grade nem a animação de entrada).
+function paintCal() {
+  const both = S.start && S.end;
+  document.querySelectorAll('#calGrid .day').forEach((b) => {
+    const k = +b.dataset.k, d = k % 100, mo = Math.floor(k / 100) % 100 - 1;
+    b.classList.toggle('s', k === S.start); b.classList.toggle('e', k === S.end);
+    b.classList.toggle('both', !!both); b.classList.toggle('in', !!both && k > S.start && k < S.end);
+    b.setAttribute('aria-pressed', k === S.start || k === S.end || (!!both && k > S.start && k < S.end));
+    b.setAttribute('aria-label', `${d} de ${MONTHS[mo]}${k === TODAY ? ', hoje' : ''}${k === S.start ? ', ida' : k === S.end ? ', volta' : ''}`);
+  });
+}
+function calMonth(step) {
+  if (S.monthOff + step < 0 || S.monthOff + step > 12) return;
+  S.monthOff += step; renderCal(step);
+}
+// Arrastar pelos dias marca ida e volta de uma vez; deslizar no título ou na semana troca o mês.
+(() => {
+  let drag = null;
+  const dayAt = (x, y) => { const el = document.elementFromPoint(x, y); const b = el && el.closest('#calGrid .day'); return b && !b.disabled ? +b.dataset.k : null; };
+  $('qBody').addEventListener('pointerdown', (e) => {
+    if (S.step !== 'dates') return;
+    const b = e.target.closest('#calGrid .day');
+    if (b && !b.disabled) {
+      const k = +b.dataset.k;
+      // com só a ida marcada, um dia depois dela vira a volta; senão começa uma escolha nova
+      if (S.start && !S.end && k > S.start) { S.end = k; drag = { anchor: S.start, moved: false, id: e.pointerId }; }
+      else { S.start = k; S.end = null; drag = { anchor: k, moved: false, id: e.pointerId }; }
+      paintCal(); updateFoot();
+      e.preventDefault();
+      return;
+    }
+    if (e.target.closest('[data-swipe]')) drag = { swipe: e.clientX, id: e.pointerId };
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (!drag || drag.id !== e.pointerId || drag.swipe != null) return;
+    const k = dayAt(e.clientX, e.clientY);
+    if (k == null) return;
+    drag.moved = true;
+    if (k > drag.anchor) { S.start = drag.anchor; S.end = k; } else if (k < drag.anchor) { S.start = k; S.end = drag.anchor; } else { S.start = drag.anchor; S.end = null; }
+    paintCal(); updateFoot();
+  });
+  window.addEventListener('pointerup', (e) => {
+    if (!drag || drag.id !== e.pointerId) return;
+    if (drag.swipe != null) { const dx = e.clientX - drag.swipe; if (Math.abs(dx) > 40) calMonth(dx < 0 ? 1 : -1); }
+    drag = null;
+  });
+  window.addEventListener('pointercancel', () => { drag = null; });
+})();
 
 // O total é definido pela pessoa (−/+ e valores rápidos); o meio do anel só mostra.
 // As categorias dividem esse total: aumentar uma tira dos outras, sem mudar o total.
@@ -197,18 +191,18 @@ function renderBudget() {
   const diff = S.budget - S.alloc.reduce((a, b) => a + b, 0); S.alloc[0] = Math.max(0, S.alloc[0] + diff);
   $('budgetTotal').textContent = S.budget.toLocaleString('pt-BR');
   $('budgetDay').textContent = `${money(perDay())} por dia · ${plural(nights(), 'noite', 'noites')}`;
-  document.querySelectorAll('#quick .pill').forEach((p) => p.setAttribute('aria-pressed', +p.dataset.v === S.budget));
   renderCats();
   updateFoot();
 }
 const RING_C = 2 * Math.PI * 86;
 function renderCats() {
-  const total = S.budget, big = S.alloc.indexOf(Math.max(...S.alloc));
-  $('free').textContent = total ? `Maior parte em ${ALLOC[big][1].toLowerCase()} · ${Math.round(S.alloc[big] / total * 100)}%` : '';
+  const total = S.budget;
+  // fatias com pontas retas e o mesmo espaço entre todas (só entre as que têm valor)
+  const shown = S.alloc.filter((a) => a > 0).length, GAP = shown > 1 ? 5 : 0;
   let start = 0;
   document.querySelectorAll('.ring .seg').forEach((s, i) => {
-    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 8);
-    s.style.strokeDasharray = `${vis} ${RING_C}`; s.style.strokeDashoffset = -(start + 4); s.style.opacity = vis > 0 ? 1 : 0; start += len;
+    const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - GAP);
+    s.style.strokeDasharray = `${vis} ${RING_C}`; s.style.strokeDashoffset = -(start + GAP / 2); s.style.opacity = vis > 0 ? 1 : 0; start += len;
   });
   document.querySelectorAll('.cat-row').forEach((row) => {
     const i = +row.dataset.i, inp = row.querySelector('.cat-in'), others = total - S.alloc[i];
@@ -252,18 +246,19 @@ $('qBody').addEventListener('click', (e) => {
   const act = t.dataset.act;
   if (act === 'city') { const c = CITIES.find((x) => x.id === t.dataset.id); S.city = c.id; S.query = c.name; $('destInput').value = c.name; renderDestList(); updateFoot(); }
   if (act === 'day') {
-    const k = +t.dataset.k;
-    if (!S.start || S.end) { S.start = k; S.end = null; } else if (k <= S.start) S.start = k; else S.end = k;
-    renderCal(); updateFoot();
+    if (e.detail === 0) { // teclado: Enter/Espaço num dia
+      const k = +t.dataset.k;
+      if (!S.start || S.end) { S.start = k; S.end = null; } else if (k <= S.start) S.start = k; else S.end = k;
+      paintCal(); updateFoot();
+    }
   }
-  if (act === 'prevMonth') { S.monthOff--; renderCal(); }
-  if (act === 'nextMonth') { S.monthOff++; renderCal(); }
-  if (act === 'quick') setBudget(+t.dataset.v);
+  if (act === 'prevMonth') calMonth(-1);
+  if (act === 'nextMonth') calMonth(1);
   if (act === 'minus') setBudget(S.budget - 100);
   if (act === 'plus') setBudget(S.budget + 100);
   if (act === 'catMinus') setAlloc(+t.dataset.i, S.alloc[+t.dataset.i] - 100);
   if (act === 'catPlus') setAlloc(+t.dataset.i, S.alloc[+t.dataset.i] + 100);
-  if (act === 'interest') { const k = t.dataset.k; S.interests.has(k) ? S.interests.delete(k) : S.interests.add(k); renderPrefs(); }
+  if (act === 'interest') { const k = t.dataset.k; S.interests.has(k) ? S.interests.delete(k) : S.interests.add(k); renderPrefs(); t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); }
 });
 $('qBody').addEventListener('input', (e) => {
   const t = e.target;

@@ -7,14 +7,19 @@ function readPrefs() {
   return (prefs = prefs || { notif: true, planb: true });
 }
 const CITY_PHOTO = { bc: 'img/praia-central.jpg', itapema: 'img/post1.jpg', portobelo: 'img/post3.jpg', tijucas: 'img/por-do-sol.jpg' };
-function tripWhen(t) {
-  if (t.id === S.tripId) return ['Atual', 'on'];
-  return t.end && t.end < TODAY ? ['Já foi', ''] : ['Próxima', 'next'];
-}
 function tripRange(t) {
   if (!t.start || !t.end) return 'Sem datas';
   const a = dateOf(t.start), z = dateOf(t.end);
   return a.getMonth() === z.getMonth() ? `${a.getDate()}–${z.getDate()} ${MON[z.getMonth()]}` : `${shortDate(t.start)} – ${shortDate(t.end)}`;
+}
+
+// Quando é a viagem, em palavras: "agora", "em 40 dias", "amanhã", "já foi".
+function tripWhenText(t) {
+  if (t.start && t.end && t.start <= TODAY && t.end >= TODAY) return 'agora';
+  if (t.end && t.end < TODAY) return 'já foi';
+  if (!t.start) return 'sem datas';
+  const d = Math.round((dateOf(t.start) - dateOf(TODAY)) / 864e5);
+  return d === 1 ? 'amanhã' : `em ${d} dias`;
 }
 
 function renderConta() {
@@ -23,25 +28,35 @@ function renderConta() {
   const u = S.user || { name: 'Ana', email: 'demo@partiu.app' };
   const trips = readTrips().sort((a, b) => (a.id === S.tripId ? -1 : b.id === S.tripId ? 1 : b.start - a.start));
   const places = trips.reduce((n, t) => n + tripPlaces(t), 0);
-  // Conta: só você (toque para abrir o perfil) e as viagens; os ajustes ficam no perfil
+  const cur = trips.find((t) => t.id === S.tripId), rest = trips.filter((t) => t !== cur);
+  const cityOf = (t) => CITIES.find((x) => x.id === t.city) || CITIES[0];
+  const meta = (t) => `${tripRange(t)} · ${tripPlaces(t) ? plural(tripPlaces(t), 'lugar', 'lugares') : 'roteiro por montar'}`;
+  // Conta: você em destaque (toque abre o perfil e os ajustes) e as viagens; a atual em cartão com foto
   $('contaScroll').innerHTML = `
-    <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')} no roteiro</span></div></header>
+    <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1></div>
+      <span class="ph-acts"><button class="ph-ic" data-profile aria-label="Perfil e ajustes">${svg('sliders', 20, 2)}</button></span></header>
     <button class="ct-me" data-profile aria-label="Abrir seu perfil">
       <span class="ct-av"><img src="img/avatares/ana.jpg" alt=""></span>
-      <span class="tx"><strong>${esc(u.name)}</strong><small>Ver perfil e ajustes</small></span>
-      <span class="ct-go">${svg('chevR', 18, 2.2)}</span>
+      <strong>${esc(u.name)}</strong>
+      <small>${esc(u.email || '')}</small>
     </button>
     <section class="ct-sec">
-      <div class="ct-sec-head"><h2>Minhas viagens</h2></div>
+      <div class="ct-sec-head"><div><h2>Minhas viagens</h2><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')}</span></div>
+        <span class="ph-acts"><button class="ph-ic ph-edit" data-new-trip aria-label="Planejar nova viagem">${svg('plus', 20, 2.4)}</button></span></div>
+      ${cur ? `<button class="ct-cur" data-trip="${cur.id}" aria-label="${esc(cityOf(cur).name)}, viagem aberta: ver no mapa">
+        <img src="${CITY_PHOTO[cur.city] || 'img/post2.jpg'}" alt="">
+        <span class="ct-cur-tag">${tripWhenText(cur) === 'agora' ? 'Acontecendo agora' : 'Viagem aberta'}</span>
+        <span class="ct-cur-tx"><strong>${esc(cityOf(cur).name)}</strong><small>${meta(cur)}</small></span>
+      </button>` : ''}
       <div class="ct-trips" role="list">
-        ${trips.map((t, i) => { const [lbl, cls] = tripWhen(t), c = CITIES.find((x) => x.id === t.city) || CITIES[0]; return `
-        <button class="ct-trip ${cls}" role="listitem" style="--i:${i}" data-trip="${t.id}" aria-label="${esc(c.name)}, ${tripRange(t)}${t.id === S.tripId ? ', viagem atual' : ', abrir'}">
+        ${rest.map((t, i) => { const w = tripWhenText(t); return `
+        <button class="ct-trip${w === 'já foi' ? ' past' : ''}" role="listitem" style="--i:${i}" data-trip="${t.id}" aria-label="${esc(cityOf(t).name)}, ${tripRange(t)}, ${w}: abrir">
           <span class="ct-ph"><img src="${CITY_PHOTO[t.city] || 'img/post2.jpg'}" alt=""></span>
-          <span class="tx"><strong>${esc(c.name)}</strong><small>${tripRange(t)} · ${tripPlaces(t) ? plural(tripPlaces(t), 'lugar', 'lugares') : 'roteiro por montar'}</small></span>
-          <span class="ct-badge">${lbl}</span>
+          <span class="tx"><strong>${esc(cityOf(t).name)}</strong><small>${meta(t)}</small></span>
+          <span class="ct-when">${w}</span>
+          <span class="ct-go">${svg('chevR', 16, 2.4)}</span>
         </button>`; }).join('')}
       </div>
-      <button class="btn-out ct-new" data-new-trip>${svg('plus', 18, 2.4)} Planejar nova viagem</button>
     </section>`;
 }
 

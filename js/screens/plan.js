@@ -115,11 +115,14 @@ function ensurePlan() {
 
 // Dias da viagem num formato só, igual no mapa e no roteiro: dia da semana (ou "Hoje"), número e quantos lugares.
 // No mapa, o ícone do clima do dia aparece ao lado do dia da semana.
+// withWx = 'temp' (roteiro): a linha de baixo mostra o clima do dia (ícone e máxima) em vez da contagem.
 function dayChipsHTML(sel, attr, withWx) {
   return S.plan.days.map((items, d) => {
     const x = dayDate(d), n = items.length, today = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY;
-    const wx = withWx && typeof wxFor === 'function' ? svg(wxFor(d)[0], 13, 2) : '';
-    return `<button class="day-chip${d === sel ? ' on' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" style="--i:${d}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'lugar', 'lugares')}"><span class="dc-w">${wx}${today ? 'Hoje' : WEEK[x.getDay()]}</span><b>${x.getDate()}</b><small>${n ? plural(n, 'lugar', 'lugares') : 'livre'}</small></button>`;
+    const w = withWx && typeof wxFor === 'function' ? wxFor(d) : null;
+    const wx = w && withWx !== 'temp' ? svg(w[0], 13, 2) : '';
+    const low = w && withWx === 'temp' ? `${svg(w[0], 13, 2)}${w[2]}°` : (n ? plural(n, 'lugar', 'lugares') : 'livre');
+    return `<button class="day-chip${d === sel ? ' on' : ''}${withWx === 'temp' ? ' wx' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" style="--i:${d}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'lugar', 'lugares')}${w ? `, ${w[1].toLowerCase()}, máxima de ${w[2]}°` : ''}"><span class="dc-w">${wx}${today ? 'Hoje' : WEEK[x.getDay()]}</span><b>${x.getDate()}</b><small>${low}</small></button>`;
   }).join('');
 }
 
@@ -135,13 +138,10 @@ function flip(update) {
   });
 }
 function renderPlan(opts = {}) {
-  $('planMeta').textContent = `${city().name} · ${rangeLabel()}`;
   // capa da viagem: foto da cidade, datas, total de lugares e o clima do dia escolhido
-  const total = S.plan.days.reduce((n, d) => n + d.length, 0), wxd = typeof wxFor === 'function' ? wxFor(curDay) : null;
   $('tripHero').innerHTML = `<img src="${(typeof CITY_PHOTO !== 'undefined' && CITY_PHOTO[S.city]) || 'img/post2.jpg'}" alt="">
-    <span class="th-tx"><small>Sua viagem</small><strong>${esc(city().name)}</strong><span>${rangeLabel()} · ${plural(S.plan.days.length, 'dia', 'dias')} · ${plural(total, 'lugar', 'lugares')}</span></span>
-    ${wxd ? `<span class="th-wx">${svg(wxd[0], 20, 1.9)}<b>${wxd[2]}°</b><small>${esc(wxd[1])}</small></span>` : ''}`;
-  $('dayStrip').innerHTML = dayChipsHTML(curDay, 'data-day');
+    <span class="th-tx"><strong>${esc(city().name)}</strong><span>${rangeLabel()} · ${plural(S.plan.days.length, 'dia', 'dias')}</span></span>`;
+  $('dayStrip').innerHTML = dayChipsHTML(curDay, 'data-day', 'temp');
   const pk = S.plan.picked, h = hotelLL();
   $('tray').hidden = !pk.length;
   $('trayTitle').textContent = `Para organizar (${pk.length})`;
@@ -151,20 +151,19 @@ function renderPlan(opts = {}) {
     </button>`).join('');
   const x = dayDate(curDay), items = dayItems(curDay);
   const isToday = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY, nowMin = typeof NOW === 'string' ? toMin(NOW) : 0;
-  $('dayTitle').textContent = `${isToday ? 'Hoje, ' : ''}${isToday ? DAYNAME[x.getDay()].toLowerCase() : DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
-  // agenda e Google Maps viram dois botões redondos ao lado do título do dia
-  $('dayCount').innerHTML = items.length
-    ? `<button class="tl-ic" data-ics="trip" aria-label="Salvar na agenda">${GCAL_IC}</button><a class="tl-ic" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener" aria-label="Ver a rota do dia no Google Maps">${GMAPS_IC}</a>`
-    : '<span>Dia livre</span>';
+  // o dia já está no chip e as paradas na lista: aqui fica só de que horas a que horas e quanto se anda
+  let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
+  $('dayTitle').textContent = items.length ? `${items[0].time}–${items[items.length - 1].time} · ${shortDist(km)}` : 'Dia livre';
+  $('dayCount').innerHTML = (items.length
+    ? `<button class="ph-ic" data-ics="trip" aria-label="Salvar na agenda">${GCAL_IC}</button><a class="ph-ic" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener" aria-label="Ver a rota do dia no Google Maps">${GMAPS_IC}</a>`
+    : '') + `<button class="ph-ic ph-edit" data-add-day aria-label="Adicionar um lugar a este dia${pk.length ? `: ${plural(pk.length, 'lugar', 'lugares')} para organizar` : ''}">${svg('plus', 20, 2.4)}${pk.length ? `<i>${pk.length}</i>` : ''}</button>`;
   const tl = $('timeline');
   if (!items.length) {
     tl.innerHTML = `<div class="tl-empty"><strong>Nada planejado ainda</strong>
       <p>${pk.length ? 'Coloque aqui o que você escolheu, no horário que quiser.' : 'Escolha lugares para montar este dia.'}</p>
       <div class="acts">${pk.length ? '<button class="btn-out" data-add="end">Adicionar lugar</button><button class="btn-primary sm" data-auto>Organizar automático</button>' : '<button class="btn-primary sm" data-discover>Escolher lugares</button>'}</div></div>`;
   } else {
-    // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
-    let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
-    let prev = null, html = `<p class="tl-sum">${plural(items.length, 'parada', 'paradas')} · ${shortDist(km)} · ${items[0].time}–${items[items.length - 1].time}</p>`;
+    let prev = null, html = '';
     let nowShown = false;
     items.forEach((it, i) => {
       const wx = wxAt(curDay, it.time), leg = legText(prev ? prev.ll : h, it.ll) + (prev ? '' : ' do hotel');
@@ -175,26 +174,22 @@ function renderPlan(opts = {}) {
           <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}${wx ? `<small>${svg(wx[0], 13, 2)}${wx[1]}°</small>` : ''}</button>
           <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card">
-            <a class="pph ev-map" href="${mapsPlace(it)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(it.title)} no Google Maps">${scene(it.icon, it.title + ' ' + it.sub)}<i>${svg('pin', 11, 2.6)}</i></a>
+            <span class="pph">${scene(it.icon, it.title + ' ' + it.sub)}</span>
             <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
-            <button class="rm" data-rm="${it.id}" aria-label="Tirar ${esc(it.title)} do dia">${svg('x', 15, 2.2)}</button>
+            <a class="ev-go" href="${mapsRoute(it)}" target="_blank" rel="noopener" aria-label="Rota até ${esc(it.title)} no Google Maps">${GMAPS_IC}</a>
             <span class="handle" data-drag="${it.id}" title="Arraste para reordenar">${svg('grip', 16, 2)}</span>
           </div>
-        </div>
-`;
+        </div>`;
       prev = it;
     });
     if (isToday && !nowShown) html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`;
-    html += `<button class="ins end" data-add="${toMin(items[items.length - 1].time)}" style="--i:${items.length * 2}">${svg('plus', 14, 2.4)}Adicionar</button>`;
     tl.innerHTML = html;
   }
   if (opts.enter) { tl.classList.remove('enter'); void tl.offsetWidth; tl.classList.add('enter'); } else tl.classList.remove('enter');
   flashId = null;
-  const left = S.plan.sugg.length + S.plan.skipped.length;
-  $('openDiscover').innerHTML = `${svg('cards', 18, 2)}Escolher${left ? `<i>${left}</i>` : ''}`;
-  $('openDiscover').setAttribute('aria-label', `Escolher lugares: ${plural(left, 'sugestão', 'sugestões')}`);
+  $('planTrips').innerHTML = svg('swap', 20, 2);
 }
-$('dayCount').addEventListener('click', (e) => { if (e.target.closest('[data-ics]')) { const n = downloadICS(); toast(n ? `${plural(n, 'evento', 'eventos')} da viagem no arquivo de agenda` : 'Nada no roteiro para salvar ainda'); } });
+$('dayCount').addEventListener('click', (e) => { if (e.target.closest('[data-add-day]')) { const its = dayItems(curDay); return openWhen({ mode: 'add', day: curDay, after: its.length ? toMin(its[its.length - 1].time) + MIN_GAP : null }); } if (e.target.closest('[data-ics]')) { const n = downloadICS(); toast(n ? `${plural(n, 'evento', 'eventos')} da viagem no arquivo de agenda` : 'Nada no roteiro para salvar ainda'); } });
 $('dayStrip').addEventListener('click', (e) => { const c = e.target.closest('[data-day]'); if (c && +c.dataset.day !== curDay) { curDay = +c.dataset.day; renderPlan({ enter: true }); } });
 $('trayRow').addEventListener('click', (e) => {
   const c = e.target.closest('[data-pick]');
@@ -495,7 +490,30 @@ $('yesAct').onclick = () => decide(true);
 $('undoAct').onclick = undoLast;
 $('discClose').onclick = closeDiscover;
 $('goOrganize').onclick = closeDiscover;
-$('openDiscover').onclick = openDiscover;
+/* ---------- suas viagens: trocar a viagem aberta ou planejar outra ---------- */
+function openTrips() {
+  saveTrip();
+  const trips = readTrips().sort((a, b) => (a.id === S.tripId ? -1 : b.id === S.tripId ? 1 : b.start - a.start));
+  $('tripsClose').innerHTML = svg('x', 18, 2.2);
+  $('tripsBody').innerHTML = `<div class="ct-trips" role="list">${trips.map((t, i) => { const w = t.id === S.tripId ? 'aberta' : tripWhenText(t), c = CITIES.find((x) => x.id === t.city) || CITIES[0]; return `
+      <button class="ct-trip${w === 'já foi' ? ' past' : ''}" role="listitem" style="--i:${i}" data-trip="${t.id}" aria-label="${esc(c.name)}, ${tripRange(t)}${t.id === S.tripId ? ', viagem aberta' : ', abrir'}">
+        <span class="ct-ph"><img src="${CITY_PHOTO[t.city] || 'img/post2.jpg'}" alt=""></span>
+        <span class="tx"><strong>${esc(c.name)}</strong><small>${tripRange(t)} · ${tripPlaces(t) ? plural(tripPlaces(t), 'lugar', 'lugares') : 'roteiro por montar'}</small></span>
+        <span class="ct-when">${w}</span>
+      </button>`; }).join('')}</div>
+    <button class="btn-out ct-new" data-new-trip>${svg('plus', 18, 2.4)} Planejar nova viagem</button>`;
+  $('tripsSheet').hidden = false;
+}
+function closeTrips() { $('tripsSheet').hidden = true; }
+$('planTrips').onclick = openTrips;
+$('tripHero').onclick = openTrips;
+$('tripsClose').onclick = closeTrips;
+$('tripsSheet').addEventListener('click', (e) => {
+  if (e.target === $('tripsSheet')) return closeTrips();
+  const tr = e.target.closest('[data-trip]');
+  if (tr) { closeTrips(); if (tr.dataset.trip !== S.tripId) { openTrip(tr.dataset.trip); curDay = 0; renderPlan({ enter: true }); } return; }
+  if (e.target.closest('[data-new-trip]')) { closeTrips(); newTrip(); }
+});
 document.addEventListener('keydown', (e) => {
   if ($('disc').hidden || e.target.matches('input, textarea')) return;
   if (e.key === 'ArrowRight') decide(true);

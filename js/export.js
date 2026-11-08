@@ -11,6 +11,8 @@ function utcStamp(date, hhmm, addMin = 0) {
   return `${d.getUTCFullYear()}${pad2(d.getUTCMonth() + 1)}${pad2(d.getUTCDate())}T${pad2(d.getUTCHours())}${pad2(d.getUTCMinutes())}00Z`;
 }
 const icsText = (s) => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+// Rota no Google Maps de onde a pessoa está agora até o lugar (sem origem, o Maps usa a localização atual).
+const mapsRoute = (it) => `https://www.google.com/maps/dir/?api=1&destination=${it.ll[0]},${it.ll[1]}`;
 const mapsPlace = (it) => `https://www.google.com/maps/search/?api=1&query=${it.ll[0]},${it.ll[1]}`;
 
 // Rota do dia no Google Maps: sai do hotel, passa pelas paradas na ordem e termina na última (a pé).

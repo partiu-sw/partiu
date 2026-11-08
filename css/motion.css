@@ -27,9 +27,6 @@
 .intro-text.swap > :nth-child(2) { animation-delay: .1s; }
 .intro-top { animation: m-rise .6s .1s var(--ease) backwards; }
 .intro-foot { animation: m-rise .7s .2s var(--ease) backwards; }
-#introNext .go-arr { animation: m-arrows 1.6s ease-in-out infinite; }
-#introNext .go-ic svg { animation: m-spin 12s linear infinite; }
-#introNext:hover { background: rgba(255, 255, 255, .24); }
 
 /* perguntas: listas, cartões e dias entram em cascata */
 .rows > *, .bento > *, .cat-rows > *, .cal-grid > * { animation: m-rise .45s var(--ease) backwards; }

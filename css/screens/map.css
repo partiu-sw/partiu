@@ -27,14 +27,6 @@
 .places-head { flex: none; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 20px; }
 .places-head div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .places-head h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
-/* agenda, Maps e editar: botões redondos sempre visíveis no topo do painel */
-.ph-acts { flex: none; display: flex; align-items: center; gap: 6px; }
-.ph-ic { position: relative; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
-.ph-ic:hover { border-color: var(--ink); }
-.ph-ic:active { transform: scale(.92); }
-.ph-edit { background: var(--brand); border-color: var(--brand); color: #fff; }
-.ph-edit:hover { background: var(--brand-deep); }
-.ph-edit i { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1.5px var(--brand); font-style: normal; font-size: 11px; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
 .places-head > div > span { font-size: 13px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chips { display: flex; gap: 8px; padding: 12px 20px; overflow-x: auto; flex: none; }
 .list { flex: 1; min-height: 0; overflow-y: auto; padding: 0 12px 8px; display: flex; flex-direction: column; }

@@ -120,16 +120,14 @@
 @keyframes steam { 0% { transform: translateY(4px); opacity: 0; } 50% { opacity: .9; } 100% { transform: translateY(-6px); opacity: 0; } }
 
 /* ---------- orçamento em anel ---------- */
-.ring { position: relative; width: 220px; height: 220px; margin: 0 auto; flex: none; }
+.ring { position: relative; width: min(180px, 22vh); height: min(180px, 22vh); margin: 0 auto; flex: none; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ring circle { fill: none; stroke-width: 10; }
+.ring circle { fill: none; stroke-width: 12; }
 .ring .trk { stroke: var(--fill); }
-.ring .seg { stroke-linecap: round; transition: stroke-dasharray .35s ease, stroke-dashoffset .35s ease, opacity .2s; }
+.ring .seg { stroke-linecap: butt; transition: stroke-dasharray .35s ease, stroke-dashoffset .35s ease, opacity .2s; }
 .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
 .ring .amount-field span { font-size: 18px; }
 .ring .amount-field input { font-size: 36px; letter-spacing: -1px; max-width: 150px; }
-.ring-center small { font-size: 13px; color: var(--sec); font-variant-numeric: tabular-nums; }
-.free { margin-top: -8px; text-align: center; font-size: 14px; color: var(--sec); font-variant-numeric: tabular-nums; }
 .cat-rows { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 .cat-row { min-height: 56px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
 .cat-row > i { flex: none; width: 10px; height: 10px; border-radius: 3px; }
@@ -183,10 +181,6 @@
 .total-ctl .icon-btn { width: 48px; height: 48px; border: 1px solid var(--line); }
 .total-ctl .icon-btn:hover { border-color: var(--ink); }
 .total-ctl span { font-size: 14px; font-weight: 600; color: var(--sec); min-width: 110px; text-align: center; }
-.quick { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.quick .pill { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); font-size: 14px; color: var(--ink); }
-.quick .pill[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-.quick { flex-wrap: nowrap; gap: 6px; } .quick .pill { flex: 1 1 0; padding: 0 6px; font-size: 13px; min-width: 0; }
 
 /* interesses: grade de fotos; escolhido ganha contorno preto, selo de check e a foto fica viva */
 .ints { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -230,37 +224,58 @@
 .bub[aria-pressed="true"] b { color: var(--ink); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .bub-ph { animation: none; } }
 
-/* interesses no estilo Airbnb: cartões com ícone de traço animado, nome e frase; escolhido ganha borda preta grossa */
-.amen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.am { position: relative; min-height: 112px; padding: 16px; border: 1px solid #DDDDDD; border-radius: 18px; background: #fff; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; text-align: left; color: var(--ink); animation: rise-in .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i) * 40ms); transition: border-color .15s, box-shadow .15s, background .15s, transform .15s; }
-.am:hover { border-color: var(--ink); }
-.am:active { transform: scale(.96); }
-.am[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: #F7F7F7; }
-.am-ic { display: block; width: 34px; height: 34px; }
-.am-tx { display: flex; flex-direction: column; gap: 2px; }
-.am-tx b { font-size: 16px; font-weight: 600; }
-.am-tx small { font-size: 13px; color: var(--sec); }
-.am-ok { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; transform: scale(0); transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
-.am[aria-pressed="true"] .am-ok { transform: scale(1); }
-/* partes que se mexem nos ícones (mais rápido quando escolhido) */
-.am svg * { transform-box: fill-box; }
-.a-sway { transform-origin: 50% 100%; animation: a-sway 3s ease-in-out infinite; }
-@keyframes a-sway { 50% { transform: rotate(-6deg); } }
-.a-wave { animation: a-wave 2s linear infinite; }
-@keyframes a-wave { 50% { transform: translateX(-2px); } }
-.a-twinkle { transform-origin: center; animation: a-tw 1.8s ease-in-out infinite; } .a-twinkle.d2 { animation-delay: .9s; }
-@keyframes a-tw { 50% { opacity: .2; transform: scale(.6); } }
-.a-bob { animation: a-bob 1.8s ease-in-out infinite; }
-@keyframes a-bob { 50% { transform: translateY(-2px); } }
-.a-swing { transform-origin: 50% 0; animation: a-swing 2.4s ease-in-out infinite; }
-@keyframes a-swing { 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
-.a-flag { transform-origin: 0 50%; animation: a-flag 1.2s ease-in-out infinite; }
-@keyframes a-flag { 50% { transform: scaleX(.75); } }
-.a-sun { animation: a-sun 4s ease-in-out infinite; }
-@keyframes a-sun { 50% { transform: translateY(2px); opacity: .7; } }
-.a-needle { transform-origin: center; animation: a-needle 4s ease-in-out infinite; }
-@keyframes a-needle { 30% { transform: rotate(40deg); } 60% { transform: rotate(-20deg); } }
-.a-steam { animation: a-steam 1.8s ease-in-out infinite; }
-@keyframes a-steam { 0% { opacity: 0; transform: translateY(2px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-2px); } }
-.am[aria-pressed="true"] svg * { animation-duration: 1s; }
-@media (prefers-reduced-motion: reduce) { .am svg * { animation: none !important; } }
+/* interesses: galeria em mosaico com ícones de traço; escolhido fica preto e o ícone se mexe */
+.gal { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(64px, 10.5vh, 104px); gap: 8px;
+  grid-template-areas: "praia praia noite" "praia praia comida" "natureza compras comida" "natureza relax relax" "cultura cultura aventura"; }
+.gal-it { position: relative; overflow: hidden; padding: 0; border: 0; border-radius: 22px; background: var(--fill); color: var(--ink); text-align: left; cursor: pointer;
+  animation: gal-in .5s cubic-bezier(.34, 1.56, .64, 1) backwards; animation-delay: calc(var(--i) * 55ms + 80ms); transition: background .3s, color .3s, transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes gal-in { from { opacity: 0; transform: scale(.86) translateY(10px); } }
+.gal-it:hover { background: #EDEDEF; }
+.gal-it:active { transform: scale(.95); }
+.gal-ic { position: absolute; left: 12px; top: 12px; display: grid; color: inherit; }
+.gal-it[data-k="praia"] .gal-ic { left: 50%; top: 42%; transform: translate(-50%, -50%); }
+.gal-it[data-k="comida"] .gal-ic, .gal-it[data-k="natureza"] .gal-ic { top: 16px; }
+.gal-tx { position: absolute; left: 12px; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 1px; }
+.gal-tx b { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gal-tx small { font-size: 12px; font-weight: 500; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .3s; }
+.gal-it[data-k="praia"] .gal-tx { left: 16px; bottom: 14px; }
+.gal-it[data-k="praia"] .gal-tx b { font-size: 22px; letter-spacing: -0.5px; }
+.gal-ok { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid #D4D4D9; color: transparent; transition: background .2s, color .2s, border-color .2s, transform .35s cubic-bezier(.34, 1.56, .64, 1); }
+/* escolhido: fundo preto, texto e ícone brancos, check branco */
+.gal-it[aria-pressed="true"] { background: var(--brand); color: #fff; }
+.gal-it[aria-pressed="true"] .gal-tx small { color: rgba(255,255,255,.7); }
+.gal-it[aria-pressed="true"] .gal-ok { background: #fff; border-color: #fff; color: var(--brand); transform: scale(1.1); }
+.gal-it.pop { animation: gal-pop .45s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes gal-pop { 40% { transform: scale(.93); } }
+/* movimento de cada ícone: devagar parado, mais vivo quando escolhido */
+.gal-ic svg { transform-origin: 50% 80%; animation: 3.2s ease-in-out infinite; }
+.mv-sway svg { animation-name: mv-sway; } @keyframes mv-sway { 50% { transform: rotate(-7deg); } }
+.mv-bob svg { animation-name: mv-bob; } @keyframes mv-bob { 50% { transform: translateY(-4px); } }
+.mv-twinkle svg { animation-name: mv-tw; } @keyframes mv-tw { 50% { transform: scale(.88) rotate(-8deg); opacity: .7; } }
+.mv-rise svg { animation-name: mv-rise; } @keyframes mv-rise { 50% { transform: translateY(-3px) scale(1.04); } }
+.mv-steam svg { animation-name: mv-steam; } @keyframes mv-steam { 50% { transform: rotate(4deg) translateY(-2px); } }
+.mv-spin svg { transform-origin: 50% 50%; animation-name: mv-spin; animation-timing-function: linear; animation-duration: 8s; } @keyframes mv-spin { to { transform: rotate(360deg); } }
+.gal-it[aria-pressed="true"] .gal-ic svg { animation-duration: 1.6s; }
+.gal-it[aria-pressed="true"] .mv-spin svg { animation-duration: 3s; }
+@media (prefers-reduced-motion: reduce) { .gal-it, .gal-it.pop, .gal-ic svg { animation: none !important; } }
+/* calendário: arrastar sem rolar a página; a grade nova entra do lado do mês escolhido */
+#calGrid { touch-action: none; user-select: none; -webkit-user-select: none; }
+.cal-head, .cal-week { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.cal-head .icon-btn:disabled { opacity: .3; }
+.cal-grid.from-r > * { animation: cal-in-r .32s cubic-bezier(.2, .8, .2, 1) both !important; }
+.cal-grid.from-l > * { animation: cal-in-l .32s cubic-bezier(.2, .8, .2, 1) both !important; }
+@keyframes cal-in-r { from { opacity: 0; transform: translateX(24px); } }
+@keyframes cal-in-l { from { opacity: 0; transform: translateX(-24px); } }
+/* orçamento sem rolagem: linhas de categoria um pouco mais baixas */
+.cat-row { min-height: 48px; }
+@media (prefers-reduced-motion: reduce) { .cal-grid.from-r > *, .cal-grid.from-l > * { animation: none !important; } }
+.ring .amount-view b { font-size: 30px; }
+.ring .amount-view span { font-size: 15px; }
+/* blocos pequenos da galeria: nome em até duas linhas e sem a frase */
+.gal-it[data-k="noite"] .gal-tx small, .gal-it[data-k="compras"] .gal-tx small, .gal-it[data-k="aventura"] .gal-tx small, .gal-it[data-k="comida"] .gal-tx small { display: none; }
+.gal-it[data-k="noite"] .gal-tx b, .gal-it[data-k="compras"] .gal-tx b, .gal-it[data-k="aventura"] .gal-tx b, .gal-it[data-k="comida"] .gal-tx b { white-space: normal; line-height: 1.15; overflow-wrap: normal; hyphens: none; font-size: 14px; }
+.gal-tx { left: 10px; right: 10px; }
+/* orçamento: botões das categorias mais estreitos para o nome caber */
+.cat-row { grid-template-columns: 10px minmax(0, 1fr) 36px 84px 36px !important; column-gap: 8px !important; }
+/* por dia e noites embaixo do anel (antes ficava apertado dentro dele) */
+.ring-note { margin: -6px 0 0; text-align: center; font-size: 14px; color: var(--sec); font-variant-numeric: tabular-nums; }

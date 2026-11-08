@@ -14,7 +14,7 @@
 .day-chip.drop { transform: scale(1.1); border: 1.5px dashed var(--ink); }
 
 .tl-head { flex: none; display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 12px 20px 2px; }
-.tl-head strong { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.tl-head strong { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; color: var(--sec); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tl-head span { font-size: 13px; color: var(--sec); font-variant-numeric: tabular-nums; }
 
 .dist { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--sec); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -168,19 +168,13 @@
 .choice[data-choose="auto"] .choice-go { background: var(--brand); color: #fff; }
 
 /* roteiro como aba: título grande, botão de escolher no topo e espaço para a barra flutuante */
-#plan .tab-head .btn-sec { flex: none; min-height: 44px; padding: 0 14px 0 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; }
 #plan .tl { padding-bottom: 120px; }
 
 /* ---------- roteiro: linha do tempo com trilho azul, paradas numeradas e cartões com foto ---------- */
 #plan { background: var(--surface); }
 .tl-head { padding-top: 16px; }
-.tl-head strong { font-size: 20px; }
-.tl-sum { margin: -2px 0 12px; font-size: 13px; color: var(--sec); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: rise-in .4s cubic-bezier(.2, .8, .2, 1) backwards; }
 /* agenda e Maps: dois botões redondos ao lado do dia */
 #dayCount { display: flex; align-items: center; gap: 6px; }
-.tl-ic { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
-.tl-ic:hover { border-color: var(--ink); }
-.tl-ic:active { transform: scale(.92); }
 /* linha fina ligando os pontos das paradas, no lugar da linha de distância */
 .ev { position: relative; margin-bottom: 8px; }
 .ev:not(.last)::before { content: ""; position: absolute; left: 61px; top: 50%; width: 2px; height: calc(100% + 8px); background: var(--brand-soft); }
@@ -216,12 +210,8 @@
 .trip-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; animation: m-kenburns 12s cubic-bezier(.2, .8, .2, 1) both; }
 .trip-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .62)); }
 .th-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.th-tx small { font-size: 12px; font-weight: 600; opacity: .85; }
 .th-tx strong { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .th-tx > span { font-size: 13px; opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
-.th-wx { flex: none; display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); font-size: 12px; }
-.th-wx b { font-size: 16px; font-weight: 700; }
-.th-wx small { display: none; }
 /* agora na linha do tempo e paradas que já passaram */
 .tl-now { position: relative; display: flex; align-items: center; margin: 6px 0 6px 52px; height: 26px; animation: rise-in .5s .2s cubic-bezier(.2, .8, .2, 1) backwards; }
 .tl-now::before { content: ""; position: absolute; left: 4px; right: 0; top: 50%; height: 2px; background: var(--brand); border-radius: 2px; }
@@ -246,11 +236,28 @@
 .tl-out .pill:hover, .when-out .pill:hover, .rt-out .pill:hover { border-color: var(--ink); }
 .when-out { margin: 14px 0 4px; justify-content: center; }
 .rt-out { margin: 14px 8px 2px; }
-.ev-map { position: relative; }
-.ev-map i { position: absolute; right: -2px; bottom: -2px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; border: 2px solid var(--surface); }
 
-.ev .pph.ev-map { overflow: visible; }
-.ev .pph.ev-map img, .ev .pph.ev-map svg:not(i svg) { border-radius: 16px; }
 /* cartão de deslizar: a foto fica inteira arredondada (em cima e embaixo), com respiro dentro do cartão */
 .dcard { padding: 8px 8px 0; }
 .dcard .photo { border-radius: 18px; }
+/* foto da viagem: limpa, só a cidade e as datas; tocar abre Suas viagens */
+.trip-hero { width: calc(100% - 40px); border: 0; text-align: left; font: inherit; cursor: pointer; transition: transform .2s cubic-bezier(.2, .8, .2, 1); }
+.trip-hero:active { transform: scale(.98); }
+/* chips dos dias com o clima de cada dia */
+.day-chip.wx small { display: inline-flex; align-items: center; justify-content: center; gap: 3px; font-variant-numeric: tabular-nums; }
+.day-chip.wx small svg { flex: none; }
+/* suas viagens */
+.trips-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 24px; overflow-y: auto; }
+/* dias da viagem: os chips dividem a largura toda (com muitos dias, rolam para o lado) */
+.day-strip .day-chip { flex: 1 0 70px; width: auto; }
+/* topo do roteiro com mais respiro até a foto */
+#plan .tab-head { padding-top: calc(var(--safe-top) + 12px); padding-bottom: 14px; }
+/* linha do tempo com mais respiro: bolinhas numeradas maiores e um pouco mais de espaço entre os cartões */
+.ev { grid-template-columns: 44px 26px minmax(0, 1fr); margin-bottom: 12px; }
+.ev-dot { width: 26px; height: 26px; font-size: 13px; }
+.ev:not(.last)::before { left: 64px; height: calc(100% + 12px); }
+/* rota no Maps de onde a pessoa está até a parada */
+.ev-go { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
+.ev-go svg { width: 16px; height: 16px; }
+.ev-go:hover { border-color: var(--ink); }
+.ev-go:active { transform: scale(.9); }
