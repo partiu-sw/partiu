@@ -27,7 +27,7 @@ function renderConta() {
   $('contaScroll').innerHTML = `
     <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')} no roteiro</span></div></header>
     <button class="ct-me" data-profile aria-label="Abrir seu perfil">
-      <span class="ct-av"><img src="img/avatares/ana.svg" alt=""></span>
+      <span class="ct-av"><img src="img/avatares/ana.jpg" alt=""></span>
       <span class="tx"><strong>${esc(u.name)}</strong><small>Ver perfil e ajustes</small></span>
       <span class="ct-go">${svg('chevR', 18, 2.2)}</span>
     </button>
@@ -54,7 +54,7 @@ function renderPerfil() {
   $('perfilBack').innerHTML = svg('chevL', 22, 2.2);
   $('perfilScroll').innerHTML = `
     <div class="pf-me">
-      <span class="pf-av"><img src="img/avatares/ana.svg" alt="Foto de ${esc(u.name)}"></span>
+      <span class="pf-av"><img src="img/avatares/ana.jpg" alt="Foto de ${esc(u.name)}"></span>
       <div class="pf-name" id="pfName"><strong>${esc(u.name)}</strong><small>${esc(u.email || '')}</small></div>
       <button class="pill pf-edit" data-edit-profile>Editar nome</button>
     </div>
