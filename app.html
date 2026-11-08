@@ -17,18 +17,18 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
-<link rel="stylesheet" href="css/base.css?v=59">
-<link rel="stylesheet" href="css/screens/onboarding.css?v=59">
-<link rel="stylesheet" href="css/screens/quiz.css?v=59">
-<link rel="stylesheet" href="css/screens/loading.css?v=59">
-<link rel="stylesheet" href="css/screens/plan.css?v=59">
-<link rel="stylesheet" href="css/screens/map.css?v=59">
-<link rel="stylesheet" href="css/screens/login.css?v=59">
-<link rel="stylesheet" href="css/screens/feed.css?v=59">
-<link rel="stylesheet" href="css/screens/conta.css?v=59">
-<link rel="stylesheet" href="css/pill.css?v=59">
-<link rel="stylesheet" href="css/motion.css?v=59">
-<link rel="stylesheet" href="css/desktop.css?v=59">
+<link rel="stylesheet" href="css/base.css?v=62">
+<link rel="stylesheet" href="css/screens/onboarding.css?v=62">
+<link rel="stylesheet" href="css/screens/quiz.css?v=62">
+<link rel="stylesheet" href="css/screens/loading.css?v=62">
+<link rel="stylesheet" href="css/screens/plan.css?v=62">
+<link rel="stylesheet" href="css/screens/map.css?v=62">
+<link rel="stylesheet" href="css/screens/login.css?v=62">
+<link rel="stylesheet" href="css/screens/feed.css?v=62">
+<link rel="stylesheet" href="css/screens/conta.css?v=62">
+<link rel="stylesheet" href="css/pill.css?v=62">
+<link rel="stylesheet" href="css/motion.css?v=62">
+<link rel="stylesheet" href="css/desktop.css?v=62">
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
@@ -67,12 +67,14 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 
   <!-- Perguntas -->
   <section id="quiz" class="screen" hidden>
+    <div class="q-top">
     <header class="q-head">
       <button class="icon-btn" id="qBack" aria-label="Voltar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <span id="qStep"></span>
       <button class="link q-skip" id="qSkip">Pular</button>
     </header>
     <div class="progress" id="qProg" role="group" aria-label="Etapas"></div>
+    </div>
     <div class="q-body" id="qBody"></div>
     <footer class="q-foot">
       <p id="qNote" hidden></p>
@@ -220,21 +222,21 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/data.js?v=59"></script>
-<script src="js/core.js?v=59"></script>
-<script src="js/ui/hnav.js?v=59"></script>
-<script src="js/screens/intro.js?v=59"></script>
-<script src="js/screens/quiz.js?v=59"></script>
-<script src="js/screens/loading.js?v=59"></script>
-<script src="js/screens/plan.js?v=59"></script>
-<script src="js/screens/map.js?v=59"></script>
-<script src="js/trips.js?v=59"></script>
-<script src="js/export.js?v=59"></script>
-<script src="js/screens/feed.js?v=59"></script>
-<script src="js/screens/conta.js?v=59"></script>
-<script src="js/screens/login.js?v=59"></script>
-<script src="js/main.js?v=59"></script>
+<script src="js/data.js?v=62"></script>
+<script src="js/core.js?v=62"></script>
+<script src="js/ui/hnav.js?v=62"></script>
+<script src="js/screens/intro.js?v=62"></script>
+<script src="js/screens/quiz.js?v=62"></script>
+<script src="js/screens/loading.js?v=62"></script>
+<script src="js/screens/plan.js?v=62"></script>
+<script src="js/screens/map.js?v=62"></script>
+<script src="js/trips.js?v=62"></script>
+<script src="js/export.js?v=62"></script>
+<script src="js/screens/feed.js?v=62"></script>
+<script src="js/screens/conta.js?v=62"></script>
+<script src="js/screens/login.js?v=62"></script>
+<script src="js/main.js?v=62"></script>
 <script>window.PHONE_NATIVE = true;</script>
-<script src="js/viewmode.js?v=59"></script>
+<script src="js/viewmode.js?v=62"></script>
 </body>
 </html>

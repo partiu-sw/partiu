@@ -20,8 +20,8 @@ const tripPlaces = (t) => (t.plan ? t.plan.days.reduce((n, d) => n + d.length, 0
 function seedTrips() {
   if (tripOwner() !== 'demo@partiu.app' || readTrips().length) return;
   writeTrips([
-    { id: 'v-porto-belo', city: 'portobelo', query: 'Porto Belo', start: 20261218, end: 20261221, budget: 2600, alloc: [1100, 900, 600], interests: ['natureza', 'praia'], plan: null, updated: 2 },
-    { id: 'v-itapema', city: 'itapema', query: 'Itapema', start: 20260912, end: 20260914, budget: 1400, alloc: [600, 500, 300], interests: ['comida', 'relax'], plan: null, updated: 1 }
+    { id: 'v-porto-belo', city: 'portobelo', query: 'Porto Belo', start: 20261218, end: 20261221, budget: 2600, alloc: [1040, 780, 520, 260], interests: ['natureza', 'praia'], plan: null, updated: 2 },
+    { id: 'v-itapema', city: 'itapema', query: 'Itapema', start: 20260912, end: 20260914, budget: 1400, alloc: [560, 420, 280, 140], interests: ['comida', 'relax'], plan: null, updated: 1 }
   ]);
 }
 

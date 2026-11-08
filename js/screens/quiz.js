@@ -105,6 +105,8 @@ function renderQuiz() {
           <small id="budgetDay"></small>
         </div>
       </div>
+      <div class="total-ctl"><button class="icon-btn" data-act="minus" aria-label="Diminuir o total em R$ 100">${svg('minus', 18, 2.4)}</button><span>Total da viagem</span><button class="icon-btn" data-act="plus" aria-label="Aumentar o total em R$ 100">${svg('plus', 18, 2.4)}</button></div>
+      <div class="quick" id="quick">${[1000, 2000, 3000, 5000].map((v) => `<button class="pill" data-act="quick" data-v="${v}">${money(v)}</button>`).join('')}</div>
       <p class="free" id="free"></p>
       <div class="cat-rows">${ALLOC.map(([k, l, bg], i) => `
         <div class="cat-row" data-i="${i}">
@@ -170,40 +172,53 @@ function renderCal() {
     <div class="cal-grid">${cells}</div>`;
 }
 
-// O total é a soma das categorias: o meio do anel só mostra; cada + e − muda a categoria e o total junto.
+// O total é definido pela pessoa (−/+ e valores rápidos); o meio do anel só mostra.
+// As categorias dividem esse total: aumentar uma tira dos outras, sem mudar o total.
 function renderBudget() {
   if (!Array.isArray(S.alloc) || S.alloc.length !== ALLOC.length) S.alloc = DEFAULT_SPLIT.map((p) => Math.round(S.budget * p / 10) * 10);
-  S.budget = S.alloc.reduce((a, b) => a + b, 0);
+  const diff = S.budget - S.alloc.reduce((a, b) => a + b, 0); S.alloc[0] = Math.max(0, S.alloc[0] + diff);
   $('budgetTotal').textContent = S.budget.toLocaleString('pt-BR');
   $('budgetDay').textContent = `${money(perDay())} por dia · ${plural(nights(), 'noite', 'noites')}`;
+  document.querySelectorAll('#quick .pill').forEach((p) => p.setAttribute('aria-pressed', +p.dataset.v === S.budget));
   renderCats();
   updateFoot();
 }
 const RING_C = 2 * Math.PI * 86;
 function renderCats() {
-  const total = S.budget;
-  const big = S.alloc.indexOf(Math.max(...S.alloc));
-  $('free').textContent = total ? `Maior parte em ${ALLOC[big][1].toLowerCase()} · ${Math.round(S.alloc[big] / total * 100)}%` : 'Toque em + para começar';
+  const total = S.budget, big = S.alloc.indexOf(Math.max(...S.alloc));
+  $('free').textContent = total ? `Maior parte em ${ALLOC[big][1].toLowerCase()} · ${Math.round(S.alloc[big] / total * 100)}%` : '';
   let start = 0;
   document.querySelectorAll('.ring .seg').forEach((s, i) => {
     const len = total ? S.alloc[i] / total * RING_C : 0, vis = Math.max(0, len - 8);
-    s.style.strokeDasharray = `${vis} ${RING_C}`;
-    s.style.strokeDashoffset = -(start + 4);
-    s.style.opacity = vis > 0 ? 1 : 0;
-    start += len;
+    s.style.strokeDasharray = `${vis} ${RING_C}`; s.style.strokeDashoffset = -(start + 4); s.style.opacity = vis > 0 ? 1 : 0; start += len;
   });
   document.querySelectorAll('.cat-row').forEach((row) => {
-    const i = +row.dataset.i, inp = row.querySelector('.cat-in');
+    const i = +row.dataset.i, inp = row.querySelector('.cat-in'), others = total - S.alloc[i];
     if (document.activeElement !== inp) inp.value = money(S.alloc[i]);
-    row.querySelector('[data-act="catPlus"]').disabled = S.budget >= 100000;
+    row.querySelector('[data-act="catPlus"]').disabled = others <= 0;
     row.querySelector('[data-act="catMinus"]').disabled = S.alloc[i] <= 0;
   });
 }
+// muda uma categoria e compensa nas outras, na proporção de cada uma
 function setAlloc(i, v) {
-  S.alloc[i] = Math.max(0, Math.min(50000, Math.round(v)));
+  v = Math.max(0, Math.min(S.budget, Math.round(v / 10) * 10));
+  let delta = v - S.alloc[i]; S.alloc[i] = v;
+  const idx = S.alloc.map((_, k) => k).filter((k) => k !== i);
+  while (delta !== 0) {
+    const pool = idx.filter((k) => (delta > 0 ? S.alloc[k] > 0 : true));
+    if (!pool.length) break;
+    const k = pool.sort((a, b) => (delta > 0 ? S.alloc[b] - S.alloc[a] : S.alloc[a] - S.alloc[b]))[0];
+    const step = delta > 0 ? Math.min(delta, S.alloc[k], 10) : Math.max(delta, -10);
+    S.alloc[k] -= step; delta -= step;
+  }
   renderBudget();
 }
-function setBudget(v) { const k = v / Math.max(1, S.budget); S.alloc = S.alloc.map((a) => Math.round(a * k / 10) * 10); renderBudget(); }
+// total novo: as categorias acompanham na mesma proporção
+function setBudget(v) {
+  const old = S.budget || 1; S.budget = Math.max(100, Math.min(100000, Math.round(v / 10) * 10));
+  S.alloc = S.alloc.map((a) => Math.round(a * S.budget / old / 10) * 10);
+  renderBudget();
+}
 
 // Atualiza os cartões no lugar, para as transições de seleção rodarem.
 function renderPrefs() {
@@ -225,6 +240,7 @@ $('qBody').addEventListener('click', (e) => {
   }
   if (act === 'prevMonth') { S.monthOff--; renderCal(); }
   if (act === 'nextMonth') { S.monthOff++; renderCal(); }
+  if (act === 'quick') setBudget(+t.dataset.v);
   if (act === 'minus') setBudget(S.budget - 100);
   if (act === 'plus') setBudget(S.budget + 100);
   if (act === 'catMinus') setAlloc(+t.dataset.i, S.alloc[+t.dataset.i] - 100);

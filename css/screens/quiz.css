@@ -174,3 +174,16 @@
 .cat-row { display: grid !important; grid-template-columns: 10px minmax(0, 1fr) 40px 88px 40px; align-items: center; column-gap: 10px; }
 .cat-row b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .cat-row .cat-in { width: 100%; text-align: center; }
+
+/* cabeçalho das etapas fixo no topo, com um degradê branco embaixo quando o conteúdo rola por trás */
+.q-top { position: sticky; top: 0; z-index: 5; background: var(--surface); padding-bottom: 10px; }
+.q-top::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 28px; background: linear-gradient(var(--surface), rgba(255,255,255,0)); pointer-events: none; }
+/* orçamento: o total se define direto (−/+ e valores rápidos); as categorias dividem esse total */
+.total-ctl { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.total-ctl .icon-btn { width: 48px; height: 48px; border: 1px solid var(--line); }
+.total-ctl .icon-btn:hover { border-color: var(--ink); }
+.total-ctl span { font-size: 14px; font-weight: 600; color: var(--sec); min-width: 110px; text-align: center; }
+.quick { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.quick .pill { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); font-size: 14px; color: var(--ink); }
+.quick .pill[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.quick { flex-wrap: nowrap; gap: 6px; } .quick .pill { flex: 1 1 0; padding: 0 6px; font-size: 13px; min-width: 0; }

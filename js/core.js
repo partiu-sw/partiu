@@ -63,9 +63,8 @@ const QUIZ = ['dest', 'dates', 'budget', 'prefs'];
 const TODAY = 20261106;
 // Categorias do orçamento: ícone, nome e o tom usado na barra de distribuição.
 // Categorias do orçamento: ícone, nome e o tom de cinza do anel (do preto ao cinza claro).
-const ALLOC = [['dormir', 'Hospedagem', '#111111'], ['comer', 'Alimentação', '#3A3A3F'], ['ver', 'Passeios', '#5E5E64'],
-  ['aventura', 'Transporte', '#808086'], ['noite', 'Vida noturna', '#A2A2A8'], ['compras', 'Compras', '#C4C4C9'], ['relax', 'Extras', '#DCDCDF']];
-const DEFAULT_SPLIT = [0.35, 0.25, 0.12, 0.1, 0.08, 0.06, 0.04];
+const ALLOC = [['dormir', 'Hospedagem', '#111111'], ['comer', 'Alimentação', '#5E5E64'], ['ver', 'Passeios', '#A2A2A8'], ['aventura', 'Transporte', '#DCDCDF']];
+const DEFAULT_SPLIT = [0.4, 0.3, 0.2, 0.1];
 // [chave, nome, como aparece no texto de carregamento]
 const INTERESTS = [
   ['praia', 'Praia', 'praias'], ['noite', 'Vida noturna', 'bares'], ['comida', 'Gastronomia', 'restaurantes'],
@@ -75,7 +74,7 @@ const INTERESTS = [
 const S = {
   step: 'intro', slide: 0, city: 'bc', query: 'Balneário Camboriú', monthOff: 0,
   // Exemplo: quem já chegou e decide no destino (pesquisa de rua, nov. 2026): começa hoje, fim de semana prolongado.
-  start: 20261106, end: 20261109, budget: 2000, alloc: [700, 500, 240, 200, 160, 120, 80], maxStep: 0,
+  start: 20261106, end: 20261109, budget: 2000, alloc: [800, 600, 400, 200], maxStep: 0,
   interests: new Set(['praia', 'comida']),
   filter: 'all', sel: null
 };
