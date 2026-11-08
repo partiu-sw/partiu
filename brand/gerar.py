@@ -18,12 +18,14 @@ FAMILY = '-apple-system, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-
 PIN = 'M256 420s118-104 118-196a118 118 0 0 0-236 0c0 92 118 196 118 196zm0-150a46 46 0 1 1 0-92 46 46 0 0 1 0 92z'
 
 
-def mark(rx=116):
-    # quadrado azul liso com o pino branco por cima
-    return f'<rect width="512" height="512" rx="{rx}" fill="{BRAND}"/><path d="{PIN}" fill="#fff" fill-rule="evenodd"/>'
-
-
 PIN_LINE = '<path d="M12 21.2s-7.2-6.3-7.2-12.1a7.2 7.2 0 0 1 14.4 0c0 5.8-7.2 12.1-7.2 12.1z" fill="none" stroke="{c}" stroke-width="2.3" stroke-linejoin="round"/><circle cx="12" cy="9.1" r="2.7" fill="none" stroke="{c}" stroke-width="2.3"/>'
+
+
+def mark(rx=116):
+    # quadrado preto com o pino vazado branco (o mesmo da logo), para favicon e ícone de app
+    return f'<rect width="512" height="512" rx="{rx}" fill="{BRAND}"/><g transform="translate(100 92) scale(13)">{PIN_LINE.format(c="#FFFFFF")}</g>'
+
+
 
 
 def svg_pin(color='#111111'):
@@ -83,17 +85,15 @@ render(icon_img(180, 0), 180, 180, 'apple-touch-icon.png', transparent=False)
 render(icon_img(512), 512, 512, 'icon-512.png')
 # foto da organização no GitHub (o GitHub recorta em círculo): marca sem cantos, com respiro
 render(f'<div style="width:500px;height:500px;background:{BRAND};display:grid;place-items:center">'
-       f'<svg width="300" height="300" viewBox="0 0 512 512"><path d="{PIN}" fill="#fff" fill-rule="evenodd"/></svg></div>', 500, 500, 'avatar.png', transparent=False)
-# imagem de prévia do repositório (1280 × 640): foto do litoral, logo e frase
-photo = 'file://' + os.path.join(ROOT, 'img', 'post2.jpg')
-render(f'''<div style="position:relative;width:1280px;height:640px;overflow:hidden;font-family:-apple-system,'SF Pro Display',Inter,sans-serif;color:#fff">
-  <img src="{photo}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,22,48,.86) 0%,rgba(6,22,48,.55) 55%,rgba(6,22,48,.1) 100%)"></div>
-  <div style="position:absolute;left:84px;top:84px;width:520px">{svg_logo(text='#FFFFFF').replace('<svg ', '<svg width="420" ')}</div>
-  <div style="position:absolute;left:88px;bottom:96px;width:760px">
-    <div style="font-size:66px;line-height:1.02;font-weight:700;letter-spacing:-2px">Chegou? O Partiu<br>decide com você.</div>
-    <div style="margin-top:22px;font-size:26px;font-weight:500;opacity:.85">O que fazer, onde comer e onde sair no litoral catarinense, na hora.</div>
+       f'<svg width="260" height="260" viewBox="0 0 24 24">{PIN_LINE.format(c="#FFFFFF")}</svg></div>', 500, 500, 'avatar.png', transparent=False)
+# imagem de prévia do repositório (1280 × 640): fundo preto, logo branca e a frase, só preto e branco
+render(f'''<div style="position:relative;width:1280px;height:640px;overflow:hidden;background:#111111;font-family:-apple-system,'SF Pro Display',Inter,sans-serif;color:#fff">
+  <div style="position:absolute;left:88px;top:84px;width:520px">{svg_logo(text='#FFFFFF').replace('<svg ', '<svg width="400" ')}</div>
+  <div style="position:absolute;left:92px;bottom:100px;width:900px">
+    <div style="font-size:76px;line-height:1.02;font-weight:800;letter-spacing:-3px">Chegou? Partiu.</div>
+    <div style="margin-top:24px;font-size:28px;font-weight:500;color:#B5B5BA">O que fazer, comer e curtir perto de você no litoral catarinense, na hora.</div>
   </div>
+  <svg style="position:absolute;right:-60px;top:60px;opacity:.07" width="560" height="560" viewBox="0 0 24 24">{PIN_LINE.format(c='#FFFFFF')}</svg>
 </div>''', 1280, 640, 'social-preview.png', transparent=False)
 
 CH.close()
