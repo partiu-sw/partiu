@@ -62,3 +62,6 @@
 /* "Seu dia": o + fica por cima da foto, sem ser cortado */
 .story.mine i { z-index: 2; }
 .story-ring img { z-index: 1; }
+/* publicação patrocinada de parceiro */
+.post.sponsored { border: 1.5px solid var(--ink); }
+.post.sponsored { border-radius: 28px; overflow: hidden; }

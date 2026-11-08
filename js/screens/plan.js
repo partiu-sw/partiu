@@ -108,6 +108,9 @@ function ensurePlan() {
   const sugg = cp.slice(1).map((p) => ({ title: p.name, sub: p.sub, icon: p.cat, type: placeType(p), ll: p.ll }));
   INTERESTS.forEach(([k]) => { if (S.interests.has(k)) (GENERIC[k] || []).forEach(([t, s, ic, ty], i) => sugg.push({ title: t, sub: s, icon: ic, type: ty, ll: near(ty, sugg.length + i) })); });
   const D = Math.max(2, Math.min(10, nights() + 1));
+  // modelo de negócio: até 2 parceiros da cidade entram primeiro nas sugestões do tipo deles
+  if (typeof partnerPool === 'function') partnerPool().filter((q) => ['comer', 'relax', 'aventura'].includes(q.icon)).slice(0, 2).forEach((q) =>
+    sugg.unshift({ title: q.name, sub: q.sub, icon: q.icon, type: typeFor(q), ll: q.ll, partner: true }));
   S.plan = { days: Array.from({ length: D }, () => []), sugg: sugg.map((s) => ({ ...s, id: 'it' + planSeq++ })), skipped: [], picked: [] };
   curDay = 0;
   stage = STAGES[0];
@@ -464,7 +467,7 @@ function cardHTML(it, cls) {
     <span class="stamp yes">QUERO IR</span><span class="stamp no">PULAR</span>
     <div class="body">
       <span class="cicon" role="img" aria-label="${TYPES[it.type].hint}">${svg(TYPES[it.type].icon, 20, 2)}</span>
-      <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${svg('dormir', 13, 2)}${distText(hotelLL(), it.ll)} do hotel</span></span>
+      <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${svg('dormir', 13, 2)}${distText(hotelLL(), it.ll)} do hotel</span>${isPartner(it) ? `<span class="dc-offer">${partnerTag()} ${esc(partnerOf(it.title).offer)}</span>` : ''}</span>
     </div>
   </div>`;
 }

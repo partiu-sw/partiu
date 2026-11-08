@@ -50,13 +50,24 @@ function renderFeed() {
   $('feedNew').innerHTML = svg('plus', 20, 2.2);
   $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><img src="img/avatares/ana.jpg" alt=""><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
     STORIES.map(([n, ph], i) => `<button class="story" role="listitem" style="--i:${i}" data-story="${esc(n)}"><span class="story-ring"><img src="${ph}" alt=""></span><small>${esc(n)}</small></button>`).join('');
+  // modelo de negócio: um parceiro da cidade aparece como publicação patrocinada, com a oferta
+  window.SPONSORED = (typeof partnerPool === 'function' ? partnerPool() : []).slice(0, 1).map((q) => ({
+    id: 'sp-' + q.id, who: q.name, at: norm(q.name).replace(/[^a-z0-9]+/g, ''), place: q.name, city: city().name, ago: 'Patrocinado',
+    photo: photoFor(q.name + ' ' + q.sub) || 'img/praia-central.jpg', text: `${partnerOf(q.name).offer}. Mostre o Partiu no caixa.`,
+    likes: 41, comments: 3, near: true, follow: false, tag: 'Parceiro', sponsored: true
+  }));
   const all = [...st.mine, ...POSTS];
   // só a cidade da viagem aberta (as suas publicações aparecem sempre)
   const list = all.filter((p) => p.mine || p.city === city().name);
+  if (window.SPONSORED.length) list.splice(Math.min(2, list.length), 0, ...window.SPONSORED);
   $('posts').innerHTML = list.length ? list.map((p, i) => postHTML(p, i)).join('') :
     `<div class="tl-empty"><strong>Nada por aqui ainda</strong><p>Seja o primeiro a postar um lugar desta cidade.</p></div>`;
 }
 function postHTML(p, i) {
+  if (p.sponsored) return postHTMLBase(p, i).replace('<article class="post', '<article class="post sponsored');
+  return postHTMLBase(p, i);
+}
+function postHTMLBase(p, i) {
   const st = feedData(), liked = st.liked.includes(p.id), saved = st.saved.includes(p.id), added = chosen && S.plan && chosen().some((x) => x.title === p.place);
   return `<article class="post" style="--i:${i}" data-post="${p.id}">
     <div class="post-photo" data-dbl="${p.id}"><img src="${p.photo}" alt="Foto de ${esc(p.place)}" loading="lazy">
@@ -80,7 +91,7 @@ function likePost(id, burst) {
   const st = feedData();
   if (burst && st.liked.includes(id)) { popBurst(id); return; }
   const on = toggleIn(st.liked, id); feedSave();
-  const b = $('posts').querySelector(`[data-like="${id}"]`), p = [...st.mine, ...POSTS].find((x) => x.id === id);
+  const b = $('posts').querySelector(`[data-like="${id}"]`), p = [...st.mine, ...POSTS, ...(window.SPONSORED || [])].find((x) => x.id === id);
   if (b) { b.setAttribute('aria-pressed', on); b.querySelector('span').textContent = kfmt(p.likes + (on ? 1 : 0)); replay(b, 'pop'); }
   if (on && burst) popBurst(id);
 }
@@ -102,7 +113,7 @@ $('feed').addEventListener('click', (e) => {
   if (t.closest('[data-comment]')) return feedNote('Comentários chegam na próxima versão');
   const ad = t.closest('[data-add]');
   if (ad) {
-    const p = [...feedData().mine, ...POSTS].find((x) => x.id === ad.dataset.add);
+    const p = [...feedData().mine, ...POSTS, ...(window.SPONSORED || [])].find((x) => x.id === ad.dataset.add);
     ensurePlan();
     if (!chosen().some((x) => x.title === p.place)) {
       const ty = /praia/i.test(p.tag) ? 'praia' : /caf/i.test(p.tag) ? 'cafe' : /restaurante/i.test(p.tag) ? 'refeicao' : 'passeio';

@@ -231,6 +231,14 @@ h2.in .w > i, .w.in > i { transform: none; }
 .chip { cursor: default; }
 .marquee { transition: transform .1s linear; }
 @media (prefers-reduced-motion: reduce) { .w > i { transform: none !important; } .screens .shot .phone, .pill.blue::after { animation: none !important; } }
+.plans { display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; margin: 6px 0 26px; max-width: 560px; }
+.plan { border: 1px solid rgba(255,255,255,.35); border-radius: 24px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; background: rgba(255,255,255,.08); backdrop-filter: blur(10px); }
+.plan.on { background: #fff; color: #111; border-color: #fff; }
+.plan small { font-size: 13px; font-weight: 700; opacity: .7; }
+.plan b { font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+.plan b i { font-size: 15px; font-style: normal; opacity: .6; }
+.plan span { font-size: 14px; opacity: .8; line-height: 1.35; }
+@media (max-width: 600px) { .plans { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -328,6 +336,10 @@ h2.in .w > i, .w.in > i { transform: none; }
         <div class="biz-in">
           <h2>Tem um comércio <em style="color:#fff">no litoral?</em></h2>
           <p>Grátis pra quem viaja. Quem aparece é quem quer ser encontrado.</p>
+          <div class="plans">
+            <div class="plan"><small>Básico</small><b>Grátis</b><span>Na busca e no mapa</span></div>
+            <div class="plan on"><small>Destaque</small><b>R$ 99<i>/mês</i></b><span>Pino em destaque, recomendação no roteiro, topo da busca e oferta no feed</span></div>
+          </div>
           <a class="pill white" href="https://docs.google.com/forms/d/e/1FAIpQLSc3ryFzWCyA51aWQ6B4gV7X-O76FFA51r5XBaJhOz7qp9kWbw/viewform" target="_blank" rel="noopener">Quero participar</a>
         </div>
       </div>
@@ -335,7 +347,7 @@ h2.in .w > i, .w.in > i { transform: none; }
   </section>
 </main>
 
-<footer><div class="wrap"><a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a><span>Startup Weekend Turistech Itapema 2026 · Fotos: Wikimedia Commons e Pexels</span></div></footer>
+<footer><div class="wrap"><a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a><span>Startup Weekend Turistech Itapema 2026</span></div></footer>
 
 <script>
 // Celulares da landing: cada um carrega o app de verdade na tela indicada, só quando chega perto da tela.

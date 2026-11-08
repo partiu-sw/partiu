@@ -63,3 +63,34 @@
 .ct-when { flex: none; font-size: 13px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
 .ct-trip.past .ct-when, .ct-trip.past strong { color: var(--sec); }
 .ct-trip.past .ct-ph img { filter: grayscale(.6); }
+/* modelo de negócio na Conta: ofertas de parceiros e "Seja parceiro" */
+.ct-offers { display: flex; flex-direction: column; gap: 10px; }
+.ct-offer { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); text-align: left; }
+.ct-offer-ph { flex: none; width: 56px; height: 56px; border-radius: 16px; overflow: hidden; background: var(--fill); display: grid; place-items: center; }
+.ct-offer-ph img { width: 100%; height: 100%; object-fit: cover; }
+.ct-offer .tx { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ct-offer strong { font-size: 15px; font-weight: 700; }
+.ct-offer small { font-size: 13px; color: var(--sec); }
+.ct-biz { width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px; border: 0; border-radius: 24px; background: var(--ink); color: #fff; text-align: left; }
+.ct-biz-ic { flex: none; width: 46px; height: 46px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+.ct-biz .tx { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.ct-biz strong { font-size: 16px; }
+.ct-biz small { font-size: 13px; opacity: .8; }
+.ct-biz .ct-go { color: #fff; }
+.biz-wrap { z-index: 1700; }
+.biz-body { display: flex; flex-direction: column; gap: 14px; padding: 4px 20px 24px; overflow-y: auto; }
+.biz-lead { font-size: 15px; color: var(--sec); }
+.biz-plans { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+.biz-plan { border: 1px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 4px; }
+.biz-plan.on { border: 2px solid var(--ink); }
+.biz-plan small { font-size: 12px; font-weight: 700; color: var(--sec); }
+.biz-plan strong { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+.biz-plan strong i { font-size: 14px; font-style: normal; color: var(--sec); }
+.biz-plan span { font-size: 12px; color: var(--sec); line-height: 1.35; }
+.biz-body h3 { font-size: 15px; font-weight: 700; margin-top: 4px; }
+.biz-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.biz-stats div { background: var(--fill); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 2px; }
+.biz-stats b { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.biz-stats span { font-size: 12px; color: var(--sec); }
+.biz-note { font-size: 11px; color: var(--sec); }
+.biz-body .btn-primary { display: flex; align-items: center; justify-content: center; text-decoration: none; color: #fff; }

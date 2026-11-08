@@ -11,6 +11,7 @@ function startLoading() {
     liked[1] ? `Agora ${liked[1]} perto do hotel` : 'Conferindo avaliações e dicas locais',
     'Vendo o que abre nesses horários',
     `Cabendo em ${money(perDay())} por dia`,
+    'Separando ofertas de parceiros perto do hotel',
     `${found} lugares separados para você`
   ];
   const pics = [...new Set(c.places.concat(S.plan.sugg.map((x) => ({ name: x.title, sub: x.sub }))).map((p) => photoFor(p.name + ' ' + p.sub)).filter(Boolean))].slice(0, 8);

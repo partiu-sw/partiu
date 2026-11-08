@@ -57,7 +57,48 @@ function renderConta() {
           <span class="ct-go">${svg('chevR', 16, 2.4)}</span>
         </button>`; }).join('')}
       </div>
-    </section>`;
+    </section>
+    ${typeof partnerPool === 'function' ? `<section class="ct-sec">
+      <div class="ct-sec-head"><div><h2>Ofertas para você</h2><span>De parceiros perto do seu hotel</span></div></div>
+      <div class="ct-offers">${partnerPool().slice(0, 4).map((q) => { const ph = photoFor(q.name + ' ' + q.sub); return `<button class="ct-offer" data-offer="${q.id}" aria-label="${esc(q.name)}: ${esc(partnerOf(q.name).offer)}">
+        <span class="ct-offer-ph">${ph ? `<img src="${ph}" alt="">` : svg(q.icon, 22, 1.8)}</span>
+        <span class="tx">${partnerTag()}<strong>${esc(partnerOf(q.name).offer)}</strong><small>${esc(q.name)} · ${shortDist(q.m)}</small></span>
+      </button>`; }).join('')}</div>
+    </section>
+    <section class="ct-sec">
+      <button class="ct-biz" data-biz>
+        <span class="ct-biz-ic">${svg('compras', 22, 2)}</span>
+        <span class="tx"><strong>Tem um comércio no litoral?</strong><small>Apareça em destaque para quem está perto. Veja como funciona.</small></span>
+        <span class="ct-go">${svg('chevR', 16, 2.4)}</span>
+      </button>
+    </section>` : ''}`;
+}
+
+// Painel do parceiro (exemplo): o que o comércio paga e o que recebe
+function openBiz() {
+  const o = document.createElement('div');
+  o.className = 'when-wrap biz-wrap'; o.id = 'bizSheet';
+  o.innerHTML = `<div class="when-panel biz-panel" role="dialog" aria-label="Seja parceiro do Partiu">
+    <div class="grabber"></div>
+    <div class="sheet-head"><strong>Seja parceiro</strong><button class="icon-btn" data-biz-close aria-label="Fechar">${svg('x', 18, 2.2)}</button></div>
+    <div class="biz-body">
+      <p class="biz-lead">Grátis para quem viaja. O comércio paga para aparecer na hora certa, para quem está perto.</p>
+      <div class="biz-plans">
+        <div class="biz-plan"><small>Básico</small><strong>Grátis</strong><span>Aparece na busca e no mapa</span></div>
+        <div class="biz-plan on"><small>Destaque</small><strong>R$ 99<i>/mês</i></strong><span>Pino em destaque no mapa, recomendação no horário livre do roteiro, topo da busca e oferta no feed</span></div>
+      </div>
+      <h3>Exemplo de painel do parceiro · Café Grão da Ilha</h3>
+      <div class="biz-stats">
+        <div><b>2.340</b><span>viram no mapa</span></div>
+        <div><b>318</b><span>abriram a rota</span></div>
+        <div><b>146</b><span>usaram a oferta</span></div>
+      </div>
+      <p class="biz-note">Números ilustrativos. Preço em teste com o comércio da orla.</p>
+      <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSc3ryFzWCyA51aWQ6B4gV7X-O76FFA51r5XBaJhOz7qp9kWbw/viewform" target="_blank" rel="noopener">Quero ser parceiro</a>
+    </div>
+  </div>`;
+  $('conta').appendChild(o);
+  o.addEventListener('click', (e) => { if (e.target === o || e.target.closest('[data-biz-close]')) o.remove(); });
 }
 
 // Perfil: foto, nome (editável), e-mail e os ajustes em linhas simples
@@ -89,6 +130,9 @@ $('conta').addEventListener('click', (e) => {
   const tr = t.closest('[data-trip]');
   if (tr) { if (tr.dataset.trip !== S.tripId) openTrip(tr.dataset.trip); return go('main'); }
   if (t.closest('[data-new-trip]')) return newTrip();
+  if (t.closest('[data-biz]')) return openBiz();
+  const of = t.closest('[data-offer]');
+  if (of) { const q = searchPool().find((x) => x.id === of.dataset.offer); go('main'); setTimeout(() => showFound(q), 450); }
 });
 $('perfilBack').addEventListener('click', () => go('conta'));
 $('perfil').addEventListener('click', (e) => {
