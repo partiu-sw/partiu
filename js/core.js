@@ -128,6 +128,7 @@ function go(step) {
   else if (step === 'feed') { showScreen('feed', dir); renderFeed(); }
   else if (step === 'conta') { showScreen('conta', dir); renderConta(); }
   else { showScreen('main', dir); showMain(); }
+  document.documentElement.dataset.screen = shown ? shown.id : step; // a barra de status do iPhone fica branca sobre foto
   setTabbar(step);
   if (TABS.includes(step)) saveTrip();
   if (typeof syncRoute === 'function') syncRoute(step);
