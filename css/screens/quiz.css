@@ -202,3 +202,14 @@
 .int[aria-pressed="true"] { box-shadow: inset 0 0 0 3px #111; }
 .int[aria-pressed="true"]::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; box-shadow: inset 0 0 0 3px #111, inset 0 0 0 6px #fff; pointer-events: none; }
 .int[aria-pressed="true"] .int-ok { background: #111; border-color: #fff; color: #fff; transform: scale(1.08); }
+
+/* galeria: tamanhos diferentes e fotos sempre vivas (o escolhido se destaca pelo contorno e pelo check) */
+.ints { grid-auto-rows: 86px; grid-auto-flow: dense; }
+.int { aspect-ratio: auto; grid-row: span 2; }
+.int-praia, .int-compras { grid-row: span 3; }
+.int-natureza { grid-column: 1 / -1; grid-row: span 2; }
+.int img { filter: saturate(1.25) contrast(1.06) brightness(1.04); transform: scale(1.02); }
+.int[aria-pressed="true"] img { filter: saturate(1.3) contrast(1.08) brightness(1.06); }
+.int:not([aria-pressed="true"]) .int-tx { opacity: .95; }
+.int::after { background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.6)); }
+.int-noite img { filter: saturate(1.3) contrast(1.1) brightness(1.25); }

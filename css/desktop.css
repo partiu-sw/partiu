@@ -103,3 +103,11 @@
   html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
   html:not(.phone-mode) #login .lg-body { justify-content: center; }
 }
+@media (min-width: 900px) {
+  html:not(.phone-mode) .ints { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 96px; }
+  html:not(.phone-mode) .int-natureza { grid-column: span 2; }
+  html:not(.phone-mode) .int-praia { grid-column: span 2; grid-row: span 3; }
+  html:not(.phone-mode) .int-relax { grid-column: span 2; }
+  html:not(.phone-mode) .int-compras { grid-row: span 5; }
+  html:not(.phone-mode) .int-aventura { grid-row: span 3; }
+}
