@@ -1,4 +1,4 @@
-// Explorar: mapa Leaflet, painel de lugares e localização.
+// Explorar: mapa 3D (MapLibre GL, em js/map3d.js; Leaflet quando não há WebGL), painel de lugares e localização.
 /* ---------- tela principal ---------- */
 let map, markers = {}, meMarker, routeLine, mapCity;
 function haversine(a, b) {
@@ -7,11 +7,11 @@ function haversine(a, b) {
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(h));
 }
-const pinIcon = (n, sel, title) => L.divIcon({
+const pinIcon = (n, sel, title) => MK.divIcon({
   className: '', iconSize: [44, 44], iconAnchor: [22, 22],
   html: `<div class="pin${sel ? ' sel' : ''}"><span class="pin-dot">${n}</span>${sel ? `<span class="pin-label">${esc(title)}</span>` : ''}</div>`
 });
-const homeIcon = () => L.divIcon({ className: '', iconSize: [44, 44], iconAnchor: [22, 22], html: `<div class="pin home"><span class="pin-dot">${svg('dormir', 18)}</span></div>` });
+const homeIcon = () => MK.divIcon({ className: '', iconSize: [44, 44], iconAnchor: [22, 22], html: `<div class="pin home"><span class="pin-dot">${svg('dormir', 18)}</span></div>` });
 
 // Previsão do tempo de exemplo (fictícia): muda por cidade e por dia.
 const WX = [['sol', 'Ensolarado', 29, 21], ['chuva', 'Chuva à tarde', 23, 19], ['parcial', 'Sol e nuvens', 27, 20], ['sol', 'Ensolarado', 30, 22], ['nublado', 'Nublado', 25, 20], ['parcial', 'Sol e nuvens', 26, 20]];
@@ -50,10 +50,24 @@ function rasterBase() {
   }).addTo(map);
 }
 function webglOk() { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } }
+// 3D quando o navegador tem WebGL; senão, Leaflet com os blocos salvos (MK tem a mesma API nos dois casos)
+const use3D = !!(window.maplibregl && typeof GL !== 'undefined' && webglOk());
+const MK = use3D ? GL : window.L;
+const OFM_ATTR = '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles &copy; OpenStreetMap';
+// estilo de reserva do mapa 3D (sem rede para o OpenFreeMap): os blocos salvos em tiles/, de cima
+function rasterStyle() {
+  const base = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+  return { version: 8, sources: { t: { type: 'raster', tiles: [base + 'tiles/{z}/{x}/{y}.png'], tileSize: 256, maxzoom: 15, attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap' } }, layers: [{ id: 't', type: 'raster', source: 't' }] };
+}
 function addBaseMap() {
+  if (use3D) {
+    fetch(MAP_STYLE).then((r) => r.json()).then((st) => { st.sources.openmaptiles.attribution = OFM_ATTR; map.setStyle(styleForBrand(st)); })
+      .catch(() => { map.setStyle(rasterStyle()); map.tilt(false); });
+    return;
+  }
   if (!window.maplibregl || !L.maplibreGL || !webglOk()) return rasterBase();
   fetch(MAP_STYLE).then((r) => r.json()).then((st) => {
-    L.maplibreGL({ style: styleForBrand(st), attribution: '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles &copy; OpenStreetMap' }).addTo(map);
+    L.maplibreGL({ style: styleForBrand(st), attribution: OFM_ATTR }).addTo(map);
   }).catch(rasterBase);
 }
 
@@ -82,13 +96,13 @@ function drawRoute(pts) {
   if (routeLine) routeLine.remove();
   if (routeCasing) { routeCasing.remove(); routeCasing = null; }
   if (pts.length < 2) return;
-  routeLine = L.polyline(pts, { color: '#111111', weight: 3, opacity: 0.55, dashArray: '2 8', lineCap: 'round', interactive: false }).addTo(map);
+  routeLine = MK.polyline(pts, { color: '#111111', weight: 3, opacity: 0.55, dashArray: '2 8', lineCap: 'round', interactive: false }).addTo(map);
   const req = ++routeReq;
   fetchRoute(pts).then((line) => {
     if (req !== routeReq || !map) return;
     routeLine.remove();
-    routeCasing = L.polyline(line, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-casing' }).addTo(map);
-    routeLine = L.polyline(line, { color: '#111111', weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-line' }).addTo(map);
+    routeCasing = MK.polyline(line, { color: '#FFFFFF', weight: 9, opacity: 0.95, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-casing', animate: true }).addTo(map);
+    routeLine = MK.polyline(line, { color: '#111111', weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round', interactive: false, className: 'route-line', animate: true }).addTo(map);
     // a rota "se desenha" do hotel até a última parada
     [routeCasing, routeLine].forEach((pl) => {
       const el = pl.getElement(); if (!el || !el.getTotalLength) return;
@@ -104,17 +118,22 @@ function drawRoute(pts) {
 }
 
 function initMap() {
-  if (map || !window.L) return;
+  if (map || !MK) return;
   // Só a região com blocos baixados (de Balneário Camboriú a Tijucas); fora dela não dá para arrastar.
-  map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
+  map = MK.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
   addBaseMap();
+  $('tilt').hidden = !use3D;
+  if (use3D) { $('map').classList.add('gl'); return addMe(); }
   map.attributionControl.setPrefix(false);
   // crédito compacto: abre e fecha ao tocar no "i"
   const att = map.attributionControl.getContainer();
   att.setAttribute('title', 'Créditos do mapa'); att.addEventListener('click', (e) => { if (e.target.tagName !== 'A') att.classList.toggle('open'); });
   map.attributionControl.setPosition('bottomleft');
-  meMarker = L.marker(FALLBACK_ME.ll, {
-    icon: L.divIcon({ className: '', html: '<div class="me"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+  addMe();
+}
+function addMe() {
+  meMarker = MK.marker(FALLBACK_ME.ll, {
+    icon: MK.divIcon({ className: '', html: '<div class="me"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }),
     interactive: false, keyboard: false, zIndexOffset: 500
   }).addTo(map);
 }
@@ -194,6 +213,7 @@ window.addEventListener('resize', () => { if (!$('main').hidden) setSheet(sheetS
 // Centraliza um ponto na parte do mapa que fica visível entre o cartão do topo e o painel.
 function flyVisible(ll, zoom) {
   const z = zoom ?? map.getZoom();
+  if (use3D) return map.flyTo(ll, z, { duration: 0.8, offset: DESK() ? [SIDE_W / 2, 0] : [0, -(curSheetH() - TRIP_CARD_H) / 2] });
   const pt = map.project(ll, z).add(DESK() ? [-SIDE_W / 2, 0] : [0, (curSheetH() - TRIP_CARD_H) / 2]);
   map.flyTo(map.unproject(pt, z), z, { duration: 0.6 });
 }
@@ -324,22 +344,22 @@ function renderDay(fit) {
   }
   if (!map) return;
   Object.values(markers).forEach((m) => m.remove()); markers = {};
-  if (!homeMarker) homeMarker = L.marker(hotel.ll, { icon: homeIcon(), title: hotel.name, keyboard: false, zIndexOffset: 200 }).addTo(map);
+  if (!homeMarker) homeMarker = MK.marker(hotel.ll, { icon: homeIcon(), title: hotel.name, keyboard: false, zIndexOffset: 200 }).addTo(map);
   homeMarker.setLatLng(hotel.ll);
   items.forEach((it, i) => {
     const sel = it.id === S.sel;
-    markers[it.id] = L.marker(it.ll, { icon: pinIcon(i + 1, sel, it.title), title: it.title, keyboard: true, zIndexOffset: sel ? 1000 : 300 }).on('click', () => select(it.id, false)).addTo(map);
+    markers[it.id] = MK.marker(it.ll, { icon: pinIcon(i + 1, sel, it.title), title: it.title, keyboard: true, zIndexOffset: sel ? 1000 : 300 }).on('click', () => select(it.id, false)).addTo(map);
   });
   drawRoute([hotel.ll, ...items.map((it) => it.ll)]);
   // parceiros em destaque no mapa: pílula preta com estrela e nome; tocar abre o cartão com a oferta
   (window.ptMarkers || []).forEach((m) => m.remove());
   const pts = (typeof partnerPool === 'function' ? partnerPool() : []).filter((p) => !inPlan(p));
-  window.ptMarkers = pts.map((p, i) => L.marker(p.ll, {
-    icon: L.divIcon({ className: '', iconSize: [10, 10], iconAnchor: [5, 5], html: `<div class="pin-pt" style="--i:${i}"><span class="pin-pt-ring" aria-hidden="true"></span><span class="pin-pt-ic">${svg(p.icon, 15, 2)}</span><span class="pin-pt-tx"><b>${esc(p.name)}</b><small>${PARTNER_IC}${esc(partnerOf(p.name).offer)}</small></span></div>` }),
+  window.ptMarkers = pts.map((p, i) => MK.marker(p.ll, {
+    icon: MK.divIcon({ className: '', iconSize: [40, 40], iconAnchor: [20, 20], html: `<div class="pin-pt" style="--i:${i}"><span class="pin-pt-ring" aria-hidden="true"></span><span class="pin-pt-ic">${svg(p.icon, 18, 2)}</span><i class="pin-pt-star" aria-hidden="true">${PARTNER_IC}</i><span class="pin-pt-tx"><b>${esc(p.name)}</b><small>${esc(partnerOf(p.name).offer)}</small></span></div>` }),
     title: `${p.name} (parceiro)`, keyboard: true, zIndexOffset: 900
   }).on('click', () => showFound(p)).addTo(map));
   renderPtStrip(pts);
-  if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll), ...pts.map((p) => p.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [220, 48], maxZoom: 15 } : { paddingTopLeft: [24, TRIP_CARD_H + 12], paddingBottomRight: [140, curSheetH() + 24], maxZoom: 15 });
+  if (fit) map.fitBounds(MK.latLngBounds([hotel.ll, ...items.map((it) => it.ll), ...pts.map((p) => p.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [64, 48], maxZoom: 15 } : { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
 }
 
 // faixa "Parceiros perto" sobre o mapa: cada parceiro com a oferta; tocar abre o cartão do lugar
@@ -410,6 +430,9 @@ function placeMe(ll, msg) {
   flyVisible(ll, 15);
   if (msg) showNote(msg);
 }
+// 3D (inclinado, com prédios) ou 2D (de cima)
+let tilted = true;
+$('tilt').onclick = () => { tilted = !tilted; map.tilt(tilted); $('tilt').textContent = tilted ? '2D' : '3D'; $('tilt').setAttribute('aria-label', tilted ? 'Ver o mapa de cima' : 'Ver o mapa em 3D'); };
 $('locate').onclick = () => {
   if (!map) return;
   if (me) return flyVisible(me, 15);
@@ -481,7 +504,7 @@ function showFound(p) {
   renderFound();
   if (!map) return;
   if (foundMarker) foundMarker.remove();
-  foundMarker = L.marker(p.ll, { icon: L.divIcon({ className: '', iconSize: [44, 44], iconAnchor: [22, 22], html: `<div class="pin sel"><span class="pin-dot">${svg(p.icon, 20)}</span><span class="pin-label">${esc(p.name)}</span></div>` }), zIndexOffset: 2000, keyboard: false }).addTo(map);
+  foundMarker = MK.marker(p.ll, { icon: MK.divIcon({ className: '', iconSize: [44, 44], iconAnchor: [22, 22], html: `<div class="pin sel"><span class="pin-dot">${svg(p.icon, 20)}</span><span class="pin-label">${esc(p.name)}</span></div>` }), zIndexOffset: 2000, keyboard: false }).addTo(map);
   flyVisible(p.ll, 16);
 }
 function renderFound() {

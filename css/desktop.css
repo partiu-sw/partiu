@@ -43,6 +43,8 @@
   html:not(.phone-mode) #main .pt-strip { left: 432px; top: 86px; justify-content: safe center; }
   html:not(.phone-mode) #main .fab { bottom: 24px; right: 24px; }
   html:not(.phone-mode) #main .fab.fab-search { bottom: 76px; }
+  html:not(.phone-mode) #main .fab.fab-tilt { bottom: 128px; }
+  html:not(.phone-mode) #main #map.gl .maplibregl-ctrl-bottom-left { bottom: 0; left: 432px; }
   html:not(.phone-mode) #main .found { left: 432px; right: auto; width: 380px; bottom: 24px; }
   html:not(.phone-mode) #main .search-view { inset: 16px auto 16px 16px; width: 400px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); }
   html:not(.phone-mode) #main .leaflet-bottom.leaflet-right { margin-right: 76px; }

@@ -9,7 +9,7 @@ test.describe('Mapa', () => {
   });
 
   test('o mapa carrega com pinos e a rota do dia', async ({ page }) => {
-    await expect(page.locator('.leaflet-marker-icon').first()).toBeVisible();
+    await expect(page.locator('.leaflet-marker-icon, .map-mk').first()).toBeVisible();
     await expect(page.locator('.pin-dot').first()).toBeVisible();
     await expect(page.locator('#tripCity')).not.toBeEmpty();
   });
