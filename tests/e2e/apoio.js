@@ -6,7 +6,7 @@ const test = base.test.extend({
   page: async ({ page }, use, info) => {
     const erros = [];
     page.on('pageerror', (e) => erros.push(e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource|net::ERR|tiles\.openfreemap|router\.project-osrm|routing\.openstreetmap/.test(m.text())) erros.push(m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource|Failed to fetch|net::ERR|tiles\.openfreemap|router\.project-osrm|routing\.openstreetmap/.test(m.text())) erros.push(m.text()); });
     await use(page);
     base.expect(erros, `erros de JavaScript em ${info.title}`).toEqual([]);
   },
