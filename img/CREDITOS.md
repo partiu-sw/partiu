@@ -43,3 +43,4 @@ Fotos do Wikimedia Commons, reduzidas para o app. Mesmas fotos usadas no pitch (
 - `rio-tijucas.jpg`: Santa Catarina Tijucas.JPG, por Lionel Baur (CC BY-SA 3.0). https://commons.wikimedia.org/wiki/File:Santa_Catarina_Tijucas.JPG
 - `golfinhos.jpg`: Jumping dolphin.jpg, por Karlbrix (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Jumping_dolphin.jpg
 - `bar.jpg`: Koh Mak, Thailand, Beach bar late at night, Live music party.jpg, por Vyacheslav Argenberg (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Koh_Mak,_Thailand,_Beach_bar_late_at_night,_Live_music_party.jpg
+- `avatares/*.jpg`: rostos gerados por IA no This Person Does Not Exist (StyleGAN2); não são pessoas reais.

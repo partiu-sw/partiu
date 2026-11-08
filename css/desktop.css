@@ -88,23 +88,13 @@
 }
 @media (min-width: 900px) { html:not(.phone-mode) #login .lg-hero { clip-path: inset(0 round 36px); } }
 
-/* Roteiro, Feed e Conta usam a largura toda da tela, com a mesma margem lateral do mapa (16px + respiro) */
+/* Roteiro, Feed e Conta: a mesma coluna centralizada, com a mesma largura nas três */
 @media (min-width: 900px) {
-  html:not(.phone-mode) #plan, html:not(.phone-mode) #feed, html:not(.phone-mode) #conta { --side: 40px; }
-  html:not(.phone-mode) #plan .tab-head, html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) #conta .tab-head { padding-left: var(--side); padding-right: var(--side); }
-  html:not(.phone-mode) #plan .trip-hero { margin-left: var(--side); margin-right: var(--side); min-height: 200px; }
-  html:not(.phone-mode) #plan .day-strip, html:not(.phone-mode) #plan .tray-row, html:not(.phone-mode) #plan .tl-head, html:not(.phone-mode) #plan .tl { padding-left: var(--side); padding-right: var(--side); }
-  html:not(.phone-mode) #plan .tray-head { padding-left: var(--side); padding-right: calc(var(--side) - 10px); }
-  html:not(.phone-mode) #plan .tl-out { max-width: 520px; }
-  /* feed em grade de cartões */
-  html:not(.phone-mode) .stories, html:not(.phone-mode) .posts { padding-left: var(--side); padding-right: var(--side); }
-  html:not(.phone-mode) .feed-seg { margin-left: var(--side); margin-right: var(--side); max-width: 560px; }
-  html:not(.phone-mode) .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; gap: 20px; }
-  html:not(.phone-mode) .post-photo { aspect-ratio: 4 / 3.4; max-height: none; }
-  /* conta em duas colunas: viagens à esquerda, ajustes à direita */
-  html:not(.phone-mode) .conta-scroll { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 40px; align-content: start; padding: 0 var(--side) 120px; }
-  html:not(.phone-mode) .conta-scroll .tab-head, html:not(.phone-mode) .conta-scroll .ct-me { grid-column: 1 / -1; }
-  html:not(.phone-mode) #conta .conta-scroll .tab-head { padding-left: 0; padding-right: 0; }
-  html:not(.phone-mode) .ct-me { margin-left: 0; margin-right: 0; }
-  html:not(.phone-mode) .ct-sec { padding-left: 0; padding-right: 0; }
+  html:not(.phone-mode) #plan > :not(.disc):not(.when-wrap):not(.toast):not(.choose),
+  html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *,
+  html:not(.phone-mode) .conta-scroll > * { width: min(760px, calc(100% - 48px)); margin-left: auto; margin-right: auto; }
+  html:not(.phone-mode) .feed-seg { width: min(760px, calc(100% - 48px)); }
+  html:not(.phone-mode) .posts, html:not(.phone-mode) .stories { padding-left: 0; padding-right: 0; }
+  html:not(.phone-mode) #plan .trip-hero { margin-left: auto; margin-right: auto; }
+}
 }

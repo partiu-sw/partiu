@@ -29,7 +29,7 @@ function renderConta() {
   $('contaScroll').innerHTML = `
     <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')} no roteiro</span></div></header>
     <div class="ct-me">
-      <span class="ct-av"><img src="img/avatares/ana.svg" alt="Foto de ${esc(u.name)}"></span>
+      <span class="ct-av"><img src="img/avatares/ana.jpg" alt="Foto de ${esc(u.name)}"></span>
       <span class="tx"><strong>${esc(u.name)}</strong><small>${esc(u.email || '')}</small></span>
       <button class="pill ct-edit" data-edit-profile>Editar</button>
     </div>
