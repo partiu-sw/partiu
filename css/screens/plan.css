@@ -9,7 +9,7 @@
 .dc-w { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 600; text-transform: capitalize; }
 .day-chip b { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
 .day-chip small { font-size: 11px; font-weight: 600; white-space: nowrap; }
-.day-chip.on { background: var(--brand); border-color: transparent; color: rgba(255,255,255,.85); box-shadow: 0 8px 18px rgba(17, 17, 17, .32); }
+.day-chip.on { background: var(--brand); border-color: transparent; color: rgba(255,255,255,.85); box-shadow: none; }
 .day-chip.on b { color: #fff; }
 .day-chip.drop { transform: scale(1.1); border: 1.5px dashed var(--ink); }
 
@@ -235,3 +235,15 @@
 #plan { overflow-y: auto; overscroll-behavior: contain; }
 #plan .tl { flex: none; min-height: auto; overflow: visible; }
 #plan .tab-head, #plan .trip-hero, #plan .day-strip, #plan .tray, #plan .tl-head { flex: none; }
+
+/* levar para fora: agenda e Google Maps */
+.tl-out, .when-out, .rt-out { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 14px; }
+.tl-out .pill, .when-out .pill, .rt-out .pill { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+.tl-out .pill:hover, .when-out .pill:hover, .rt-out .pill:hover { border-color: var(--ink); }
+.when-out { margin: 14px 0 4px; justify-content: center; }
+.rt-out { margin: 14px 8px 2px; }
+.ev-map { position: relative; }
+.ev-map i { position: absolute; right: -2px; bottom: -2px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; border: 2px solid var(--surface); }
+
+.ev .pph.ev-map { overflow: visible; }
+.ev .pph.ev-map img, .ev .pph.ev-map svg:not(i svg) { border-radius: 16px; }
