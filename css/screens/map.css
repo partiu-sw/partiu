@@ -163,3 +163,8 @@
 .rain b { position: absolute; left: var(--x); top: var(--y); width: 18px; height: 7px; margin: -3.5px 0 0 -9px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .85); opacity: 0; animation: rain-splash var(--d) ease-out var(--dl) infinite; }
 @keyframes rain-splash { 0% { opacity: 0; transform: scale(.2); } 10% { opacity: .9; } 60%, 100% { opacity: 0; transform: scale(1.4); } }
 @media (prefers-reduced-motion: reduce) { .rain i, .rain b { display: none; } .rain::before { animation: none; } }
+/* crédito do mapa compacto: só um "i" pequeno; tocando, o texto aparece (exigência das licenças do mapa) */
+.leaflet-control-attribution { width: 20px; height: 20px; padding: 0 !important; overflow: hidden; white-space: nowrap; border-radius: 999px !important; font-size: 0 !important; background: rgba(255,255,255,.8) !important; cursor: pointer; position: relative; }
+.leaflet-control-attribution::before { content: "i"; position: absolute; inset: 0; display: grid; place-items: center; font: 700 11px/1 Georgia, serif; font-style: italic; color: var(--sec); }
+.leaflet-control-attribution.open { width: auto; height: auto; padding: 3px 10px !important; font-size: 9px !important; }
+.leaflet-control-attribution.open::before { display: none; }

@@ -109,6 +109,9 @@ function initMap() {
   map = L.map('map', { zoomControl: false, attributionControl: true, minZoom: 12, maxZoom: 16, maxBounds: [[-27.27, -48.70], [-26.94, -48.50]], maxBoundsViscosity: 1 });
   addBaseMap();
   map.attributionControl.setPrefix(false);
+  // crédito compacto: abre e fecha ao tocar no "i"
+  const att = map.attributionControl.getContainer();
+  att.setAttribute('title', 'Créditos do mapa'); att.addEventListener('click', (e) => { if (e.target.tagName !== 'A') att.classList.toggle('open'); });
   map.attributionControl.setPosition('bottomleft');
   meMarker = L.marker(FALLBACK_ME.ll, {
     icon: L.divIcon({ className: '', html: '<div class="me"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }),
