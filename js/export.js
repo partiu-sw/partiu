@@ -58,7 +58,7 @@ function downloadICS(onlyDay) {
   a.href = URL.createObjectURL(blob);
   a.download = `partiu-${slug}${onlyDay == null ? '' : '-dia-' + (onlyDay + 1)}.ics`;
   document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000); // tempo de sobra para o navegador terminar o download
   return n;
 }
 // Um evento só no Google Agenda (abre a tela de criar evento já preenchida).

@@ -269,3 +269,7 @@
 .ev-pop button { min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--ink); font-size: 15px; font-weight: 500; text-align: left; }
 .ev-pop button:hover, .ev-pop button:focus-visible { background: var(--fill); }
 .ev-pop button svg { flex: none; color: var(--sec); }
+/* arrastar o cartão: a foto não pode ser arrastada sozinha pelo navegador (isso cancelava o gesto no mouse) */
+.dcard, .dcard * { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; }
+.dcard { touch-action: none; cursor: grab; }
+.dcard img { pointer-events: none; }

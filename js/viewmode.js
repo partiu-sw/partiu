@@ -29,6 +29,8 @@
   .vm-btn[aria-pressed="true"] { background: #111; color: #fff; border-color: #111; }
   .vm-btn .grip { opacity: .45; margin-left: 2px; }
   @media (min-width: 900px) { .vm-btn { display: inline-flex; } }
+  /* no mapa, sobe para não cobrir os botões de busca e localização (só na posição padrão) */
+  html[data-screen="main"] .vm-btn:not(.moved) { bottom: 136px; }
   .vm-overlay { position: fixed; inset: 0; z-index: 2147482000; display: grid; place-items: center; background: #F4F4F5; animation: vm-in .35s cubic-bezier(.2,.8,.2,1); }
   @keyframes vm-in { from { opacity: 0; } }
   .vm-phone { position: relative; width: 402px; height: 874px; zoom: var(--phone-k, 1); border-radius: 58px; overflow: hidden; background: #fff; box-shadow: 0 0 0 11px #0B0B0D, 0 0 0 13px #3B3B40, 0 0 0 14px #1A1A1D, 0 40px 90px rgba(0,0,0,.28); }
@@ -67,6 +69,7 @@
     const w = btn.offsetWidth || 160, h = btn.offsetHeight || 42;
     x = Math.max(8, Math.min(innerWidth - w - 8, x)); y = Math.max(8, Math.min(innerHeight - h - 8, y));
     Object.assign(btn.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto' });
+    btn.classList.add('moved');
     return [x, y];
   }
   const saved = (get(POS) || '').split(',').map(Number);
