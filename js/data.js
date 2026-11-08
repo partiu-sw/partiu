@@ -15,7 +15,12 @@ const CITIES = [
     ['ver', 'Praia do Estaleiro', 'Praia · Interpraias', '4,8', 'Grátis', -27.0378, -48.5862],
     ['comer', 'Sushi Maré da Barra', 'Japonesa · Barra Sul', '4,6', '$$$', -27.0040, -48.6140],
     ['comer', 'Padaria Atlântica', 'Café · Pioneiros', '4,5', '$', -26.9752, -48.6340],
-    ['comer', 'Bistrô Pôr do Sol', 'Contemporânea · Centro', '4,7', '$$$', -26.9880, -48.6345]
+    ['comer', 'Bistrô Pôr do Sol', 'Contemporânea · Centro', '4,7', '$$$', -26.9880, -48.6345],
+    ['comer', 'Pizzaria Forno da Praia', 'Pizzaria · Centro', '4,6', '$$', -26.9915, -48.6352],
+    ['comer', 'Sorveteria Gelato Mar', 'Sorveteria · Av. Atlântica', '4,8', '$', -26.9862, -48.6305],
+    ['comer', 'Burger da Orla', 'Hambúrguer · Pioneiros', '4,5', '$$', -26.9790, -48.6355],
+    ['ver', 'Praia de Taquaras', 'Praia · Interpraias', '4,8', 'Grátis', -27.0170, -48.5835],
+    ['ver', 'Parque Ecológico Rio Camboriú', 'Natureza · trilha', '4,5', 'Grátis', -26.9990, -48.6480]
   ]},
   { id: 'itapema', name: 'Itapema', places: [
     ['dormir', 'Pousada Meia Praia', 'Hospedagem · Meia Praia', '4,6', '$$', -27.1240, -48.6045],
@@ -28,7 +33,10 @@ const CITIES = [
     ['ver', 'Canto da Praia', 'Praia · Canto', '4,6', 'Grátis', -27.1310, -48.5960],
     ['ver', 'Praia do Plaza', 'Praia · Trilha', '4,6', 'Grátis', -27.0905, -48.6010],
     ['comer', 'Sorveteria do Canto', 'Café · Meia Praia', '4,6', '$', -27.1225, -48.6040],
-    ['comer', 'Cantina Itapema', 'Italiana · Centro', '4,5', '$$', -27.1035, -48.6120]
+    ['comer', 'Cantina Itapema', 'Italiana · Centro', '4,5', '$$', -27.1035, -48.6120],
+    ['comer', 'Sushi Itapema Bay', 'Japonesa · Meia Praia', '4,6', '$$$', -27.1190, -48.6050],
+    ['comer', 'Burger Canto', 'Hambúrguer · Canto', '4,4', '$$', -27.1290, -48.5985],
+    ['ver', 'Mirante do Encanto', 'Mirante · trilha', '4,7', 'Grátis', -27.1100, -48.5940]
   ]},
   { id: 'portobelo', name: 'Porto Belo', places: [
     ['dormir', 'Pousada Enseada', 'Hospedagem · Centro', '4,6', '$$', -27.1570, -48.5500],
@@ -40,7 +48,10 @@ const CITIES = [
     ['ver', 'Praia do Araçá', 'Praia · Araçá', '4,7', 'Grátis', -27.1350, -48.5302],
     ['ver', 'Praia de Bombas', 'Praia · Bombinhas', '4,7', 'Grátis', -27.1385, -48.5150],
     ['ver', "Praia do Caixa d'Aço", 'Praia · Araçá', '4,8', 'Grátis', -27.1292, -48.5240],
-    ['comer', 'Café da Enseada', 'Café · Centro', '4,5', '$', -27.1575, -48.5515]
+    ['comer', 'Café da Enseada', 'Café · Centro', '4,5', '$', -27.1575, -48.5515],
+    ['comer', 'Pizzaria Porto Antigo', 'Pizzaria · Centro', '4,5', '$$', -27.1580, -48.5525],
+    ['ver', 'Praia do Estaleiro de Porto Belo', 'Praia · Perequê', '4,4', 'Grátis', -27.1680, -48.5690],
+    ['ver', 'Passeio de golfinhos na baía', 'Passeio de barco', '4,8', '$$', -27.1500, -48.5420]
   ]},
   { id: 'tijucas', name: 'Tijucas', places: [
     ['dormir', 'Hotel Tijucas', 'Hospedagem · Centro', '4,4', '$', -27.2410, -48.6350],
@@ -50,6 +61,8 @@ const CITIES = [
     ['comer', 'Peixaria do Rio', 'Frutos do mar · Centro', '4,5', '$$', -27.2445, -48.6345],
     ['ver', 'Praia de Tijucas', 'Praia · Centro', '4,3', 'Grátis', -27.2330, -48.6200],
     ['ver', 'Casarão Bayer', 'História · Centro', '4,5', 'Grátis', -27.2430, -48.6355],
-    ['comer', 'Café do Largo', 'Café · Centro', '4,6', '$', -27.2418, -48.6340]
+    ['comer', 'Café do Largo', 'Café · Centro', '4,6', '$', -27.2418, -48.6340],
+    ['comer', 'Pizzaria Tijucas', 'Pizzaria · Centro', '4,4', '$', -27.2405, -48.6362],
+    ['ver', 'Museu Histórico de Tijucas', 'História · Centro', '4,5', 'Grátis', -27.2422, -48.6328]
   ]}
 ].map((c) => ({ ...c, places: c.places.map((p, i) => ({ id: c.id + i, cat: p[0], name: p[1], sub: p[2], rating: p[3], price: p[4], ll: [p[5], p[6]] })) }));
