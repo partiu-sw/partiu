@@ -5,7 +5,7 @@
 .seg, .feed-seg { border-radius: 999px; padding: 3px; }
 .seg button, .feed-seg button { border-radius: 999px; }
 .time-chip, .stage, .ins.end, .load-steps li, .ev-time, .pa, .amount-field, .cat-in, .stamp { border-radius: 999px; }
-.day-chip { border-radius: 999px; min-height: 84px; }
+.day-chip { border-radius: 22px; min-height: 80px; } /* mais alto que largo: cantos arredondados em vez de pílula, para não ficar oval */
 .stop, .ev-card, .tcard { border-radius: 22px; }
 .ev-card { padding-right: 4px; }
 .trip-card { border-radius: 999px; padding: 8px 10px 8px 22px; }

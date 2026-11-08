@@ -61,5 +61,5 @@ function newTrip() {
 
 // Sessão: quem entrou continua dentro ao recarregar a página.
 function saveSession() { try { localStorage.setItem(SESSION_KEY, JSON.stringify(S.user || null)); } catch (e) { /* ok */ } }
-function loadSession() { try { S.user = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null') || undefined; } catch (e) { S.user = undefined; } return !!S.user; }
+function loadSession() { if (window.EMBED) { S.user = { name: 'Ana', email: 'demo@partiu.app' }; return true; } try { S.user = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null') || undefined; } catch (e) { S.user = undefined; } return !!S.user; }
 function endSession() { saveTrip(); try { localStorage.removeItem(SESSION_KEY); } catch (e) { /* ok */ } S.user = undefined; S.tripId = null; }
