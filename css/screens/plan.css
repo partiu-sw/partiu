@@ -273,3 +273,30 @@
 .dcard, .dcard * { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; }
 .dcard { touch-action: none; cursor: grab; }
 .dcard img { pointer-events: none; }
+
+/* ---------- parceiros (modelo de negócio): selo, cartão na linha do tempo e oferta ---------- */
+.pt-tag { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; padding: 3px 9px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.pt-tag svg { flex: none; }
+.ev-card .pt-tag { margin-top: 3px; }
+.pt-card { display: grid; grid-template-columns: 44px 20px minmax(0, 1fr); gap: 8px; margin: 6px 0 10px; animation: rise-in .45s cubic-bezier(.2, .8, .2, 1) backwards; }
+.pt-time { grid-column: 1; align-self: start; padding-top: 14px; font-size: 15px; font-weight: 700; color: var(--sec); font-variant-numeric: tabular-nums; }
+.pt-box { grid-column: 3; border: 1.5px dashed var(--ink); border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); }
+.pt-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pt-head > span:last-child { font-size: 12px; color: var(--sec); }
+.pt-body { display: flex; align-items: center; gap: 12px; }
+.pt-ph { flex: none; width: 56px; height: 56px; border-radius: 16px; overflow: hidden; background: var(--fill); display: grid; place-items: center; }
+.pt-ph img { width: 100%; height: 100%; object-fit: cover; }
+.pt-body .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pt-body strong { font-size: 15px; font-weight: 700; }
+.pt-body small { font-size: 12px; color: var(--sec); }
+.pt-offer { font-style: normal; font-size: 13px; font-weight: 600; color: var(--ink); }
+.pt-acts { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pt-acts .btn-primary.sm { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; font-size: 14px; width: auto; }
+.pt-why { font-size: 11px; color: var(--sec); }
+.map-tl .pt-card { grid-template-columns: 44px 20px minmax(0, 1fr); }
+.now-card .pt-tag { margin-top: 4px; }
+.pt-offerbox { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border-radius: 16px; background: var(--fill); }
+.pt-offerbox strong { font-size: 15px; }
+.pt-offerbox small { font-size: 12px; color: var(--sec); }
+.sv-row .pt-tag { flex: none; }
+.sv-row .pt-tag { align-self: center; }

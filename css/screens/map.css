@@ -169,3 +169,13 @@
 .map-tl .ev.sel .ev-card { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
 .map-tl .ev-time { pointer-events: auto; }
 .list .rt-start { margin-bottom: 6px; }
+/* parceiros no mapa: pílula preta com ícone, nome e estrela, sempre visível */
+.pin-pt { position: absolute; left: 0; top: 0; transform: translate(-16px, -50%); display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border-radius: 999px; background: #111; color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.28); white-space: nowrap; font-size: 12px; font-weight: 700; animation: pt-pop .5s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+.pin-pt-ic { width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; }
+.pin-pt-star { display: grid; color: #FFD34D; }
+.pin-pt::after { content: ""; position: absolute; left: 14px; bottom: -5px; width: 10px; height: 10px; background: #111; transform: rotate(45deg); border-radius: 2px; z-index: -1; }
+@keyframes pt-pop { from { opacity: 0; transform: translate(-16px, -50%) scale(.6); } }
+/* com vários parceiros perto, o pino fica compacto (ícone e estrela); o nome aparece no hover e no cartão */
+.pin-pt { padding: 3px 7px 3px 3px; gap: 4px; }
+.pin-pt-tx { display: none; }
+.pin-pt:hover .pin-pt-tx { display: inline; }

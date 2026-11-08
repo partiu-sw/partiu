@@ -219,7 +219,7 @@ let mapDay = 0, mapPlan = null, homeMarker, curB = null;
 const NOW = '15:30';
 const fitsNow = (ty) => TYPES[ty].windows.some(([a, b]) => toMin(NOW) >= toMin(a) && toMin(NOW) <= toMin(b));
 const asItem = (p) => ({ title: p.name, sub: p.sub, icon: p.icon === 'pin' ? 'ver' : p.icon, type: typeFor(p), ll: p.ll, id: 'it' + planSeq++ });
-const nowPicks = () => searchPool().filter((p) => !['dormir', 'pin', 'compras'].includes(p.icon) && !inPlan(p) && fitsNow(typeFor(p))).slice(0, 3);
+const nowPicks = () => searchPool().filter((p) => !['dormir', 'pin', 'compras'].includes(p.icon) && !inPlan(p) && fitsNow(typeFor(p))).sort((a, b) => (typeof isPartner === 'function' ? isPartner(b) - isPartner(a) : 0)).slice(0, 3);
 // Plano B: com previsão de chuva, sugere trocar a praia do dia por um lugar coberto perto do hotel.
 function planB(items) {
   const [ic, wx] = wxFor(mapDay);
@@ -243,7 +243,7 @@ function nowHTML(isToday) {
       <div class="now-head"><strong>Perto de você agora</strong><span>${NOW}</span></div>
       <div class="now-row">${picks.map((p) => { const ph = photoFor(p.name + ' ' + p.sub); return `<button class="now-card" data-now="${p.id}" aria-label="Ir agora para ${esc(p.name)}, ${shortDist(p.m)}">
         <span class="now-ph">${ph ? `<img src="${ph}" alt="" loading="lazy">` : svg(p.icon, 24, 1.8)}<i>${shortDist(p.m)}</i></span>
-        <strong>${esc(p.name)}</strong><small>${esc(p.info)}</small></button>`; }).join('')}</div>
+        <strong>${esc(p.name)}</strong><small>${isPartner(p) ? esc(partnerOf(p.name).offer) : esc(p.info)}</small>${isPartner(p) ? partnerTag() : ''}</button>`; }).join('')}</div>
     </section>`;
 }
 // Chuva no mapa: gotas soltas com tamanho, velocidade e atraso aleatórios, mais respingos em pontos
@@ -302,13 +302,15 @@ function renderDay(fit) {
   } else {
     // as paradas no mesmo cartão do Roteiro: horário e clima, número, foto, tempo até lá, rota no Maps e opções
     const nowMin = typeof NOW === 'string' ? toMin(NOW) : 0;
+    const mps = typeof partnerSuggestion === 'function' ? partnerSuggestion(mapDay) : null;
     let prev = null;
     $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-start"><span class="rt-n home">${svg('dormir', 16)}</span><span>Saída de <b>${esc(hotel.name)}</b></span></div><div class="tl map-tl">` +
       items.map((it, i) => {
+        const ptc = mps && mps.after === i ? partnerCardHTML(mps, mapDay) : '';
         const wx = wxAt(mapDay, it.time), leg = legText(prev ? prev.ll : hotel.ll, it.ll) + (prev ? '' : ' do hotel');
         const past = isToday && toMin(it.time) + 60 <= nowMin, live = isToday && !past && toMin(it.time) <= nowMin;
         prev = it;
-        return `<div class="ev${i === items.length - 1 ? ' last' : ''}${past ? ' past' : ''}${live ? ' live' : ''}${it.id === S.sel ? ' sel' : ''}" data-id="${it.id}">
+        return `${ptc}<div class="ev${i === items.length - 1 ? ' last' : ''}${past ? ' past' : ''}${live ? ' live' : ''}${it.id === S.sel ? ' sel' : ''}" data-id="${it.id}">
           <button class="ev-time" data-sel="${it.id}" aria-label="${it.time}, ${esc(it.title)}: ver no mapa">${it.time}${wx ? `<small>${svg(wx[0], 13, 2)}${wx[1]}°</small>` : ''}</button>
           <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card" data-sel="${it.id}" role="button" tabindex="0" aria-pressed="${it.id === S.sel}" aria-label="${esc(it.title)}: ver no mapa">
@@ -318,7 +320,7 @@ function renderDay(fit) {
             <button class="ev-more" data-mmore="${it.id}" aria-haspopup="menu" aria-label="Opções de ${esc(it.title)}">${svg('vdots', 18, 2.2)}</button>
           </div>
         </div>`;
-      }).join('') + '</div>' + nowHTML(isToday);
+      }).join('') + (mps && mps.after >= items.length ? partnerCardHTML(mps, mapDay) : '') + '</div>' + nowHTML(isToday);
   }
   if (!map) return;
   Object.values(markers).forEach((m) => m.remove()); markers = {};
@@ -329,6 +331,12 @@ function renderDay(fit) {
     markers[it.id] = L.marker(it.ll, { icon: pinIcon(i + 1, sel, it.title), title: it.title, keyboard: true, zIndexOffset: sel ? 1000 : 300 }).on('click', () => select(it.id, false)).addTo(map);
   });
   drawRoute([hotel.ll, ...items.map((it) => it.ll)]);
+  // parceiros em destaque no mapa: pílula preta com estrela e nome; tocar abre o cartão com a oferta
+  (window.ptMarkers || []).forEach((m) => m.remove());
+  window.ptMarkers = (typeof partnerPool === 'function' ? partnerPool() : []).filter((p) => !inPlan(p)).map((p) => L.marker(p.ll, {
+    icon: L.divIcon({ className: '', iconSize: [10, 10], iconAnchor: [5, 5], html: `<div class="pin-pt"><span class="pin-pt-ic">${svg(p.icon, 14, 2)}</span><span class="pin-pt-tx">${esc(p.name)}</span><span class="pin-pt-star">${PARTNER_IC}</span></div>` }),
+    title: `${p.name} (parceiro)`, keyboard: true, zIndexOffset: 400
+  }).on('click', () => showFound(p)).addTo(map));
   if (fit) map.fitBounds(L.latLngBounds([hotel.ll, ...items.map((it) => it.ll)]), DESK() ? { paddingTopLeft: [SIDE_W + 32, 100], paddingBottomRight: [48, 48], maxZoom: 15 } : { paddingTopLeft: [36, TRIP_CARD_H + 12], paddingBottomRight: [36, curSheetH() + 24], maxZoom: 15 });
 }
 
@@ -340,6 +348,12 @@ function select(id, fromList) {
   if (map && fromList && S.sel) flyVisible(it.ll, Math.max(map.getZoom(), 15));
   if (!fromList) { const el = $('list').querySelector(`.ev[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
 }
+$('list').addEventListener('click', (e) => {
+  const pa = e.target.closest('[data-pt-add]');
+  if (pa) { const r = addPartnerToDay(pa.dataset.ptAdd, +pa.dataset.ptDay, pa.dataset.ptTime); if (r) { renderDay(true); showNote(`${r.it.title} às ${r.it.time} · ${r.offer}`); } e.stopPropagation(); return; }
+  const pm = e.target.closest('[data-pt-map]');
+  if (pm) { showFound(searchPool().find((x) => x.id === pm.dataset.ptMap)); e.stopPropagation(); }
+}, true);
 $('placesActs').addEventListener('click', (e) => {
   if (e.target.closest('[data-edit]')) { curDay = mapDay; return go('plan'); }
   if (e.target.closest('[data-ics-day]')) { const n = downloadICS(mapDay); return showNote(`${plural(n, 'evento', 'eventos')} do dia no arquivo de agenda`); }
@@ -427,13 +441,13 @@ const shortDist = (m) => (m < 1000 ? `${Math.max(50, Math.round(m / 50) * 50)} m
 function renderSearch() {
   const raw = $('searchInput').value.trim(), q = norm(raw);
   $('searchCats').innerHTML = SEARCH_CATS.map(([k, l]) => `<button class="pill" data-cat="${k}" aria-pressed="${k === searchCat}">${l}</button>`).join('');
-  const list = searchPool().filter((p) => (searchCat === 'all' || catGroup(p.icon) === searchCat) && (!q || norm(p.name + ' ' + p.sub).includes(q)));
+  const list = searchPool().filter((p) => (searchCat === 'all' || catGroup(p.icon) === searchCat) && (!q || norm(p.name + ' ' + p.sub).includes(q))).sort((a, b) => isPartner(b) - isPartner(a));
   const head = q || searchCat !== 'all' ? plural(list.length, 'resultado', 'resultados') : `Perto do seu hotel em ${city().name}`;
   $('searchList').innerHTML = `<p class="label sv-label">${head}</p>` + (list.length ? list.map((p) => `
     <button class="row-btn sv-row" data-res="${p.id}">
       <span class="ic">${svg(p.icon, 20, 1.8)}</span>
-      <span class="tx"><strong>${esc(p.name)}</strong><small>${esc(p.sub)} · ${shortDist(p.m)}</small></span>
-      <span class="sv-rate">★ ${p.rating}</span>
+      <span class="tx"><strong>${esc(p.name)}</strong><small>${isPartner(p) ? esc(partnerOf(p.name).offer) : `${esc(p.sub)} · ${shortDist(p.m)}`}</small></span>
+      ${isPartner(p) ? partnerTag('Destaque') : `<span class="sv-rate">★ ${p.rating}</span>`}
     </button>`).join('') : `<p class="empty">Nada encontrado para “${esc(raw)}”. Tente outro nome ou categoria.</p>`);
 }
 function openSearch() {
@@ -470,6 +484,7 @@ function renderFound() {
       <button class="icon-btn" data-found="close" aria-label="Fechar">${svg('x', 18, 2.2)}</button>
     </div>
     <p class="found-meta">${esc(p.info)} · ${distText(city().places[0].ll, p.ll)} do hotel</p>
+    ${isPartner(p) ? `<div class="pt-offerbox">${partnerTag()}<strong>${esc(partnerOf(p.name).offer)}</strong><small>Mostre o app no caixa</small></div>` : ''}
     ${p.icon === 'dormir' ? '' : added
       ? `<button class="btn-out found-act" data-found="plan">${svg('check', 18, 2.4)} No roteiro · organizar</button>`
       : `<button class="btn-primary sm found-act" data-found="add">${svg('plus', 18, 2.4)} Adicionar ao roteiro</button>`}`;

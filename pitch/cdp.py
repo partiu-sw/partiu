@@ -8,7 +8,12 @@ class Chrome:
     def __init__(self, width, height, scale=1):
         r_in, w_in = os.pipe()    # nós escrevemos -> chrome lê no fd 3
         r_out, w_out = os.pipe()  # chrome escreve no fd 4 -> nós lemos
-        self.profile = tempfile.mkdtemp(prefix='cdp-')
+        # perfil temporário do Chrome fora do /tmp (que tem pouco espaço) e apagado ao fechar
+        base = os.path.join(os.path.expanduser('~'), '.cache', 'partiu-chrome')
+        os.makedirs(base, exist_ok=True)
+        self.profile = tempfile.mkdtemp(prefix='cdp-', dir=base)
+        import atexit, shutil
+        atexit.register(lambda p=self.profile, pr=None: (self.proc.poll() is None and self.proc.kill(), shutil.rmtree(p, ignore_errors=True)))
 
         def child():
             import fcntl

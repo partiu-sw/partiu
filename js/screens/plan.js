@@ -165,7 +165,9 @@ function renderPlan(opts = {}) {
   } else {
     let prev = null, html = '';
     let nowShown = false;
+    const ps = typeof partnerSuggestion === 'function' ? partnerSuggestion(curDay) : null;
     items.forEach((it, i) => {
+      if (ps && ps.after === i) html += partnerCardHTML(ps, curDay);
       const wx = wxAt(curDay, it.time), leg = legText(prev ? prev.ll : h, it.ll) + (prev ? '' : ' do hotel');
       // hoje: marca o horário de agora na linha do tempo e o que já passou
       const past = isToday && toMin(it.time) + 60 <= nowMin, live = isToday && !past && toMin(it.time) <= nowMin;
@@ -175,13 +177,14 @@ function renderPlan(opts = {}) {
           <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card">
             <span class="pph">${scene(it.icon, it.title + ' ' + it.sub)}</span>
-            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
+            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${isPartner(it) ? partnerTag(partnerOf(it.title).offer) : ''}${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
             <a class="ev-go" href="${mapsRoute(it)}" target="_blank" rel="noopener" aria-label="Rota até ${esc(it.title)} no Google Maps">${GMAPS_IC}</a>
             <button class="ev-more" data-drag="${it.id}" aria-haspopup="menu" aria-label="Opções de ${esc(it.title)} (toque) ou arraste para mudar a ordem">${svg('vdots', 18, 2.2)}</button>
           </div>
         </div>`;
       prev = it;
     });
+    if (ps && ps.after >= items.length) html += partnerCardHTML(ps, curDay);
     if (isToday && !nowShown) html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`;
     tl.innerHTML = html;
   }
@@ -197,6 +200,10 @@ $('trayRow').addEventListener('click', (e) => {
 });
 let dragJustEnded = false;
 $('timeline').addEventListener('click', (e) => {
+  const pa = e.target.closest('[data-pt-add]');
+  if (pa) { const r = addPartnerToDay(pa.dataset.ptAdd, +pa.dataset.ptDay, pa.dataset.ptTime); if (r) { renderPlan(); toast(`${r.it.title} às ${r.it.time} · ${r.offer}`); } return; }
+  const pm = e.target.closest('[data-pt-map]');
+  if (pm) { mapDay = curDay; go('main'); setTimeout(() => showFound(searchPool().find((x) => x.id === pm.dataset.ptMap)), 450); return; }
   if (e.target.closest('[data-ics]')) { const n = downloadICS(); return toast(n ? `${plural(n, 'evento', 'eventos')} da viagem no arquivo de agenda` : 'Nada no roteiro para salvar ainda'); }
   if (dragJustEnded) { dragJustEnded = false; return; }
   const t = e.target.closest('[data-time]'), r = e.target.closest('[data-rm]'), add = e.target.closest('[data-add]');
