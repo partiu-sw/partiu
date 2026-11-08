@@ -6,7 +6,7 @@
 .illus::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0,.25) 0%, rgba(0, 0, 0,0) 30%, rgba(0, 0, 0,.15) 50%, rgba(0, 0, 0,.82) 100%); }
 .intro-top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 19px; letter-spacing: -0.4px; }
-.brand img { border-radius: 8px; }
+.brand img { border-radius: 0; }
 .link { border: 0; background: none; color: var(--sec); font-size: 17px; font-weight: 500; min-height: 44px; padding: 0 4px; }
 #intro .link { color: #fff; padding: 0 16px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); font-size: 15px; }
 .intro-text { margin-top: auto; display: flex; flex-direction: column; gap: 12px; text-align: center; }

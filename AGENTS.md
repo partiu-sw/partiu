@@ -13,7 +13,7 @@ Guia para quem (pessoa ou agente) for criar ou mudar telas do Partiu. Tudo aqui 
 
 ## Marca
 
-- Logo em `brand/`: o símbolo é um pino de mapa branco com furo redondo, num quadrado arredondado preto liso (`#111111`). O nome "Partiu" vai em peso bold, sem itálico, na fonte do sistema.
+- Logo em `brand/`: o pino de mapa vazado (contorno grosso com furo redondo) ao lado do nome "Partiu" em peso bem pesado, tudo em preto (ou branco sobre foto). Arquivos do dia a dia: `pin.svg` / `pin-branco.svg` (só o pino) e `logo.svg` / `logo-branco.svg` (pino + nome). O quadrado preto com o pino branco (`icon.svg`) fica só para favicon e ícone de app.
 - Arquivos: `logo.svg` (azul) e `logo-branco.svg` (sobre foto), `icon.svg`, `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`, `avatar.png` (GitHub) e `social-preview.png` (1280 × 640).
 - Toda página nova leva o favicon e `theme-color #111111` no `<head>`, como `app.html` e `index.html`.
 - Para mudar a marca, edite `brand/gerar.py` e rode `python3 -I brand/gerar.py`.

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.join(ROOT, 'pitch'))
 from cdp import Chrome
 
 BRAND, DEEP, LIGHT = '#111111', '#000000', '#8A8A8E'
-FONT = "https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=block"
+FONT = "https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=block"
 FAMILY = '-apple-system, "SF Pro Display", Inter, "Helvetica Neue", Arial, sans-serif'
 
 # Marca limpa: pino de mapa branco com o furo redondo, num quadrado arredondado azul liso.
@@ -23,16 +23,24 @@ def mark(rx=116):
     return f'<rect width="512" height="512" rx="{rx}" fill="{BRAND}"/><path d="{PIN}" fill="#fff" fill-rule="evenodd"/>'
 
 
+PIN_LINE = '<path d="M12 21.2s-7.2-6.3-7.2-12.1a7.2 7.2 0 0 1 14.4 0c0 5.8-7.2 12.1-7.2 12.1z" fill="none" stroke="{c}" stroke-width="2.3" stroke-linejoin="round"/><circle cx="12" cy="9.1" r="2.7" fill="none" stroke="{c}" stroke-width="2.3"/>'
+
+
+def svg_pin(color='#111111'):
+    # logo do dia a dia: só o pino vazado, preto ou branco, sem quadrado
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">{PIN_LINE.format(c=color)}</svg>\n'
+
+
 def svg_icon(rx=116):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">{mark(rx)}</svg>\n'
 
 
-def svg_logo(color=BRAND, text='#1B1F27'):
-    # ícone + nome em peso semibold, sem itálico, como as marcas da Apple.
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 300">'
-            f'<style>@import url("{FONT}"); text {{ font-family: {FAMILY}; font-weight: 700; }}</style>'
-            f'<g transform="translate(10 22) scale(.5)">{mark()}</g>'
-            f'<text x="300" y="200" font-size="176" letter-spacing="-7" fill="{text}">Partiu</text></svg>\n')
+def svg_logo(color=BRAND, text='#111111'):
+    # pino vazado + nome em peso pesado, preto e branco, como na abertura dos slides
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300">'
+            f'<style>@import url("{FONT.replace("&", "&amp;")}"); text {{ font-family: {FAMILY}; font-weight: 800; }}</style>'
+            f'<g transform="translate(10 30) scale(10)">{PIN_LINE.format(c=text)}</g>'
+            f'<text x="270" y="215" font-size="196" letter-spacing="-9" fill="{text}">Partiu</text></svg>\n')
 
 
 def write(name, content):
@@ -44,6 +52,8 @@ write('icon.svg', svg_icon())
 write('favicon.svg', svg_icon(rx=128))
 write('logo.svg', svg_logo())
 write('logo-branco.svg', svg_logo(text='#FFFFFF'))
+write('pin.svg', svg_pin())
+write('pin-branco.svg', svg_pin('#FFFFFF'))
 
 PAGE = '<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="' + FONT + '"><style>html,body{margin:0;background:transparent}*{box-sizing:border-box}</style>'
 

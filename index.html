@@ -34,8 +34,8 @@ em { font-style: italic; color: var(--brand); }
 /* navegação flutuante */
 .nav { position: fixed; z-index: 50; top: 14px; left: 50%; transform: translateX(-50%); width: min(1180px, calc(100% - 24px)); display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 16px; border-radius: 999px; background: rgba(255,255,255,.78); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); box-shadow: 0 8px 30px rgba(0, 0, 0, .08), inset 0 0 0 1px rgba(14, 23, 38, .06); animation: drop .8s var(--ease) backwards; }
 @keyframes drop { from { opacity: 0; transform: translate(-50%, -24px); } }
-.logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 19px; letter-spacing: -0.03em; }
-.logo img { width: 30px; height: 30px; border-radius: 9px; }
+.logo { display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 19px; letter-spacing: -0.03em; }
+.logo img { width: 28px; height: 28px; }
 .nav-links { display: flex; gap: 2px; margin-left: auto; }
 .nav-links a { padding: 10px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--sec); transition: background .2s, color .2s; }
 .nav-links a:hover { background: var(--soft); color: var(--ink); }
@@ -187,7 +187,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space
 <body>
 
 <header class="nav">
-  <a class="logo" href="#top"><img src="brand/icon.svg" alt="">Partiu</a>
+  <a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a>
   <nav class="nav-links" aria-label="Seções"><a href="#como">Como funciona</a><a href="#telas">O app</a><a href="#comercio">Para comércios</a></nav>
   <a class="pill blue" href="app.html#/login">Abrir o app</a>
 </header>
@@ -271,7 +271,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space
   </section>
 </main>
 
-<footer><div class="wrap"><a class="logo" href="#top"><img src="brand/icon.svg" alt="">Partiu</a><span>Startup Weekend Turistech Itapema 2026 · Fotos: Wikimedia Commons</span></div></footer>
+<footer><div class="wrap"><a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a><span>Startup Weekend Turistech Itapema 2026 · Fotos: Wikimedia Commons</span></div></footer>
 
 <script>
 // Movimento da landing: palavra que troca, entradas ao rolar, números que contam, celular que inclina e foto com parallax.
