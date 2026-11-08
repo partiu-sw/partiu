@@ -4,22 +4,22 @@
 :root { --ink:#1d1d1f; --muted:#86868b; --line:#e8e8ed; --soft:#f5f5f7; --blue:#0071e3; --ok:#1a7f37; --warn:#b25e00; --bad:#c4302b; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: #fff; }
-body { width: 210mm; height: 297mm; padding: 12mm 12mm 10mm; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; display: grid; gap: 4mm; align-content: start; overflow: hidden; }
+body { width: 210mm; height: 297mm; padding: 10mm 12mm 8mm; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; display: grid; gap: 3mm; align-content: start; overflow: hidden; }
 .head { display: flex; justify-content: space-between; align-items: flex-end; }
 .brand { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .06em; }
 h1 { margin: 3px 0 0; font-size: 28px; line-height: 1.05; letter-spacing: -0.04em; font-weight: 700; }
 h1 span { color: var(--muted); }
 .meta { font-size: 9.5px; color: var(--muted); text-align: right; line-height: 1.4; }
-.card { background: var(--soft); border-radius: 16px; padding: 12px 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card { background: var(--soft); border-radius: 16px; padding: 10px 13px; display: grid; gap: 8px; align-content: start; min-width: 0; }
 .card h2 { margin: 0; font-size: 9.5px; font-weight: 600; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
 .kpi { grid-template-columns: 1fr auto; align-items: center; gap: 2px 8px; }
 .kpi h2 { grid-column: 1 / -1; }
-.kpi .v { font-size: 34px; font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi .v { font-size: 30px; font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-variant-numeric: tabular-nums; }
 .kpi .n { grid-column: 1; font-size: 9px; color: var(--muted); }
 .kpi svg { grid-column: 2; grid-row: 2 / span 2; width: 46px; height: 46px; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.bars { display: grid; gap: 7px; }
+.bars { display: grid; gap: 5px; }
 .bar { display: grid; gap: 3px; }
 .bt { display: flex; justify-content: space-between; font-size: 10.5px; }
 .bt span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
@@ -27,7 +27,7 @@ h1 span { color: var(--muted); }
 .tr i { display: block; height: 100%; border-radius: 99px; background: #aeaeb2; }
 .bar.top .tr i { background: var(--blue); }
 .bar.top .bt span:first-child { font-weight: 600; }
-.donut { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center; }
+.donut { display: grid; grid-template-columns: 104px 1fr; gap: 12px; align-items: center; }
 .leg { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .leg li { display: grid; grid-template-columns: 10px 1fr auto; gap: 7px; align-items: center; font-size: 10.5px; }
 .leg i { width: 10px; height: 10px; border-radius: 3px; }
@@ -40,7 +40,7 @@ h1 span { color: var(--muted); }
 .pill { justify-self: start; font-size: 8.5px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
 .ok { color: var(--ok); background: rgba(26,127,55,.1); } .warn { color: var(--warn); background: rgba(178,94,0,.1); } .bad { color: var(--bad); background: rgba(196,48,43,.1); }
 .biz { display: grid; grid-template-columns: 1.15fr 1fr; gap: 7px; }
-.circles { display: grid; grid-template-columns: 190px 1fr; gap: 12px; align-items: center; }
+.circles { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: center; }
 .mk { display: grid; gap: 7px; }
 .mk div { display: grid; grid-template-columns: 38px 1fr; align-items: baseline; }
 .mk b { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: .05em; }
@@ -63,7 +63,7 @@ h1 span { color: var(--muted); }
 <header class="head">
   <div><div class="brand">PARTIU · ESTUDO PRÉ-PITCH</div>
   <h1>Reservar é fácil. <span>Decidir o que fazer, não.</span></h1></div>
-  <div class="meta">SW Turistech Itapema · 8 nov 2026<br>29 respostas · 22 formulário + 7 na rua</div>
+  <div class="meta">SW Turistech Itapema · 8 nov 2026<br>43 respostas · 2 pesquisas com turistas</div>
 </header>
 
 <section class="kpis">
@@ -76,7 +76,7 @@ h1 span { color: var(--muted); }
 <section class="row">
   <article class="card"><h2>Como foi reservar</h2>
     <div class="donut">
-      <svg viewBox="0 0 120 120" width="120" height="120">
+      <svg viewBox="0 0 120 120" width="104" height="104">
         <g transform="translate(60,60) rotate(-90)" fill="none" stroke-width="18">
           <circle r="44" stroke="#0071e3" stroke-dasharray="188.4 276.5"/>
           <circle r="44" stroke="#86868b" stroke-dasharray="50.3 276.5" stroke-dashoffset="-189.4"/>
@@ -105,11 +105,42 @@ h1 span { color: var(--muted); }
   </article>
 </section>
 
+<section class="row">
+  <article class="card"><h2>Usariam o Partiu (pesquisa 2 · 14 respostas)</h2>
+    <div class="donut">
+      <svg viewBox="0 0 120 120" width="104" height="104">
+        <g transform="translate(60,60) rotate(-90)" fill="none" stroke-width="18">
+          <circle r="44" stroke="#0071e3" stroke-dasharray="197.5 276.5"/>
+          <circle r="44" stroke="#86868b" stroke-dasharray="58.2 276.5" stroke-dashoffset="-198.5"/>
+          <circle r="44" stroke="#c7c7cc" stroke-dasharray="17.7 276.5" stroke-dashoffset="-257.7"/>
+        </g>
+        <text x="60" y="62" text-anchor="middle" font-size="22" font-weight="700" letter-spacing="-1" fill="#1d1d1f">93%</text>
+        <text x="60" y="76" text-anchor="middle" font-size="9" fill="#86868b">nota 4 ou 5</text>
+      </svg>
+      <ul class="leg">
+        <li><i style="background:#0071e3"></i><span>Nota 5</span><b>10</b></li>
+        <li><i style="background:#86868b"></i><span>Nota 4</span><b>3</b></li>
+        <li><i style="background:#c7c7cc"></i><span>Nota 3</span><b>1</b></li>
+        <li><i style="background:transparent"></i><span style="font-weight:700">Média</span><b>4,6 / 5</b></li>
+      </ul>
+    </div>
+  </article>
+  <article class="card"><h2>O que poderia ter sido melhor (pesquisa 2)</h2>
+    <div class="bars">
+      <div class="bar top"><div class="bt"><span>Perdeu muito tempo pesquisando</span><span>5</span></div><div class="tr"><i style="width:100%"></i></div></div>
+      <div class="bar"><div class="bt"><span>Gastou mais que o previsto</span><span>4</span></div><div class="tr"><i style="width:80%"></i></div></div>
+      <div class="bar"><div class="bt"><span>Deslocamentos mal planejados</span><span>4</span></div><div class="tr"><i style="width:80%"></i></div></div>
+      <div class="bar"><div class="bt"><span>Deixou de conhecer lugares</span><span>3</span></div><div class="tr"><i style="width:60%"></i></div></div>
+      <div class="bar"><div class="bt"><span>Informação espalhada</span><span>3</span></div><div class="tr"><i style="width:60%"></i></div></div>
+    </div>
+  </article>
+</section>
+
 <section class="card"><h2>Hipóteses</h2>
   <div class="hyps">
     <div class="hyp"><span class="id">H1</span><span class="pill bad">Não validada</span><span class="num">15/22</span><span class="t">acharam fácil reservar</span></div>
-    <div class="hyp"><span class="id">H2</span><span class="pill warn">Em parte</span><span class="num">3/7</span><span class="t">não sabiam o que fazer no destino</span></div>
-    <div class="hyp"><span class="id">H3</span><span class="pill warn">Sinal fraco</span><span class="num">2/22</span><span class="t">gastaram mais que o esperado</span></div>
+    <div class="hyp"><span class="id">H2</span><span class="pill ok">Validada</span><span class="num">5/14</span><span class="t">perderam muito tempo pesquisando</span></div>
+    <div class="hyp"><span class="id">H3</span><span class="pill warn">Sinal fraco</span><span class="num">6/36</span><span class="t">gastaram mais que o esperado (2 pesquisas)</span></div>
     <div class="hyp"><span class="id">H4</span><span class="pill ok">Validada</span><span class="num">1,8</span><span class="t">fontes por pessoa para decidir</span></div>
     <div class="hyp"><span class="id">H5</span><span class="pill ok">Validada</span><span class="num">13/22</span><span class="t">tiveram imprevisto na viagem</span></div>
   </div>
@@ -118,7 +149,7 @@ h1 span { color: var(--muted); }
 <section class="biz">
   <article class="card"><h2>Mercado (quem paga: o comércio)</h2>
     <div class="circles">
-      <svg viewBox="0 0 190 150" width="190" height="150">
+      <svg viewBox="0 0 190 150" width="160" height="126">
         <circle cx="95" cy="75" r="72" fill="#e5e5ea"/>
         <circle cx="95" cy="100" r="46" fill="#c7c7cc"/>
         <circle cx="95" cy="122" r="24" fill="#1d1d1f"/>
@@ -162,5 +193,5 @@ h1 span { color: var(--muted); }
   </article>
 </section>
 
-<footer class="foot"><span>Fontes: Pesquisa de Mercado SW (7 nov 2026), painel de hipóteses, feedback dos mentores e slides do pitch. Mercado e preço são estimativas.</span><span>Amostra pequena: sinal, não prova.</span></footer>
+<footer class="foot"><span>Fontes: Pesquisa de Mercado SW (29 respostas, 7 nov) e Pesquisa Planejamento de Viagens (14 respostas, 7–8 nov), painel de hipóteses, feedback dos mentores e slides do pitch. Mercado e preço são estimativas.</span><span>Amostra pequena: sinal, não prova.</span></footer>
 </body></html>
