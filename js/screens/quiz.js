@@ -120,17 +120,23 @@ function renderQuiz() {
     renderBudget();
   } else if (S.step === 'prefs') {
     b.innerHTML = `
-      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Escolha quantos quiser.</p></div>
+      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque nas fotos. Quantas quiser.</p></div>
       <div class="group">
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
-        <div class="bento">${INTERESTS.map(([k, l]) => `
-          <button class="b ${BENTO[k].cls || ''}" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}">${BENTO[k].art}<b>${l}</b><small>${BENTO[k].d}</small></button>`).join('')}
+        <div class="ints">${INTERESTS.map(([k, l], i) => `
+          <button class="int" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i}">
+            <img src="${INT_PIC[k]}" alt="" loading="lazy"><span class="int-ok">${svg('check', 14, 3)}</span>
+            <span class="int-tx"><b>${l}</b><small>${BENTO[k].d}</small></span>
+          </button>`).join('')}
         </div>
       </div>`;
     renderPrefs();
   }
   updateFoot();
 }
+
+// fotos de cada interesse (do litoral), para escolher vendo o lugar
+const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/praia-central.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/golfinhos.jpg', relax: 'img/cafe.jpg' };
 
 function renderDestList() {
   const q = norm(S.query);
