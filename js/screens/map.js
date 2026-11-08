@@ -297,17 +297,25 @@ function renderDay(fit) {
   if (!items.length) {
     $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-empty"><strong>Dia livre</strong><p>Nada marcado para este dia ainda.</p><button class="btn-out" data-edit>Organizar roteiro</button></div>` + nowHTML(isToday);
   } else {
-    let prev = hotel.ll;
-    $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-start"><span class="rt-n home">${svg('dormir', 16)}</span><span>Saída de <b>${esc(hotel.name)}</b></span></div>` +
+    // as paradas no mesmo cartão do Roteiro: horário e clima, número, foto, tempo até lá, rota no Maps e opções
+    const nowMin = typeof NOW === 'string' ? toMin(NOW) : 0;
+    let prev = null;
+    $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-start"><span class="rt-n home">${svg('dormir', 16)}</span><span>Saída de <b>${esc(hotel.name)}</b></span></div><div class="tl map-tl">` +
       items.map((it, i) => {
-        const leg = `<div class="rt-leg">${distText(prev, it.ll)}</div>`;
-        prev = it.ll;
-        return `${leg}<button class="stop" data-id="${it.id}" aria-pressed="${it.id === S.sel}">
-          <span class="rt-n">${i + 1}</span>
-          <span class="stop-tx"><strong>${esc(it.title)}</strong><small><b>${it.time}</b> · ${esc(it.sub)}</small></span>
-          <span class="stop-go">${svg('chevR', 16, 2.4)}</span>
-        </button>`;
-      }).join('') + nowHTML(isToday);
+        const wx = wxAt(mapDay, it.time), leg = legText(prev ? prev.ll : hotel.ll, it.ll) + (prev ? '' : ' do hotel');
+        const past = isToday && toMin(it.time) + 60 <= nowMin, live = isToday && !past && toMin(it.time) <= nowMin;
+        prev = it;
+        return `<div class="ev${i === items.length - 1 ? ' last' : ''}${past ? ' past' : ''}${live ? ' live' : ''}${it.id === S.sel ? ' sel' : ''}" data-id="${it.id}">
+          <button class="ev-time" data-sel="${it.id}" aria-label="${it.time}, ${esc(it.title)}: ver no mapa">${it.time}${wx ? `<small>${svg(wx[0], 13, 2)}${wx[1]}°</small>` : ''}</button>
+          <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
+          <div class="ev-card" data-sel="${it.id}" role="button" tabindex="0" aria-pressed="${it.id === S.sel}" aria-label="${esc(it.title)}: ver no mapa">
+            <span class="pph">${scene(it.icon, it.title + ' ' + it.sub)}</span>
+            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
+            <a class="ev-go" href="${mapsRoute(it)}" target="_blank" rel="noopener" aria-label="Rota até ${esc(it.title)} no Google Maps">${GMAPS_IC}</a>
+            <button class="ev-more" data-mmore="${it.id}" aria-haspopup="menu" aria-label="Opções de ${esc(it.title)}">${svg('vdots', 18, 2.2)}</button>
+          </div>
+        </div>`;
+      }).join('') + '</div>' + nowHTML(isToday);
   }
   if (!map) return;
   Object.values(markers).forEach((m) => m.remove()); markers = {};
@@ -327,7 +335,7 @@ function select(id, fromList) {
   renderDay(false);
   const it = dayItems(mapDay).find((x) => x.id === id);
   if (map && fromList && S.sel) flyVisible(it.ll, Math.max(map.getZoom(), 15));
-  if (!fromList) { const el = $('list').querySelector(`[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  if (!fromList) { const el = $('list').querySelector(`.ev[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
 }
 $('placesActs').addEventListener('click', (e) => {
   if (e.target.closest('[data-edit]')) { curDay = mapDay; return go('plan'); }
@@ -351,7 +359,9 @@ $('list').addEventListener('click', (e) => {
     showNote(`Plano B: ${alt.name} às ${it.time}`);
     return renderDay(true);
   }
-  const t = e.target.closest('.stop'); if (t) select(t.dataset.id, true);
+  const more = e.target.closest('[data-mmore]'); if (more) return openEvMenu(more, true);
+  if (e.target.closest('.ev-go')) return;
+  const t = e.target.closest('[data-sel]'); if (t) select(t.dataset.sel, true);
 });
 $('mapDays').addEventListener('click', (e) => {
   const t = e.target.closest('[data-d]'); if (!t) return;

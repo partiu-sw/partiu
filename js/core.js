@@ -47,16 +47,19 @@ const ICON = {
 };
 // Fotos reais do litoral (img/, créditos em img/CREDITOS.md), escolhidas pelo nome do lugar.
 const PHOTOS = [
+  [/hotel|pousada/i, 'hotel'],
   [/laranjeiras/i, 'laranjeiras'], [/unipraias|bondinho/i, 'unipraias'], [/cristo/i, 'cristo-luz'], [/estaleiro/i, 'estaleiro'],
   [/molhe|barco pirata/i, 'barra-sul'], [/praia grossa|plaza/i, 'praia-grossa'], [/bombas|caixa d/i, 'bombas'], [/bom jesus|aflitos|igreja|casar[aã]o|museu|centro hist/i, 'igreja-porto-belo'],
   [/rio tijucas|margem do rio|praia de tijucas/i, 'rio-tijucas'], [/golfinho/i, 'golfinhos'], [/bar |m[uú]sica ao vivo|feirinha|noturn/i, 'bar'],
   [/praia central/i, 'praia-central'],
   [/trilha|mirante|ilha|barco|ara[cç][aá]/i, 'post3'],
-  [/sorvet/i, 'sorvete'], [/padaria|p[aã]o/i, 'padaria'], [/caf[eé]|gr[aã]o/i, 'cafe'], [/pizz/i, 'pizza'], [/cantina|italian|massa/i, 'cantina'],
+  [/sorvet/i, 'sorvete'], [/padaria|p[aã]o/i, 'padaria'], [/caf[eé]|gr[aã]o/i, 'cafe'], [/pizz/i, 'pizza'], [/spa|massagem/i, 'cafe'], [/cantina|italian|massas?/i, 'cantina'],
   [/sushi|japones/i, 'sushi'], [/ostra/i, 'ostras'], [/hamb[uú]rg|burger|lanch/i, 'hamburguer'], [/salgad|pastel|coxinha|petisc|boteco/i, 'salgados'],
   [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|camar|cais/i, 'frutos-mar'], [/prato feito|\bpf\b|almo[cç]o|buffet/i, 'prato-feito'],
   [/jantar|bistr|restaurante|engenho|contempor|feijoada/i, 'jantar'],
-  [/hotel|pousada/i, 'hotel']
+  // sem foto própria: praias e compras caem numa foto genérica do litoral
+  [/meia praia|canto da praia/i, 'post1'], [/praia de porto belo/i, 'post2'], [/p[oô]r do sol/i, 'por-do-sol'],
+  [/praia|paddle/i, 'manha-praia'], [/compras|loja|feirinha/i, 'barra-sul']
 ];
 const photoFor = (text) => { const hit = PHOTOS.find(([re]) => re.test(text || '')); return hit ? `img/${hit[1]}.jpg` : null; };
 const svg = (name, size = 20, sw = 2) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name]}</svg>`;

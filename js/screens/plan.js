@@ -316,9 +316,10 @@ function startDrag(h, e) {
 }
 
 // Menu do "⋮": mudar o horário ou tirar a parada do dia
-function openEvMenu(h) {
+// onMap: no painel do mapa, "Mudar horário" abre o Roteiro e "Tirar do dia" atualiza o mapa
+function openEvMenu(h, onMap) {
   closeEvMenu();
-  const id = h.dataset.drag, it = S.plan.days[curDay].find((x) => x.id === id);
+  const day = onMap ? mapDay : curDay, id = h.dataset.drag || h.dataset.mmore, it = S.plan.days[day].find((x) => x.id === id);
   if (!it) return;
   const r = h.getBoundingClientRect(), m = document.createElement('div');
   m.className = 'ev-pop'; m.id = 'evPop'; m.setAttribute('role', 'menu');
@@ -327,11 +328,14 @@ function openEvMenu(h) {
   const w = m.offsetWidth;
   Object.assign(m.style, { left: Math.max(8, r.right - w) + 'px', top: (r.bottom + 6) + 'px' });
   if (r.bottom + 6 + m.offsetHeight > innerHeight - 8) m.style.top = (r.top - m.offsetHeight - 6) + 'px';
+  // nunca fora da tela (o botão pode estar quase escondido embaixo do painel)
+  m.style.top = Math.max(8, Math.min(parseFloat(m.style.top), innerHeight - m.offsetHeight - 8)) + 'px';
   h.setAttribute('aria-expanded', 'true');
   m.addEventListener('click', (e) => {
     const b = e.target.closest('[data-pop]'); if (!b) return;
     closeEvMenu();
-    if (b.dataset.pop === 'time') openWhen({ mode: 'time', item: it, day: curDay });
+    if (b.dataset.pop === 'time') { if (onMap) { curDay = day; go('plan'); } openWhen({ mode: 'time', item: it, day }); }
+    else if (onMap) { S.plan.days[day] = S.plan.days[day].filter((x) => x !== it); S.plan.picked.unshift(it); if (S.sel === id) S.sel = null; saveTrip(); showNote(`${it.title} voltou para "Para organizar"`); renderDay(true); }
     else unplace(id);
   });
   m.querySelector('button').focus();
