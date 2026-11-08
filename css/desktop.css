@@ -70,7 +70,6 @@
   html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *, html:not(.phone-mode) .conta-scroll > * { width: min(680px, 100%); margin-inline: auto; }
   html:not(.phone-mode) #feed .tab-head { padding-top: 36px; }
   html:not(.phone-mode) .posts { padding: 0; }
-  html:not(.phone-mode) .feed-seg { width: min(648px, calc(100% - 32px)); }
   html:not(.phone-mode) #conta .tab-head { padding-top: 36px; }
   html:not(.phone-mode) .compose-wrap { align-items: center; justify-content: center; }
   html:not(.phone-mode) .tabbar { bottom: 22px; }

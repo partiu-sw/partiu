@@ -3,7 +3,7 @@
 const FEED_KEY = 'partiu.feed';
 const POSTS = [
   { id: 'p1', who: 'Marina Costa', at: 'marina.viaja', place: 'Praia de Laranjeiras', city: 'Balneário Camboriú', ago: '12 min', photo: 'img/laranjeiras.jpg', text: 'Mar calminho e água verde hoje cedo. Vale ir antes das 10h que ainda tem sombra.', likes: 128, comments: 14, near: true, follow: true, tag: 'Praia' },
-  { id: 'p2', who: 'Lucas e Bia', at: 'lucasebia', place: 'Café Grão da Ilha', city: 'Balneário Camboriú', ago: '40 min', photo: 'img/cafe.jpg', text: 'Plano B perfeito pra tarde de chuva. Cappuccino com canela e pão de queijo quentinho.', likes: 86, comments: 9, near: true, follow: false, tag: 'Café' },
+  { id: 'p2', who: 'Lucas e Bia', at: 'lucasebia', place: 'Café Grão da Ilha', city: 'Balneário Camboriú', ago: '40 min', photo: 'img/cafe.jpg', text: 'Plano B perfeito pra tarde de chuva. Café passado e pão de queijo saindo do forno.', likes: 86, comments: 9, near: true, follow: false, tag: 'Café' },
   { id: 'p3', who: 'Rafa Nunes', at: 'rafanunes', place: 'Parque Unipraias', city: 'Balneário Camboriú', ago: '1 h', photo: 'img/unipraias.jpg', text: 'Bondinho no fim da tarde. A vista da Barra Sul lá de cima é outra coisa.', likes: 214, comments: 31, near: true, follow: true, tag: 'Passeio' },
   { id: 'p4', who: 'Júlia Prado', at: 'juprado', place: 'Mar & Brasa', city: 'Balneário Camboriú', ago: '2 h', photo: 'img/mar-brasa.jpg', text: 'Peixe na brasa, batata assada e limão. Simples e muito bom, a 5 min da orla.', likes: 97, comments: 12, near: true, follow: false, tag: 'Restaurante' },
   { id: 'p5', who: 'Diego Alves', at: 'diegoalves', place: 'Pôr do sol na Barra', city: 'Itapema', ago: '3 h', photo: 'img/por-do-sol.jpg', text: 'Ontem o céu fez isso aqui. Leva casaco que venta depois das 18h.', likes: 302, comments: 40, near: false, follow: true, tag: 'Mirante' },
@@ -15,8 +15,8 @@ const POSTS = [
   { id: 'p11', who: 'André Souza', at: 'andre.souza', place: 'Igreja São Sebastião', city: 'Tijucas', ago: '50 min', photo: 'img/manha-praia.jpg', text: 'Centro pequeno e tranquilo, dá pra fazer tudo a pé. Café do Largo do lado da igreja.', likes: 41, comments: 5, follow: true, tag: 'História' },
   { id: 'p12', who: 'Luiza Prates', at: 'luizap', place: 'Praia do Estaleiro', city: 'Balneário Camboriú', ago: '4 h', photo: 'img/manha-praia.jpg', text: 'Interpraias de manhã cedo é outra praia. Estacionamento lota às 10h.', likes: 156, comments: 18, follow: false, tag: 'Praia' }
 ];
-const STORIES = [['Praias', 'img/manha-praia.jpg'], ['Comer', 'img/frutos-mar.jpg'], ['Pôr do sol', 'img/por-do-sol.jpg'], ['Cafés', 'img/cafe.jpg'], ['Noite', 'img/jantar.jpg'], ['Passeios', 'img/unipraias.jpg']];
-let feedTab = 'near', feedState = null;
+const STORIES = [['Praias', 'img/manha-praia.jpg'], ['Comer', 'img/frutos-mar.jpg'], ['Pôr do sol', 'img/por-do-sol.jpg'], ['Cafés', 'img/cafe.jpg'], ['Lanches', 'img/lanche.jpg'], ['Passeios', 'img/unipraias.jpg']];
+let feedState = null;
 
 function feedData() {
   if (feedState) return feedState;
@@ -29,26 +29,24 @@ const kfmt = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' mil
 
 function renderFeed() {
   const st = feedData(), me = (S.user && S.user.name) || 'Ana';
-  $('feedMeta').textContent = `O que está rolando em ${city().name}`;
   $('feedNew').innerHTML = svg('plus', 20, 2.2);
   $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><span class="story-av">${esc(me[0])}</span><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
     STORIES.map(([n, ph], i) => `<button class="story" role="listitem" style="--i:${i}" data-story="${esc(n)}"><span class="story-ring"><img src="${ph}" alt=""></span><small>${esc(n)}</small></button>`).join('');
-  $('feedSeg').innerHTML = [['near', 'Perto de você'], ['follow', 'Seguindo'], ['saved', 'Salvos']].map(([k, l]) => `<button aria-pressed="${k === feedTab}" data-ftab="${k}">${l}</button>`).join('');
   const all = [...st.mine, ...POSTS];
-  // perto de você: só a cidade da viagem aberta (as suas publicações aparecem sempre)
-  const list = all.filter((p) => feedTab === 'near' ? p.mine || p.city === city().name : feedTab === 'follow' ? p.follow || p.mine : st.saved.includes(p.id));
+  // só a cidade da viagem aberta (as suas publicações aparecem sempre)
+  const list = all.filter((p) => p.mine || p.city === city().name);
   $('posts').innerHTML = list.length ? list.map((p, i) => postHTML(p, i)).join('') :
-    `<div class="tl-empty"><strong>${feedTab === 'saved' ? 'Nada salvo ainda' : 'Nada por aqui'}</strong><p>${feedTab === 'saved' ? 'Toque no marcador de uma publicação para guardar e ver depois.' : 'Siga outros viajantes para ver o que eles postam.'}</p></div>`;
+    `<div class="tl-empty"><strong>Nada por aqui ainda</strong><p>Seja o primeiro a postar um lugar desta cidade.</p></div>`;
 }
 function postHTML(p, i) {
   const st = feedData(), liked = st.liked.includes(p.id), saved = st.saved.includes(p.id), added = chosen && S.plan && chosen().some((x) => x.title === p.place);
   return `<article class="post" style="--i:${i}" data-post="${p.id}">
-    <header class="post-head">
-      <span class="post-av${p.mine ? ' me' : ''}">${esc(initials(p.who))}</span>
-      <span class="post-who"><strong>${esc(p.who)}</strong><small>${svg('pin', 12, 2.2)}${esc(p.place)} · ${esc(p.ago)}</small></span>
-      <span class="post-tag">${esc(p.tag)}</span>
-    </header>
-    <div class="post-photo" data-dbl="${p.id}"><img src="${p.photo}" alt="Foto de ${esc(p.place)}" loading="lazy"><span class="burst" aria-hidden="true">${svg('heart', 84, 1.6)}</span></div>
+    <div class="post-photo" data-dbl="${p.id}"><img src="${p.photo}" alt="Foto de ${esc(p.place)}" loading="lazy">
+      <header class="post-head">
+        <span class="post-av${p.mine ? ' me' : ''}">${esc(initials(p.who))}</span>
+        <span class="post-who"><strong>${esc(p.who)}</strong><small>${esc(p.ago)}</small></span>
+      </header>
+      <span class="burst" aria-hidden="true">${svg('heart', 84, 1.6)}</span></div>
     <div class="post-acts">
       <button class="pa like" aria-pressed="${liked}" data-like="${p.id}" aria-label="Curtir">${svg('heart', 22, 2)}<span>${kfmt(p.likes + (liked ? 1 : 0))}</span></button>
       <button class="pa" data-comment="${p.id}" aria-label="Comentários">${svg('chat', 22, 2)}<span>${p.comments}</span></button>
@@ -78,7 +76,6 @@ function feedNote(msg) {
 let lastTap = 0;
 $('feed').addEventListener('click', (e) => {
   const t = e.target;
-  const ft = t.closest('[data-ftab]'); if (ft) { feedTab = ft.dataset.ftab; renderFeed(); replay($('posts'), 'swap'); return; }
   const lk = t.closest('[data-like]'); if (lk) return likePost(lk.dataset.like, false);
   const sv = t.closest('[data-save]'); if (sv) { const on = toggleIn(feedData().saved, sv.dataset.save); feedSave(); sv.setAttribute('aria-pressed', on); replay(sv, 'pop'); return feedNote(on ? 'Salvo para ver depois' : 'Removido dos salvos'); }
   const dbl = t.closest('[data-dbl]');
@@ -134,7 +131,6 @@ $('compose').addEventListener('click', (e) => {
     st.mine.unshift({ id: 'm' + Date.now(), who: me, at: me.toLowerCase().replace(/\s+/g, ''), place: composePick ? composePick.title : city().name, city: city().name, ago: 'agora', photo: composePick ? photoFor(composePick.title + ' ' + composePick.sub) || 'img/post2.jpg' : 'img/post2.jpg', text: txt, likes: 0, comments: 0, near: true, follow: true, mine: true, tag: 'Você' });
     feedSave();
     closeCompose();
-    feedTab = 'near';
     renderFeed();
     $('feedScroll').scrollTo({ top: 0, behavior: 'smooth' });
     feedNote('Publicado no feed');

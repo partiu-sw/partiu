@@ -46,7 +46,8 @@ const PHOTOS = [
   [/laranjeiras/i, 'laranjeiras'], [/unipraias|bondinho/i, 'unipraias'], [/cristo/i, 'cristo-luz'], [/praia central|orla/i, 'praia-central'],
   [/p[oô]r do sol/i, 'por-do-sol'], [/meia praia|itapema/i, 'post1'], [/trilha|mirante|ilha|barco|grossa|ara[cç][aá]/i, 'post3'],
   [/praia/i, 'manha-praia'], [/caf[eé]|padaria|sorvet|gr[aã]o/i, 'cafe'], [/cantina|pizz|italian/i, 'cantina'],
-  [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|ostra|sushi|cais/i, 'frutos-mar'], [/jantar|bistr|restaurante|engenho|almo[cç]o|hamburg/i, 'jantar'],
+  [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|ostra|camar|sushi|cais/i, 'frutos-mar'], [/hamb[uú]rg|burger|lanch/i, 'lanche'],
+  [/salgad|pastel|coxinha|petisc|boteco/i, 'salgados'], [/prato feito|pf|almo[cç]o|restaurante|buffet/i, 'prato-feito'], [/jantar|bistr|engenho|feijoada/i, 'jantar'],
   [/hotel|pousada/i, 'hotel']
 ];
 const photoFor = (text) => { const hit = PHOTOS.find(([re]) => re.test(text || '')); return hit ? `img/${hit[1]}.jpg` : null; };
