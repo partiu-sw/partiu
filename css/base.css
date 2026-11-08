@@ -35,9 +35,17 @@ h1 { font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.7p
 h1 em { font-style: italic; color: var(--brand); }
 
 .phone { position: relative; width: 402px; height: 874px; max-height: none; background: var(--surface); border-radius: 58px; overflow: hidden; overflow: clip; box-shadow: 0 0 0 11px #0B0B0D, 0 0 0 13px #3B3B40, 0 0 0 14px #1A1A1D, 0 40px 90px rgba(0, 0, 0, .28); } /* proporção do iPhone 17 Pro (402 × 874 pt) */
+/* celular de verdade: o app ocupa a tela inteira, por baixo do notch e da barra do navegador (Safari no iPhone).
+   --tb é a altura da barra do navegador quando ela aparece (a tela grande menos a área visível);
+   o que fica embaixo (abas, botões, painel do mapa) sobe essa altura para não ficar escondido. */
+:root { --tb: 0px; }
 @media (max-width: 500px) {
+  :root { --tb: max(0px, calc(100lvh - 100dvh)); }
+  html, body { height: 100vh; height: 100lvh; background: transparent; }
   body { display: block; }
-  .phone { width: 100%; height: 100%; max-height: none; border-radius: 0; box-shadow: none; }
+  .phone { position: fixed; left: 0; top: 0; width: 100%; height: 100vh; height: 100lvh; max-height: none; border-radius: 0; box-shadow: none; }
+  .screen:not(#main) { padding-bottom: var(--tb); }
+  .phone::after { display: none; }
 }
 .screen { position: absolute; inset: 0; display: flex; flex-direction: column; }
 
@@ -74,7 +82,7 @@ h1 em { font-style: italic; color: var(--brand); }
 @media (prefers-reduced-motion: reduce) { .screen.enter-f, .screen.enter-b, .step-f > *, .step-b > *, .swap { animation: none; } }
 
 /* ---------- barra inferior: fixa e flutuando sobre todas as abas da área logada ---------- */
-.tabbar { position: absolute; z-index: 1500; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; gap: 2px; padding: 6px; border-radius: 999px;
+.tabbar { position: absolute; z-index: 1500; left: 50%; bottom: calc(var(--tb) + max(14px, env(safe-area-inset-bottom))); transform: translateX(-50%); display: flex; gap: 2px; padding: 6px; border-radius: 999px;
   background: rgba(255, 255, 255, .9); backdrop-filter: blur(18px) saturate(1.6); -webkit-backdrop-filter: blur(18px) saturate(1.6); box-shadow: 0 10px 30px rgba(0, 0, 0, .14), inset 0 0 0 1px rgba(0, 0, 0, .07);
   transition: transform .35s cubic-bezier(.2, .8, .2, 1), opacity .25s; animation: tab-in .5s cubic-bezier(.34, 1.56, .64, 1) backwards; }
 .tabbar[hidden] { display: flex; opacity: 0; pointer-events: none; transform: translate(-50%, 140%); }

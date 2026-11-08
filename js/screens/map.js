@@ -142,10 +142,16 @@ function addMe() {
    Arraste em qualquer parte do painel; com a lista aberta no topo, puxar para baixo também recolhe.
    Um gesto rápido (flick) pula para o próximo estágio na direção do movimento. */
 const TAB_SPACE = 84; // a barra flutuante cobre o fim do painel
+// altura da barra do navegador que cobre o fim da tela no celular (--tb em base.css), em pixels
+function tbPx() {
+  const p = document.createElement('div');
+  p.style.cssText = 'position:absolute;visibility:hidden;height:var(--tb)';
+  document.body.appendChild(p); const h = p.offsetHeight; p.remove(); return h;
+}
 function sheetHeights() {
-  const H = $('main').clientHeight || 844;
+  const H = $('main').clientHeight || 844, tb = tbPx();
   // recolhido: só a alça e o título; aberto: quase até o topo, logo abaixo da barra de status
-  return { collapsed: 80 + TAB_SPACE, half: Math.round(H * 0.52), full: H - 56 };
+  return { collapsed: 80 + TAB_SPACE + tb, half: Math.round((H - tb) * 0.52) + tb, full: H - 56 };
 }
 const curSheetH = () => parseFloat($('main').style.getPropertyValue('--sheet-h')) || sheetHeights().half;
 function setSheet(state) {
