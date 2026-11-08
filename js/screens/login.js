@@ -75,11 +75,10 @@ function enterApp(name, isNew) {
   S.user = { name: firstName(name), email: loginEmail || 'demo@partiu.app' };
   saveSession();
   seedTrips();
+  // qualquer login começa pelo planejamento: destino, datas, orçamento e interesses.
+  // Conta nova vê antes a apresentação (que termina no destino); as viagens já salvas ficam na aba Conta.
   if (isNew) { S.slide = 0; return go('intro'); }
-  // conta que já existe: abre a viagem mais recente guardada
-  const last = readTrips().filter((t) => t.plan).sort((a, b) => b.updated - a.updated)[0];
-  if (last) openTrip(last.id);
-  go('main');
+  newTrip();
 }
 function loginError(show) { const e = $('loginErr'); if (e) e.hidden = !show; }
 
