@@ -1,0 +1,483 @@
+{
+ "celular/login": {
+  "small": [],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 18px 30px",
+  "errs": []
+ },
+ "celular/welcome": {
+  "small": [],
+  "overflowX": [
+   "IMG."
+  ],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "16px 17px 19px 20px 34px",
+  "errs": []
+ },
+ "celular/destino": {
+  "small": [
+   "Ir para a etapa 1 81x20",
+   "Ir para a etapa 2 81x20",
+   "Ir para a etapa 3 81x20",
+   "Ir para a etapa 4 81x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 14px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "celular/datas": {
+  "small": [
+   "Ir para a etapa 1 81x20",
+   "Ir para a etapa 2 81x20",
+   "Ir para a etapa 3 81x20",
+   "Ir para a etapa 4 81x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "celular/orcamento": {
+  "small": [
+   "Ir para a etapa 1 81x20",
+   "Ir para a etapa 2 81x20",
+   "Ir para a etapa 3 81x20",
+   "Ir para a etapa 4 81x20",
+   "R$ 1.000 81x38",
+   "R$ 2.000 81x38"
+  ],
+  "overflowX": [],
+  "cut": [
+   "Hospedagem"
+  ],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 14px 15px 16px 17px 18px 30px 38px",
+  "errs": []
+ },
+ "celular/interesses": {
+  "small": [
+   "Ir para a etapa 1 81x20",
+   "Ir para a etapa 2 81x20",
+   "Ir para a etapa 3 81x20",
+   "Ir para a etapa 4 81x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "celular/busca": {
+  "small": [],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 16px 26px",
+  "errs": []
+ },
+ "celular/montar": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "errs": []
+ },
+ "celular/escolher": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
+  "errs": []
+ },
+ "celular/explorar": {
+  "small": [
+   "OpenFreeMap 67x12",
+   "Expandir ou recolher a lista 390x22"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "celular/explorar-aberto": {
+  "small": [
+   "OpenFreeMap 67x12",
+   "Buscar lugares e empresas 35x35",
+   "Mostrar minha localização 35x35",
+   "Expandir ou recolher a lista 390x22"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "celular/explorar-busca": {
+  "small": [
+   "OpenFreeMap 67x12",
+   "Expandir ou recolher a lista 390x22"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "celular/roteiro": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 20px 22px 30px",
+  "errs": []
+ },
+ "celular/roteiro-horario": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "errs": []
+ },
+ "celular/feed": {
+  "small": [
+   "Perto de você 113x38",
+   "Seguindo 113x38",
+   "Salvos 113x38"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 14px 15px 16px 30px",
+  "errs": []
+ },
+ "celular/feed-publicar": {
+  "small": [
+   "Perto de você 113x38",
+   "Seguindo 113x38",
+   "Salvos 113x38"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 13px 14px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "celular/conta": {
+  "small": [],
+  "overflowX": [],
+  "cut": [
+   "18–21 dez · roteiro por montar"
+  ],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 14px 16px 17px 20px 22px 30px",
+  "errs": []
+ },
+ "desktop/login": {
+  "small": [],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 17px 30px 34px",
+  "errs": []
+ },
+ "desktop/welcome": {
+  "small": [],
+  "overflowX": [
+   "IMG."
+  ],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "16px 17px 19px 20px 64px",
+  "errs": []
+ },
+ "desktop/destino": {
+  "small": [
+   "Ir para a etapa 1 154x20",
+   "Ir para a etapa 2 154x20",
+   "Ir para a etapa 3 154x20",
+   "Ir para a etapa 4 154x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 14px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "desktop/datas": {
+  "small": [
+   "Ir para a etapa 1 154x20",
+   "Ir para a etapa 2 154x20",
+   "Ir para a etapa 3 154x20",
+   "Ir para a etapa 4 154x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "desktop/orcamento": {
+  "small": [
+   "Ir para a etapa 1 154x20",
+   "Ir para a etapa 2 154x20",
+   "Ir para a etapa 3 154x20",
+   "Ir para a etapa 4 154x20",
+   "R$ 1.000 154x38",
+   "R$ 2.000 154x38"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 14px 15px 16px 17px 18px 30px 38px",
+  "errs": []
+ },
+ "desktop/interesses": {
+  "small": [
+   "Ir para a etapa 1 154x20",
+   "Ir para a etapa 2 154x20",
+   "Ir para a etapa 3 154x20",
+   "Ir para a etapa 4 154x20"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "desktop/busca": {
+  "small": [],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "13px 16px 26px",
+  "errs": []
+ },
+ "desktop/montar": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "errs": []
+ },
+ "desktop/escolher": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 19px 20px 22px 30px",
+  "errs": []
+ },
+ "desktop/explorar": {
+  "small": [
+   "OpenFreeMap 67x12"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "desktop/explorar-aberto": {
+  "small": [
+   "OpenFreeMap 67x12"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "desktop/explorar-busca": {
+  "small": [
+   "OpenFreeMap 67x12"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "11px 12px 13px 14px 15px 16px 17px 20px 22px",
+  "errs": []
+ },
+ "desktop/roteiro": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 20px 22px 30px",
+  "errs": []
+ },
+ "desktop/roteiro-horario": {
+  "small": [
+   "Tirar Café Atlântico do dia 30x32",
+   "Adicionar um lugar depois de C 28x30",
+   "Tirar Praia Central do dia 30x32",
+   "Adicionar um lugar depois de P 28x30",
+   "Tirar Cantina da Barra do dia 30x32",
+   "Adicionar um lugar depois de C 28x30"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "10px 11px 12.5px 12px 13px 14px 15px 16px 17px 20px 22px 30px",
+  "errs": []
+ },
+ "desktop/feed": {
+  "small": [
+   "Perto de você 250x38",
+   "Seguindo 250x38",
+   "Salvos 250x38"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 14px 15px 16px 30px",
+  "errs": []
+ },
+ "desktop/feed-publicar": {
+  "small": [
+   "Perto de você 250x38",
+   "Seguindo 250x38",
+   "Salvos 250x38"
+  ],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 13px 14px 15px 16px 17px 30px",
+  "errs": []
+ },
+ "desktop/conta": {
+  "small": [],
+  "overflowX": [],
+  "cut": [],
+  "noAlt": 0,
+  "broken": [],
+  "iconOnlyNoLabel": 0,
+  "fontSizes": "12px 14px 16px 17px 20px 22px 30px",
+  "errs": []
+ }
+}
