@@ -8,3 +8,7 @@ Thumbs.db
 # Claude Code: ajustes e hooks pessoais (pull automático)
 .claude/settings.local.json
 .claude/hooks/
+
+# Testes: resultados e relatório gerados a cada execução
+tests/resultados/
+tests/relatorio/

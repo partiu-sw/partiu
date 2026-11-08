@@ -1,0 +1,24 @@
+{
+  "name": "partiu",
+  "version": "1.0.0",
+  "description": "Partiu: app para decidir o que fazer no litoral catarinense",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:celular": "playwright test --project=celular",
+    "test:desktop": "playwright test --project=desktop",
+    "test:relatorio": "playwright show-report tests/relatorio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/partiu-sw/partiu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/partiu-sw/partiu/issues"
+  },
+  "homepage": "https://github.com/partiu-sw/partiu#readme",
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  },
+  "private": true
+}

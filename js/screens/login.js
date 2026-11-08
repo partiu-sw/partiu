@@ -50,7 +50,7 @@ function renderLogin() {
         <label class="search lg-field" for="loginPass"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--sec)"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
           <input id="loginPass" type="password" autocomplete="current-password" placeholder="Sua senha" aria-label="Senha"></label>
         <p class="lg-err" id="loginErr" role="alert" hidden>Digite sua senha.</p>
-        <button class="btn-primary" type="submit">Entrar e ver minha viagem</button>
+        <button class="btn-primary" type="submit" id="loginGo">Entrar e ver minha viagem</button>
       </form>
       <button class="link lg-forgot" data-forgot>Esqueci minha senha</button>`;
     setTimeout(() => $('loginPass') && $('loginPass').focus({ preventScroll: true }), 380);
@@ -64,7 +64,7 @@ function renderLogin() {
         <label class="search lg-field" for="signPass"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--sec)"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
           <input id="signPass" type="password" autocomplete="new-password" placeholder="Crie uma senha" aria-label="Senha"></label>
         <p class="lg-err" id="loginErr" role="alert" hidden>Preencha seu nome e uma senha.</p>
-        <button class="btn-primary" type="submit">Criar conta e montar viagem</button>
+        <button class="btn-primary" type="submit" id="loginGo">Criar conta e montar viagem</button>
       </form>
       <p class="lg-hint">Ao continuar, você aceita os termos de uso do Partiu.</p>`;
     setTimeout(() => $('signName') && $('signName').focus({ preventScroll: true }), 380);
