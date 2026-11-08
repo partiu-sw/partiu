@@ -153,7 +153,7 @@ function renderPlan(opts = {}) {
     // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
     let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
     let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>
-      <div class="tl-out"><button class="pill" data-ics="trip">${svg('roteiro', 16, 2)}Salvar na agenda</button><a class="pill" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener">${svg('route', 16, 2)}Rota no Google Maps</a></div>`;
+      <div class="tl-out"><button class="pill" data-ics="trip">${GCAL_IC}Salvar na agenda</button><a class="pill" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a></div>`;
     let nowShown = false;
     items.forEach((it, i) => {
       const w = windowOf(it, it.time);
@@ -374,7 +374,7 @@ function renderWhen() {
       const cur = placed && wh.day === S.plan.days.findIndex((l) => l.includes(it)) && t === it.time, why = conflict(it, wh.day, t, it);
       return `<button class="time-chip" data-t="${t}" ${why && !cur ? `disabled title="${esc(why)}"` : ''} ${cur ? 'aria-current="true"' : ''}>${t}</button>`;
     }).join('')}</div></div>`).join('') +
-    (placed ? `<div class="when-out"><a class="pill" href="${gcalLink(it, S.plan.days.findIndex((l) => l.includes(it)))}" target="_blank" rel="noopener">${svg('roteiro', 16, 2)}Google Agenda</a><a class="pill" href="${mapsPlace(it)}" target="_blank" rel="noopener">${svg('pin', 16, 2)}Google Maps</a></div><button class="text-btn" data-unplace>Tirar do dia</button>` : '');
+    (placed ? `<div class="when-out"><a class="pill" href="${gcalLink(it, S.plan.days.findIndex((l) => l.includes(it)))}" target="_blank" rel="noopener">${GCAL_IC}Google Agenda</a><a class="pill" href="${mapsPlace(it)}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a></div><button class="text-btn" data-unplace>Tirar do dia</button>` : '');
 }
 $('whenBody').addEventListener('click', (e) => {
   const day = e.target.closest('[data-wday]'), chip = e.target.closest('.time-chip'), fit = e.target.closest('[data-fit]');

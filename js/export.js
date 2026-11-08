@@ -1,6 +1,8 @@
 // Levar o roteiro para fora do app: agenda (arquivo .ics, abre no Google Agenda, Apple e Outlook)
 // e Google Maps (rota do dia com todas as paradas, ou um lugar só).
 // Horário de Brasília (UTC−3, sem horário de verão): os eventos vão em UTC no arquivo.
+const GMAPS_IC = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#EA4335"/><path d="M5 9a7 7 0 0 1 2.05-4.95L12 9z" fill="#4285F4"/><path d="M7.05 4.05A7 7 0 0 1 12 2v7z" fill="#1A73E8"/><path d="M12 2a7 7 0 0 1 7 7h-7z" fill="#FBBC04"/><path d="M5 9h7l-5.6 6.2C5.5 13.4 5 11.2 5 9z" fill="#34A853"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>';
+const GCAL_IC = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff" stroke="#DADCE0"/><path d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v2H3z" fill="#4285F4"/><path d="M17 21h1a3 3 0 0 0 3-3v-1h-4z" fill="#EA4335"/><path d="M21 17V8h-4v9z" fill="#FBBC04"/><path d="M8 21h9v-4H3v1a3 3 0 0 0 3 3z" fill="#34A853"/><text x="10" y="15.2" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="7.2" fill="#1A73E8">31</text></svg>';
 const STAY_MIN = { cafe: 60, refeicao: 90, praia: 150, passeio: 120, noite: 120 };
 const pad2 = (n) => String(n).padStart(2, '0');
 function utcStamp(date, hhmm, addMin = 0) {

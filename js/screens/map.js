@@ -261,7 +261,7 @@ function renderDay(fit) {
   $('placesMeta').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
   $('mapDays').innerHTML = dayChipsHTML(mapDay, 'data-d', true);
   const left = S.plan.picked.length;
-  const edit = `<div class="rt-out"><a class="pill" href="${mapsDayRoute(mapDay) || '#'}" target="_blank" rel="noopener">${svg('route', 16, 2)}Google Maps</a><button class="pill" data-ics-day>${svg('roteiro', 16, 2)}Salvar na agenda</button></div>
+  const edit = `<div class="rt-out"><a class="pill" href="${mapsDayRoute(mapDay) || '#'}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a><button class="pill" data-ics-day>${GCAL_IC}Salvar na agenda</button></div>
     <button class="text-btn rt-edit" data-edit>${left ? `Editar roteiro · ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}</button>`;
   if (!items.length) {
     $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-empty"><strong>Dia livre</strong><p>Nada marcado para este dia ainda.</p><button class="btn-out" data-edit>Organizar roteiro</button></div>`;
