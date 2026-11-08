@@ -23,7 +23,7 @@
   const html = document.documentElement, native = !!window.PHONE_NATIVE;
   const css = document.createElement('style');
   css.textContent = `
-  .vm-btn { display: none; position: fixed; z-index: 2147483000; top: 16px; right: 16px; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px 0 14px; border: 1px solid #E8E8EA; border-radius: 999px; background: rgba(255,255,255,.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #111; font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, Arial, sans-serif; box-shadow: 0 8px 24px rgba(0,0,0,.14); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; transition: box-shadow .2s, transform .2s; }
+  .vm-btn { display: none; position: fixed; z-index: 2147483000; bottom: 16px; right: 16px; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px 0 14px; border: 1px solid #E8E8EA; border-radius: 999px; background: rgba(255,255,255,.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #111; font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, Arial, sans-serif; box-shadow: 0 8px 24px rgba(0,0,0,.14); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; transition: box-shadow .2s, transform .2s; }
   .vm-btn:hover { box-shadow: 0 12px 30px rgba(0,0,0,.18); }
   .vm-btn.drag { cursor: grabbing; transform: scale(1.04); transition: none; }
   .vm-btn[aria-pressed="true"] { background: #111; color: #fff; border-color: #111; }
@@ -66,7 +66,7 @@
   function place(x, y) {
     const w = btn.offsetWidth || 160, h = btn.offsetHeight || 42;
     x = Math.max(8, Math.min(innerWidth - w - 8, x)); y = Math.max(8, Math.min(innerHeight - h - 8, y));
-    Object.assign(btn.style, { left: x + 'px', top: y + 'px', right: 'auto' });
+    Object.assign(btn.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto' });
     return [x, y];
   }
   const saved = (get(POS) || '').split(',').map(Number);

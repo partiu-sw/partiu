@@ -150,6 +150,8 @@ function setTabbar(step) {
   };
   requestAnimationFrame(place);
   clearTimeout(setTabbar.t); setTabbar.t = setTimeout(place, 430);
+  // acompanha a largura da aba enquanto o nome aparece (evita a pílula desalinhada)
+  if (!setTabbar.ro) { setTabbar.ro = new ResizeObserver(() => { const c = bar.querySelector('[aria-current]'); if (c) { bar.style.setProperty('--ix', c.offsetLeft + 'px'); bar.style.setProperty('--iw', c.offsetWidth + 'px'); } }); bar.querySelectorAll('[data-tab]').forEach((x) => setTabbar.ro.observe(x)); }
 }
 // Reinicia uma animação de entrada num elemento (usada nas trocas de etapa e de slide).
 function replay(el, cls) {
