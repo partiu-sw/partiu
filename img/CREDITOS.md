@@ -11,10 +11,35 @@ Fotos do Wikimedia Commons, reduzidas para o app. Mesmas fotos usadas no pitch (
 - `por-do-sol.jpg`: Praia Daniela, Florianopolis, Santa Catarina, BR - 17166232567.jpg, por Papa Pic (CC0). https://commons.wikimedia.org/wiki/File:Praia_Daniela,_Florianopolis,_Santa_Catarina,_BR_-_17166232567.jpg
 - `unipraias.jpg`: Teleférico do Parque Unipraias na Praia de Laranjeiras, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Telef%C3%A9rico_do_Parque_Unipraias_na_Praia_de_Laranjeiras,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
 - `cristo-luz.jpg`: Vista do Cristo Luz, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Vista_do_Cristo_Luz,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
-- `cafe.jpg`: A-cup-of-cappuccino-coffee-dar-es-salaam-cafe.jpg, por Aneth David (SLU) (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:A-cup-of-cappuccino-coffee-dar-es-salaam-cafe.jpg
-- `cantina.jpg`: Spaghetti (53257476437) (cropped).png, por Choo Yut Shing (CC BY 3.0). https://commons.wikimedia.org/wiki/File:Spaghetti_(53257476437)_(cropped).png
-- `mar-brasa.jpg`: Seabass (levrek) and a grilled potato.jpg, por E4024 (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Seabass_(levrek)_and_a_grilled_potato.jpg
-- `frutos-mar.jpg`: Seafood platter at Trennerys Hotel on the Wild Coast (9261400916).jpg, por South African Tourism from South Africa (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Seafood_platter_at_Trennerys_Hotel_on_the_Wild_Coast_(9261400916).jpg
-- `jantar.jpg`: Table set for dinner in a restaurant.jpg, por Shixart1985 (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Table_set_for_dinner_in_a_restaurant.jpg
 - `hotel.jpg`: Hotel Lutetia Paris Room 419.jpg, por Gary Bembridge from London, UK (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Hotel_Lutetia_Paris_Room_419.jpg
 - `app-mapa.jpg`: captura da tela do mapa do próprio Partiu (mapa: Esri, HERE, Garmin, © OpenStreetMap), usada na landing.
+- `cafe.jpg`: A cup of coffee in Mohk.jpg, por Peachyeung316 (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:A_cup_of_coffee_in_Mohk.jpg
+
+- `mar-brasa.jpg`: Panch-phoron prawns.jpg, por Sarkar Sayantan (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Panch-phoron_prawns.jpg
+
+- `frutos-mar.jpg`: Cooking a paella.jpg, por Jebulon (CC0). https://commons.wikimedia.org/wiki/File:Cooking_a_paella.jpg
+
+- `jantar.jpg`: Bulgarian dish 02.jpg, por Kritzolina (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Bulgarian_dish_02.jpg
+
+- `cantina.jpg`: At Sardinia 2024 048.jpg, por Photograph by Mike Peel (www.mikepeel.net). (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:At_Sardinia_2024_048.jpg
+
+- `ostras.jpg`: Oysters for sale at Mercat de la Boqueria.jpg, por Kritzolina (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Oysters_for_sale_at_Mercat_de_la_Boqueria.jpg
+
+- `sushi.jpg`: Sashimi of São Paulo.jpg, por Wilfredor (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Sashimi_of_S%C3%A3o_Paulo.jpg
+
+- `pizza.jpg`: Pizza Tradición Napolitana.jpg, por Rjcastillo (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Pizza_Tradici%C3%B3n_Napolitana.jpg
+
+- `padaria.jpg`: MediasLunasenMardelPlata.jpg, por Ezarate (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:MediasLunasenMardelPlata.jpg
+
+- `hamburguer.jpg`: Eldostburgare June 2020 01.jpg, por ArildV (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Eldostburgare_June_2020_01.jpg
+
+- `sorvete.jpg`: Crumble and ice cream at Black Horse Inn, Nuthurst, West Sussex, England.jpg, por Acabashi (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Crumble_and_ice_cream_at_Black_Horse_Inn,_Nuthurst,_West_Sussex,_England.jpg
+
+- `barra-sul.jpg`: Embarque no Barco Pirata no Rio Camboriú com a Passarela da Barra Sul ao fundo, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Embarque_no_Barco_Pirata_no_Rio_Cambori%C3%BA_com_a_Passarela_da_Barra_Sul_ao_fundo,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
+- `estaleiro.jpg`: Praia de Estaleiro Balneário Camboriú-SC.JPG, por Verinhaa (CC BY-SA 3.0). https://commons.wikimedia.org/wiki/File:Praia_de_Estaleiro_Balne%C3%A1rio_Cambori%C3%BA-SC.JPG
+- `praia-grossa.jpg`: Praia Grossa (21082190099).jpg, por Otávio Nogueira from Fortaleza, BR (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Praia_Grossa_(21082190099).jpg
+- `igreja-porto-belo.jpg`: Igreja Senhor Bom Jesus dos Aflitos.jpg, por JoanaTridapalli (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Igreja_Senhor_Bom_Jesus_dos_Aflitos.jpg
+- `bombas.jpg`: Renato Soares Praia de Bombas Bombinhas SC (40252057674).jpg, por MTur Destinos (Public domain). https://commons.wikimedia.org/wiki/File:Renato_Soares_Praia_de_Bombas_Bombinhas_SC_(40252057674).jpg
+- `rio-tijucas.jpg`: Santa Catarina Tijucas.JPG, por Lionel Baur (CC BY-SA 3.0). https://commons.wikimedia.org/wiki/File:Santa_Catarina_Tijucas.JPG
+- `golfinhos.jpg`: Jumping dolphin.jpg, por Karlbrix (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Jumping_dolphin.jpg
+- `bar.jpg`: Koh Mak, Thailand, Beach bar late at night, Live music party.jpg, por Vyacheslav Argenberg (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Koh_Mak,_Thailand,_Beach_bar_late_at_night,_Live_music_party.jpg
