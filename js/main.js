@@ -3,7 +3,7 @@
 const ROUTES = {
   '/login': 'login', '/welcome': 'intro',
   '/new-trip/destination': 'dest', '/new-trip/dates': 'dates', '/new-trip/budget': 'budget', '/new-trip/interests': 'prefs', '/new-trip/searching': 'loading',
-  '/explore': 'main', '/itinerary': 'plan', '/itinerary/choose': 'plan', '/itinerary/discover': 'plan', '/feed': 'feed', '/account': 'conta'
+  '/explore': 'main', '/itinerary': 'plan', '/itinerary/choose': 'plan', '/itinerary/discover': 'plan', '/feed': 'feed', '/account': 'conta', '/account/profile': 'perfil'
 };
 const PATH_OF = Object.fromEntries(Object.entries(ROUTES).filter(([p]) => !/choose|discover/.test(p)).map(([p, s]) => [s, p]));
 QUIZ.forEach((q) => { PATH_OF[q] = Object.keys(ROUTES).find((p) => ROUTES[p] === q); });
@@ -31,7 +31,24 @@ function route() {
 }
 window.addEventListener('hashchange', route);
 // Página de desenvolvimento com todas as telas: só aparece rodando localmente.
-if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) { const d = document.querySelector('.dev-link'); if (d) d.remove(); }
+if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) document.querySelectorAll('.dev-link').forEach((d) => d.remove());
+
+// Clima de teste (só local): automático → sol → sol e nuvens → nublado → chuva → automático.
+const DEV_WX_ORDER = [null, 'sol', 'parcial', 'nublado', 'chuva'];
+function paintDevWx() {
+  const b = $('devWx'); if (!b) return;
+  b.innerHTML = `${svg(devWx ? DEV_WX[devWx][0] : 'parcial', 16, 2)}Clima: ${devWx ? DEV_WX[devWx][1].toLowerCase() : 'automático'}`;
+}
+if ($('devWx')) {
+  paintDevWx();
+  $('devWx').addEventListener('click', () => {
+    devWx = DEV_WX_ORDER[(DEV_WX_ORDER.indexOf(devWx) + 1) % DEV_WX_ORDER.length];
+    try { if (devWx) localStorage.setItem(DEV_WX_KEY, devWx); else localStorage.removeItem(DEV_WX_KEY); } catch (e) { /* ok */ }
+    paintDevWx();
+    if (S.step === 'main') renderDay(false);
+    else if (S.step === 'plan') renderPlan();
+  });
+}
 
 // Botão celular/desktop (js/viewmode.js): quando o modo muda, o layout se ajusta.
 window.addEventListener('partiu:modo', () => {

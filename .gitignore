@@ -4,3 +4,7 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Claude Code: ajustes e hooks pessoais (pull automático)
+.claude/settings.local.json
+.claude/hooks/

@@ -84,7 +84,7 @@ footer { font-size: 13px; line-height: 1.5; color: var(--sec); max-width: 640px;
 try { localStorage.setItem('partiu.sessao', JSON.stringify({ name: 'Ana', email: 'demo@partiu.app' })); } catch (e) { /* ok */ }
 const SCREENS = [
   ['/welcome', 'Apresentação'], ['/new-trip/destination', 'Destino'], ['/new-trip/dates', 'Datas'], ['/new-trip/budget', 'Orçamento'], ['/new-trip/interests', 'Interesses'],
-  ['/new-trip/searching', 'Busca de lugares'], ['/itinerary/choose', 'Montar o roteiro'], ['/itinerary/discover', 'Escolher lugares'], ['/explore', 'Explorar'], ['/itinerary', 'Roteiro'], ['/feed', 'Feed'], ['/account', 'Conta']
+  ['/new-trip/searching', 'Busca de lugares'], ['/itinerary/choose', 'Montar o roteiro'], ['/itinerary/discover', 'Escolher lugares'], ['/explore', 'Explorar'], ['/itinerary', 'Roteiro'], ['/feed', 'Feed'], ['/account', 'Conta'], ['/account/profile', 'Perfil']
 ];
 document.getElementById('shots').innerHTML = SCREENS.map(([id, name], i) => `
   <a class="shot" href="app.html#${id}">

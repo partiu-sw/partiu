@@ -13,7 +13,7 @@
 .day-chip.on b { color: #fff; }
 .day-chip.drop { transform: scale(1.1); border: 1.5px dashed var(--ink); }
 
-.tl-head { flex: none; display: flex; align-items: baseline; justify-content: space-between; padding: 12px 20px 2px; }
+.tl-head { flex: none; display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 12px 20px 2px; }
 .tl-head strong { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
 .tl-head span { font-size: 13px; color: var(--sec); font-variant-numeric: tabular-nums; }
 
@@ -36,7 +36,7 @@
 /* linha do tempo livre: horários de 30 em 30 min, trajeto entre os lugares e pontos para inserir */
 .tl { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 20px 16px; }
 .ev { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 8px; align-items: center; }
-.tl.enter .ev, .tl.enter .leg, .tl.enter .ins { animation: ev-in .4s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.tl.enter .ev, .tl.enter .ins { animation: ev-in .4s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
 @keyframes ev-in { from { opacity: 0; transform: translateY(12px); } }
 .ev.flash .ev-card { animation: pop-in .4s cubic-bezier(.2, .8, .2, 1); }
 @keyframes pop-in { from { opacity: 0; transform: scale(.94); } }
@@ -50,7 +50,6 @@
 .ev-card .rm { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--sec); }
 .ev-card .rm:hover { background: var(--surface); color: var(--ink); }
 .handle { flex: none; width: 30px; height: 44px; display: grid; place-items: center; color: #A2A2A8; cursor: grab; touch-action: none; }
-.leg { margin-left: 21px; padding: 5px 0 5px 45px; border-left: 2px dotted #C7C7CC; }
 .ins { display: flex; align-items: center; gap: 8px; margin: 2px 0; padding: 0; border: 0; background: none; color: #A2A2A8; font-size: 13px; font-weight: 600; min-height: 32px; }
 .ins span { width: 28px; height: 28px; margin-left: 8px; border-radius: 50%; border: 1.5px dashed #C7C7CC; background: var(--surface); display: grid; place-items: center; transition: border-color .15s, color .15s; }
 .ins:hover { color: var(--ink); }
@@ -176,11 +175,19 @@
 #plan { background: var(--surface); }
 .tl-head { padding-top: 16px; }
 .tl-head strong { font-size: 20px; }
-.tl-sum { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 2px 0 14px; animation: rise-in .4s cubic-bezier(.2, .8, .2, 1) backwards; }
-.tl-sum span { flex: none; display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 11px; border-radius: 999px; background: var(--fill); color: var(--brand); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-sum { margin: -2px 0 12px; font-size: 13px; color: var(--sec); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: rise-in .4s cubic-bezier(.2, .8, .2, 1) backwards; }
+/* agenda e Maps: dois botões redondos ao lado do dia */
+#dayCount { display: flex; align-items: center; gap: 6px; }
+.tl-ic { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
+.tl-ic:hover { border-color: var(--ink); }
+.tl-ic:active { transform: scale(.92); }
+/* linha fina ligando os pontos das paradas, no lugar da linha de distância */
+.ev { position: relative; margin-bottom: 8px; }
+.ev:not(.last)::before { content: ""; position: absolute; left: 61px; top: 50%; width: 2px; height: calc(100% + 8px); background: var(--brand-soft); }
 .ev { grid-template-columns: 44px 20px minmax(0, 1fr); gap: 8px; }
 .ev-time { padding: 0; font-size: 15px; color: var(--ink); }
-.ev-time small { font-size: 11px; line-height: 1.2; }
+.ev-time small { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 600; line-height: 1.2; color: var(--sec); font-variant-numeric: tabular-nums; }
+.ev-time small svg { flex: none; }
 .ev-time:hover { background: none; color: var(--brand); }
 .ev-dot { position: relative; z-index: 1; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; box-shadow: 0 0 0 4px var(--surface), 0 0 0 5px var(--brand-soft); font-variant-numeric: tabular-nums; }
 .ev-card { background: var(--surface); border: 1px solid var(--line); padding: 7px 2px 7px 7px; gap: 10px; transition: border-color .2s, transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s; }
@@ -190,9 +197,6 @@
 .ev-card .handle { width: 22px; }
 .ev-card .tx strong { font-size: 15px; }
 .ev-card .dist svg { color: var(--brand); }
-.leg { margin-left: 61px; padding: 8px 0 8px 17px; border-left: 2px solid var(--brand-soft); }
-.leg .dist { min-height: 28px; padding: 0 10px; border-radius: 999px; background: var(--fill); color: var(--brand); font-weight: 600; }
-.leg .dist svg { color: var(--brand); }
 .ins { margin: 0 0 0 48px; min-height: 30px; }
 .ins span { width: 28px; height: 28px; margin-left: 0; border-color: var(--brand-soft); color: var(--brand); }
 .ins.end { margin: 12px 0 0; border-color: var(--brand-soft); color: var(--brand); background: var(--surface); }

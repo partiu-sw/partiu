@@ -7,7 +7,8 @@ const ICON = {
   pin: '<path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   check: '<path d="M5 12l5 5 9-10"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
-  chevL: '<path d="M15 5l-7 7 7 7"/>', chevR: '<path d="M9 5l7 7-7 7"/>', chevU: '<path d="M5 15l7-7 7 7"/>', chevD: '<path d="M5 9l7 7 7-7"/>',
+  chevL: '<path d="M15 5l-7 7 7 7"/>',
+  edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>', chevR: '<path d="M9 5l7 7-7 7"/>', chevU: '<path d="M5 15l7-7 7 7"/>', chevD: '<path d="M5 9l7 7 7-7"/>',
   minus: '<path d="M5 12h14"/>', plus: '<path d="M5 12h14M12 5v14"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
   undo: '<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',
@@ -98,8 +99,8 @@ const rangeLabel = () => {
 const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
 
 /* ---------- navegação, com transição entre telas ---------- */
-const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'main', 'plan', 'feed', 'conta'];
-const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'main', 'feed', 'conta'];
+const FLOW = ['login', 'intro', 'dest', 'dates', 'budget', 'prefs', 'loading', 'main', 'plan', 'feed', 'conta', 'perfil'];
+const SCREENS = ['login', 'intro', 'quiz', 'loading', 'plan', 'main', 'feed', 'conta', 'perfil'];
 // Abas da barra inferior (área logada): a barra fica fixa e flutuando sobre todas elas.
 const TABS = ['main', 'plan', 'feed', 'conta'];
 let loadTimer, loadRaf, shown = null;
@@ -132,6 +133,7 @@ function go(step) {
   else if (step === 'plan') { showScreen('plan', dir); ensurePlan(); renderPlan({ enter: true }); }
   else if (step === 'feed') { showScreen('feed', dir); renderFeed(); }
   else if (step === 'conta') { showScreen('conta', dir); renderConta(); }
+  else if (step === 'perfil') { showScreen('perfil', dir); renderPerfil(); }
   else { showScreen('main', dir); showMain(); }
   document.documentElement.dataset.screen = shown ? shown.id : step; // a barra de status do iPhone fica branca sobre foto
   setTabbar(step);

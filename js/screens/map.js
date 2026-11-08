@@ -15,7 +15,12 @@ const homeIcon = () => L.divIcon({ className: '', iconSize: [44, 44], iconAnchor
 
 // Previsão do tempo de exemplo (fictícia): muda por cidade e por dia.
 const WX = [['sol', 'Ensolarado', 29, 21], ['chuva', 'Chuva à tarde', 23, 19], ['parcial', 'Sol e nuvens', 27, 20], ['sol', 'Ensolarado', 30, 22], ['nublado', 'Nublado', 25, 20], ['parcial', 'Sol e nuvens', 26, 20]];
-const wxFor = (d) => WX[(Math.max(0, CITIES.findIndex((c) => c.id === S.city)) + d) % WX.length];
+// Botão de desenvolvimento (só rodando local): força um clima em todos os dias para testar chuva e plano B.
+const DEV_WX_KEY = 'partiu.dev.clima';
+const DEV_WX = { sol: ['sol', 'Ensolarado', 30, 22], parcial: ['parcial', 'Sol e nuvens', 27, 20], nublado: ['nublado', 'Nublado', 24, 19], chuva: ['chuva', 'Chuva à tarde', 23, 19] };
+let devWx = null;
+try { devWx = DEV_WX[localStorage.getItem(DEV_WX_KEY)] ? localStorage.getItem(DEV_WX_KEY) : null; } catch (e) { devWx = null; }
+const wxFor = (d) => (devWx ? DEV_WX[devWx] : WX[(Math.max(0, CITIES.findIndex((c) => c.id === S.city)) + d) % WX.length]);
 
 // Onde a pessoa está: GPS quando o navegador permite; senão, o Shopping Russi & Russi (Itapema).
 const FALLBACK_ME = { ll: [-27.12853, -48.60103], name: 'Shopping Russi & Russi, em Itapema' };
@@ -223,16 +228,20 @@ function planB(items) {
 function extrasHTML(items, isToday) {
   curB = planB(items);
   const b = curB ? `<div class="planb" role="status"><span class="planb-ic">${svg('chuva', 20)}</span>
-      <span class="planb-tx"><strong>${esc(curB.wx)} · plano B</strong><small>Trocar ${esc(curB.beach.title)} por ${esc(curB.alt.name)}, coberto e perto</small></span>
-      <button class="pill planb-go" data-swap>Trocar</button></div>` : '';
+      <span class="planb-tx"><small>Plano B · ${esc(curB.wx.toLowerCase())}</small><strong>${esc(curB.alt.name)} no lugar de ${esc(curB.beach.title)}</strong></span>
+      <button class="planb-go" data-swap aria-label="Trocar ${esc(curB.beach.title)} por ${esc(curB.alt.name)}">Trocar</button></div>` : '';
+  return b;
+}
+// Perto de você agora: cartões com foto em fila, depois do roteiro. Tocar no cartão leva até o lugar.
+function nowHTML(isToday) {
   const picks = isToday ? nowPicks() : [];
-  const now = picks.length ? `<section class="now" aria-label="O que fazer agora">
-      <div class="now-head"><strong>Agora, ${NOW}</strong><span>Aberto perto de você</span></div>
-      ${picks.map((p) => `<div class="now-item"><span class="now-ic">${photoFor(p.name + ' ' + p.sub) ? `<img src="${photoFor(p.name + ' ' + p.sub)}" alt="">` : svg(p.icon, 18)}</span>
-        <span class="stop-tx"><strong>${esc(p.name)}</strong><small>${esc(p.info)} · ${shortDist(p.m)}</small></span>
-        <button class="pill now-go" data-now="${p.id}" aria-label="Ir agora para ${esc(p.name)}">Ir agora</button></div>`).join('')}
-    </section>` : '';
-  return b + now;
+  if (!picks.length) return '';
+  return `<section class="now" aria-label="O que fazer agora">
+      <div class="now-head"><strong>Perto de você agora</strong><span>${NOW}</span></div>
+      <div class="now-row">${picks.map((p) => { const ph = photoFor(p.name + ' ' + p.sub); return `<button class="now-card" data-now="${p.id}" aria-label="Ir agora para ${esc(p.name)}, ${shortDist(p.m)}">
+        <span class="now-ph">${ph ? `<img src="${ph}" alt="" loading="lazy">` : svg(p.icon, 24, 1.8)}<i>${shortDist(p.m)}</i></span>
+        <strong>${esc(p.name)}</strong><small>${esc(p.info)}</small></button>`; }).join('')}</div>
+    </section>`;
 }
 function showMain() {
   initMap();
@@ -259,12 +268,15 @@ function renderDay(fit) {
   const isToday = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY;
   $('tripMeta').textContent = `${isToday ? 'Hoje · ' : ''}${DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
   $('placesMeta').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
+  // chuva caindo no mapa quando o dia é de chuva
+  $('rain').classList.toggle('on', ic === 'chuva');
   $('mapDays').innerHTML = dayChipsHTML(mapDay, 'data-d', true);
   const left = S.plan.picked.length;
-  const edit = `<div class="rt-out"><a class="pill" href="${mapsDayRoute(mapDay) || '#'}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a><button class="pill" data-ics-day>${GCAL_IC}Salvar na agenda</button></div>
-    <button class="text-btn rt-edit" data-edit>${left ? `Editar roteiro · ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}</button>`;
+  // agenda, Google Maps e editar ficam sempre visíveis no topo do painel
+  $('placesActs').innerHTML = (items.length ? `<button class="ph-ic" data-ics-day aria-label="Salvar o dia na agenda">${GCAL_IC}</button><a class="ph-ic" href="${mapsDayRoute(mapDay) || '#'}" target="_blank" rel="noopener" aria-label="Ver a rota do dia no Google Maps">${GMAPS_IC}</a>` : '') +
+    `<button class="ph-ic ph-edit" data-edit aria-label="${left ? `Editar roteiro: ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}">${svg('edit', 18, 2)}${left ? `<i>${left}</i>` : ''}</button>`;
   if (!items.length) {
-    $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-empty"><strong>Dia livre</strong><p>Nada marcado para este dia ainda.</p><button class="btn-out" data-edit>Organizar roteiro</button></div>`;
+    $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-empty"><strong>Dia livre</strong><p>Nada marcado para este dia ainda.</p><button class="btn-out" data-edit>Organizar roteiro</button></div>` + nowHTML(isToday);
   } else {
     let prev = hotel.ll;
     $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-start"><span class="rt-n home">${svg('dormir', 16)}</span><span>Saída de <b>${esc(hotel.name)}</b></span></div>` +
@@ -276,7 +288,7 @@ function renderDay(fit) {
           <span class="stop-tx"><strong>${esc(it.title)}</strong><small><b>${it.time}</b> · ${esc(it.sub)}</small></span>
           <span class="stop-go">${svg('chevR', 16, 2.4)}</span>
         </button>`;
-      }).join('') + edit;
+      }).join('') + nowHTML(isToday);
   }
   if (!map) return;
   Object.values(markers).forEach((m) => m.remove()); markers = {};
@@ -298,9 +310,12 @@ function select(id, fromList) {
   if (map && fromList && S.sel) flyVisible(it.ll, Math.max(map.getZoom(), 15));
   if (!fromList) { const el = $('list').querySelector(`[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
 }
-$('list').addEventListener('click', (e) => {
+$('placesActs').addEventListener('click', (e) => {
   if (e.target.closest('[data-edit]')) { curDay = mapDay; return go('plan'); }
   if (e.target.closest('[data-ics-day]')) { const n = downloadICS(mapDay); return showNote(`${plural(n, 'evento', 'eventos')} do dia no arquivo de agenda`); }
+});
+$('list').addEventListener('click', (e) => {
+  if (e.target.closest('[data-edit]')) { curDay = mapDay; return go('plan'); }
   const nowBtn = e.target.closest('[data-now]');
   if (nowBtn) {
     const p = searchPool().find((x) => x.id === nowBtn.dataset.now), it = asItem(p), t = suggestTime(it, mapDay, toMin(NOW));

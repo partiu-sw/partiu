@@ -27,7 +27,15 @@
 .places-head { flex: none; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 20px; }
 .places-head div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .places-head h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
-.places-head span { font-size: 13px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* agenda, Maps e editar: botões redondos sempre visíveis no topo do painel */
+.ph-acts { flex: none; display: flex; align-items: center; gap: 6px; }
+.ph-ic { position: relative; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
+.ph-ic:hover { border-color: var(--ink); }
+.ph-ic:active { transform: scale(.92); }
+.ph-edit { background: var(--brand); border-color: var(--brand); color: #fff; }
+.ph-edit:hover { background: var(--brand-deep); }
+.ph-edit i { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--surface); color: var(--ink); box-shadow: 0 0 0 1.5px var(--brand); font-style: normal; font-size: 11px; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.places-head > div > span { font-size: 13px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chips { display: flex; gap: 8px; padding: 12px 20px; overflow-x: auto; flex: none; }
 .list { flex: 1; min-height: 0; overflow-y: auto; padding: 0 12px 8px; display: flex; flex-direction: column; }
 .day-pill { display: inline-flex; align-items: center; gap: 6px; padding: 0 14px 0 12px; text-transform: capitalize; font-variant-numeric: tabular-nums; }
@@ -44,7 +52,6 @@
 .stop-tx small { font-size: 14px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stop-tx small b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
 .stop-go { flex: none; color: #C7C7CC; display: grid; }
-.rt-edit { align-self: center; margin-top: 8px; }
 .rt-empty { margin: 4px 8px; padding: 24px 20px; border: 1.5px dashed #D0D0D5; border-radius: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
 .rt-empty strong { font-size: 17px; font-weight: 600; }
 .rt-empty p { font-size: 14px; color: var(--sec); }
@@ -123,25 +130,39 @@
 .found-act { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 
 /* Decidir no destino: "Agora" e plano B (pesquisa de rua, nov. 2026) */
-.now { display: flex; flex-direction: column; gap: 2px; padding: 12px; margin-bottom: 8px; border-radius: 16px; background: var(--fill); }
-.now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 0 4px 4px; }
-.now-head strong { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; font-variant-numeric: tabular-nums; }
-.now-head span { font-size: 13px; font-weight: 600; color: var(--sec); }
-.now-item { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 4px; }
-.now-ic { width: 48px; height: 48px; border-radius: 14px; overflow: hidden; background: var(--surface); display: grid; place-items: center; flex: none; }
-.now-ic img { width: 100%; height: 100%; object-fit: cover; }
-.now-go, .planb-go { flex: none; min-width: 44px; }
-.planb { display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 8px; border-radius: 16px; background: var(--brand); color: var(--surface); }
-.planb-ic { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.16); display: grid; place-items: center; flex: none; }
+/* Perto de você agora: depois do roteiro, cartões com foto em fila, fundo branco e sem borda */
+.now { margin: 20px -12px 4px; padding-top: 16px; border-top: 1px solid var(--line); }
+.now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 0 12px 10px; }
+.now-head strong { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.now-head span { font-size: 13px; font-weight: 600; color: var(--sec); font-variant-numeric: tabular-nums; }
+.now-row { display: flex; gap: 10px; overflow-x: auto; padding: 0 12px 4px; scroll-padding-inline: 12px; touch-action: pan-x pan-y; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.now-row::-webkit-scrollbar { display: none; }
+.now-card { flex: 0 0 148px; min-width: 0; padding: 0; border: 0; background: none; text-align: left; display: flex; flex-direction: column; gap: 2px; scroll-snap-align: start; color: var(--ink); transition: transform .15s; }
+.now-card:active { transform: scale(.96); }
+.now-ph { position: relative; display: grid; place-items: center; height: 104px; margin-bottom: 6px; border-radius: 20px; overflow: hidden; background: var(--fill); color: var(--ink); }
+.now-ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2, .8, .2, 1); }
+.now-card:hover .now-ph img { transform: scale(1.05); }
+.now-ph i { position: absolute; left: 8px; bottom: 8px; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,.92); font-style: normal; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.now-card strong { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.now-card small { font-size: 13px; color: var(--sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.planb-go { flex: none; min-width: 44px; }
+/* plano B: cartão claro, ícone de chuva num círculo branco e um botão preto pequeno */
+.planb { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 12px; margin: 2px 0 10px; border-radius: 24px; background: var(--fill); color: var(--ink); }
+.planb-ic { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .planb-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.planb-tx strong { font-size: 15px; font-weight: 600; }
-.planb-tx small { font-size: 13px; color: rgba(255,255,255,.78); line-height: 1.35; }
-.planb-go { background: var(--surface); color: var(--brand); border-color: var(--surface); }
+.planb-tx small { font-size: 12px; font-weight: 600; color: var(--sec); }
+.planb-tx strong { font-size: 15px; font-weight: 600; line-height: 1.3; }
+.planb-go { flex: none; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--brand); color: #fff; font-size: 14px; font-weight: 600; }
+.planb-go:hover { background: var(--brand-deep); }
 /* painel aberto até o topo: os botões redondos saem para não cobrir o cartão da viagem */
 #main.sheet-full .fab { opacity: 0; pointer-events: none; transform: scale(.8); }
 .fab { transition: bottom .3s cubic-bezier(.2, .8, .2, 1), opacity .2s, transform .2s; }
-/* "Agora": fundo branco com borda preta fina, botões contornados */
-.now { background: var(--surface); border: 1.5px solid var(--ink); }
-.now-ic { background: var(--fill); }
-.now .now-go { background: var(--surface); border: 1px solid var(--ink); color: var(--ink); }
-.now .now-go:hover { background: var(--ink); color: #fff; }
+
+/* chuva caindo sobre o mapa nos dias de chuva (traços finos em duas camadas, cinza azulado bem leve) */
+.rain { position: absolute; inset: 0; z-index: 450; pointer-events: none; opacity: 0; transition: opacity .8s; background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='180'%3E%3Cg stroke='%23505A6E' stroke-opacity='.38' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M12 8l-5 22M58 40l-5 22M101 14l-5 22M33 96l-5 22M84 120l-5 22M126 82l-5 22M18 150l-5 22M70 168l-4 12'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 140px 180px,
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='120'%3E%3Cg stroke='%23505A6E' stroke-opacity='.22' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M20 10l-3 14M66 46l-3 14M40 84l-3 14M82 100l-3 14'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 90px 120px,
+  linear-gradient(rgba(60, 70, 90, .10), rgba(60, 70, 90, .10)); }
+.rain.on { opacity: 1; animation: rain-fall .9s linear infinite; }
+@keyframes rain-fall { to { background-position: -40px 180px, -26px 120px, 0 0; } }
+@media (prefers-reduced-motion: reduce) { .rain.on { animation: none; } }

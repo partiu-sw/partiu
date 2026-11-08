@@ -66,6 +66,15 @@ function distText(a, b) {
   const t = m <= 2000 ? `${Math.max(1, Math.round(m / 80))} min a pé` : `${Math.max(2, Math.round(m / 450))} min de carro`;
   return `${d} · ${t}`;
 }
+// Previsão na hora da parada: a temperatura sobe até umas 14h e cai depois; chuva à tarde só depois do meio-dia.
+function wxAt(d, time) {
+  if (typeof wxFor !== 'function') return null;
+  const [ic, , max, min] = wxFor(d), h = toMin(time) / 60;
+  const k = Math.max(0, 1 - Math.abs(h - 14) / 9);
+  return [ic === 'chuva' && h < 12 ? 'parcial' : ic, Math.round(min + (max - min) * k)];
+}
+// Só o tempo de deslocamento, para caber na linha do cartão
+const legText = (a, b) => { const m = haversine(a, b); return m <= 2000 ? `${Math.max(1, Math.round(m / 80))} min a pé` : `${Math.max(2, Math.round(m / 450))} min de carro`; };
 const distTag = (it, from, label) => `<span class="dist">${typeIcon(it, 13)}${distText(from, it.ll)}${label ? ` ${label}` : ''}</span>`;
 
 // Foto real do lugar quando houver (photoFor, em core.js); senão, uma ilustração.
@@ -143,7 +152,10 @@ function renderPlan(opts = {}) {
   const x = dayDate(curDay), items = dayItems(curDay);
   const isToday = keyOf(x.getFullYear(), x.getMonth(), x.getDate()) === TODAY, nowMin = typeof NOW === 'string' ? toMin(NOW) : 0;
   $('dayTitle').textContent = `${isToday ? 'Hoje, ' : ''}${isToday ? DAYNAME[x.getDay()].toLowerCase() : DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
-  $('dayCount').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
+  // agenda e Google Maps viram dois botões redondos ao lado do título do dia
+  $('dayCount').innerHTML = items.length
+    ? `<button class="tl-ic" data-ics="trip" aria-label="Salvar na agenda">${GCAL_IC}</button><a class="tl-ic" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener" aria-label="Ver a rota do dia no Google Maps">${GMAPS_IC}</a>`
+    : '<span>Dia livre</span>';
   const tl = $('timeline');
   if (!items.length) {
     tl.innerHTML = `<div class="tl-empty"><strong>Nada planejado ainda</strong>
@@ -152,26 +164,24 @@ function renderPlan(opts = {}) {
   } else {
     // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
     let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
-    let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>
-      <div class="tl-out"><button class="pill" data-ics="trip">${GCAL_IC}Salvar na agenda</button><a class="pill" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a></div>`;
+    let prev = null, html = `<p class="tl-sum">${plural(items.length, 'parada', 'paradas')} · ${shortDist(km)} · ${items[0].time}–${items[items.length - 1].time}</p>`;
     let nowShown = false;
     items.forEach((it, i) => {
-      const w = windowOf(it, it.time);
+      const wx = wxAt(curDay, it.time), leg = legText(prev ? prev.ll : h, it.ll) + (prev ? '' : ' do hotel');
       // hoje: marca o horário de agora na linha do tempo e o que já passou
       const past = isToday && toMin(it.time) + 60 <= nowMin, live = isToday && !past && toMin(it.time) <= nowMin;
       if (isToday && !nowShown && toMin(it.time) > nowMin) { html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`; nowShown = true; }
-      html += `<div class="leg" style="--i:${i * 2}">${distTag(it, prev ? prev.ll : h, prev ? '' : 'do hotel')}</div>
-        <div class="ev${it.id === flashId ? ' flash' : ''}${past ? ' past' : ''}${live ? ' live' : ''}" data-id="${it.id}" style="--i:${i * 2 + 1}">
-          <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}<small>${w ? w[2] : ''}</small></button>
+      html += `<div class="ev${i === items.length - 1 ? ' last' : ''}${it.id === flashId ? ' flash' : ''}${past ? ' past' : ''}${live ? ' live' : ''}" data-id="${it.id}" style="--i:${i * 2 + 1}">
+          <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}${wx ? `<small>${svg(wx[0], 13, 2)}${wx[1]}°</small>` : ''}</button>
           <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card">
             <a class="pph ev-map" href="${mapsPlace(it)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(it.title)} no Google Maps">${scene(it.icon, it.title + ' ' + it.sub)}<i>${svg('pin', 11, 2.6)}</i></a>
-            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${typeIcon(it, 13)}${esc(it.sub)}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
+            <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
             <button class="rm" data-rm="${it.id}" aria-label="Tirar ${esc(it.title)} do dia">${svg('x', 15, 2.2)}</button>
             <span class="handle" data-drag="${it.id}" title="Arraste para reordenar">${svg('grip', 16, 2)}</span>
           </div>
         </div>
-        ${i < items.length - 1 ? `<button class="ins" data-add="${toMin(it.time)}" style="--i:${i * 2 + 1}" aria-label="Adicionar um lugar depois de ${esc(it.title)}"><span>${svg('plus', 13, 2.4)}</span></button>` : ''}`;
+`;
       prev = it;
     });
     if (isToday && !nowShown) html += `<div class="tl-now"><span>Agora · ${NOW}</span></div>`;
@@ -184,6 +194,7 @@ function renderPlan(opts = {}) {
   $('openDiscover').innerHTML = `${svg('cards', 18, 2)}Escolher${left ? `<i>${left}</i>` : ''}`;
   $('openDiscover').setAttribute('aria-label', `Escolher lugares: ${plural(left, 'sugestão', 'sugestões')}`);
 }
+$('dayCount').addEventListener('click', (e) => { if (e.target.closest('[data-ics]')) { const n = downloadICS(); toast(n ? `${plural(n, 'evento', 'eventos')} da viagem no arquivo de agenda` : 'Nada no roteiro para salvar ainda'); } });
 $('dayStrip').addEventListener('click', (e) => { const c = e.target.closest('[data-day]'); if (c && +c.dataset.day !== curDay) { curDay = +c.dataset.day; renderPlan({ enter: true }); } });
 $('trayRow').addEventListener('click', (e) => {
   const c = e.target.closest('[data-pick]');

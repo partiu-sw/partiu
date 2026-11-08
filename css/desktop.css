@@ -5,6 +5,7 @@
   html:not(.phone-mode) body { display: block; }
   html:not(.phone-mode) .phone { width: 100%; height: 100%; max-height: none; border-radius: 0; box-shadow: none; background: var(--screen); }
   html:not(.phone-mode) .dev-link { top: auto; bottom: 16px; left: 16px; opacity: .85; }
+  html:not(.phone-mode) .dev-wx { bottom: 64px; }
 
   /* apresentação: foto em tela cheia, texto e botão centralizados */
   html:not(.phone-mode) #intro { padding: 40px max(48px, 6vw) 48px; }
@@ -38,7 +39,7 @@
   html:not(.phone-mode) #main .sheet { top: 16px; left: 16px; bottom: 16px; right: auto; width: 400px; height: auto; border-radius: 28px; box-shadow: 0 12px 40px rgba(0, 0, 0, .16); transition: none; }
   html:not(.phone-mode) #main .grabber-btn { display: none; }
   html:not(.phone-mode) #main .places-head { padding-top: 20px; }
-  html:not(.phone-mode) #main .trip-card { left: 432px; right: auto; top: 16px; width: min(460px, calc(100% - 448px)); }
+  html:not(.phone-mode) #main .trip-card { left: calc(432px + (100% - 432px) / 2); right: auto; top: 16px; width: min(460px, calc(100% - 464px)); transform: translateX(-50%); }
   html:not(.phone-mode) #main .map-note { left: 432px; top: 92px; }
   html:not(.phone-mode) #main .fab { bottom: 24px; right: 24px; }
   html:not(.phone-mode) #main .fab.fab-search { bottom: 76px; }
@@ -48,7 +49,12 @@
 }
 @media (min-width: 1400px) {
   html:not(.phone-mode) #main .sheet, html:not(.phone-mode) #main .search-view { width: 440px; }
-  html:not(.phone-mode) #main .trip-card, html:not(.phone-mode) #main .map-note, html:not(.phone-mode) #main .found { left: 472px; }
+  html:not(.phone-mode) #main .map-note, html:not(.phone-mode) #main .found { left: 472px; }
+  html:not(.phone-mode) #main .trip-card { left: calc(472px + (100% - 472px) / 2); width: min(460px, calc(100% - 504px)); }
+}
+/* ilha do topo no centro da tela quando cabe sem encostar no painel */
+@media (min-width: 1360px) {
+  html:not(.phone-mode) #main .trip-card { left: 50%; width: min(460px, calc(100% - 2 * 488px)); }
 }
 @media (min-width: 900px) {
   html:not(.phone-mode) #main .list { padding-bottom: 96px; } /* espaço para a barra de navegação que flutua no fim do painel */
@@ -67,9 +73,12 @@
 }
 @media (min-width: 900px) {
   /* feed e conta: coluna central */
-  html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *, html:not(.phone-mode) .conta-scroll > * { width: min(680px, 100%); margin-inline: auto; }
+  html:not(.phone-mode) #feed .tab-head, html:not(.phone-mode) .feed-scroll > *, html:not(.phone-mode) .conta-scroll > *, html:not(.phone-mode) .pf-head { width: min(680px, 100%); margin-inline: auto; }
   html:not(.phone-mode) #feed .tab-head { padding-top: 36px; }
-  html:not(.phone-mode) .posts { padding: 0; }
+  /* no desktop os destaques ocupam a largura da coluna, de borda a borda como as fotos */
+  html:not(.phone-mode) .stories { justify-content: space-between; }
+  /* destaques, título e fotos do feed na mesma borda da coluna */
+  html:not(.phone-mode) .posts, html:not(.phone-mode) .stories, html:not(.phone-mode) #feed .tab-head { padding-inline: 0; }
   html:not(.phone-mode) #conta .tab-head { padding-top: 36px; }
   html:not(.phone-mode) .compose-wrap { align-items: center; justify-content: center; }
   html:not(.phone-mode) .tabbar { bottom: 22px; }

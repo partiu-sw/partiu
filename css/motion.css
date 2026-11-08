@@ -14,9 +14,9 @@
 @keyframes m-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
 /* toques: tudo que é clicável responde */
-.btn-primary, .btn-sec, .btn-out, .pill, .icon-btn, .row-btn, .b, .day-chip, .time-chip, .stage, .stop, .round-act, .tabbar button, .now-go, .planb-go, .fab { transition: transform .18s var(--ease), background .2s, color .2s, box-shadow .2s, border-color .2s; }
+.btn-primary, .btn-sec, .btn-out, .pill, .icon-btn, .row-btn, .b, .day-chip, .time-chip, .stage, .stop, .round-act, .tabbar button, .planb-go, .fab { transition: transform .18s var(--ease), background .2s, color .2s, box-shadow .2s, border-color .2s; }
 .btn-primary:not(:disabled):hover, .btn-sec:hover, .btn-out:hover { transform: translateY(-1px); }
-.pill:active, .icon-btn:active, .row-btn:active, .b:active, .day-chip:active, .time-chip:active, .stage:active, .stop:active, .tabbar button:active, .now-go:active, .planb-go:active, .fab:active { transform: scale(.94); }
+.pill:active, .icon-btn:active, .row-btn:active, .b:active, .day-chip:active, .time-chip:active, .stage:active, .stop:active, .tabbar button:active, .planb-go:active, .fab:active { transform: scale(.94); }
 .round-act:active { transform: scale(.88); }
 .pill[aria-pressed="true"], .b[aria-pressed="true"] { animation: m-pop .28s var(--spring); }
 
@@ -162,16 +162,12 @@
 #list > *:nth-child(12) { animation-delay: 500ms; }
 #list > *:nth-child(13) { animation-delay: 540ms; }
 #list > *:nth-child(14) { animation-delay: 580ms; }
-.now-item { animation: m-rise .45s var(--ease) backwards; }
-.now-item:nth-child(1) { animation-delay: 160ms; }
-.now-item:nth-child(2) { animation-delay: 230ms; }
-.now-item:nth-child(3) { animation-delay: 300ms; }
-.now-item:nth-child(4) { animation-delay: 370ms; }
-.now-ic img { transition: transform .4s var(--ease); }
-.now-item:hover .now-ic img { transform: scale(1.12); }
+.now-card { animation: m-rise .45s var(--ease) backwards; }
+.now-card:nth-child(1) { animation-delay: 160ms; }
+.now-card:nth-child(2) { animation-delay: 230ms; }
+.now-card:nth-child(3) { animation-delay: 300ms; }
 .planb, .now { flex: none; }
 .planb { position: relative; overflow: hidden; }
-.planb::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22), transparent); animation: m-shine 2.8s 1s ease-in-out infinite; pointer-events: none; }
 .planb-ic svg { animation: m-float 2.2s ease-in-out infinite; }
 .chips > * { animation: m-rise .4s var(--ease) backwards; }
 .chips > *:nth-child(1) { animation-delay: 0ms; }

@@ -53,6 +53,8 @@ h1 em { font-style: italic; color: var(--brand); }
 /* atalho de desenvolvimento para a página com todas as telas (só em telas largas) */
 .dev-link { position: fixed; z-index: 50; left: 16px; top: 16px; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 20px; background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
 .dev-link:hover { color: var(--ink); }
+.dev-wx { top: 64px; border: 0; cursor: pointer; font-family: inherit; }
+.dev-wx svg { flex: none; }
 @media (max-width: 500px) { .dev-link { display: none; } }
 
 /* transições entre telas e entre etapas */

@@ -57,10 +57,10 @@ function postHTML(p, i) {
       <button class="pa like" aria-pressed="${liked}" data-like="${p.id}" aria-label="Curtir">${svg('heart', 22, 2)}<span>${kfmt(p.likes + (liked ? 1 : 0))}</span></button>
       <button class="pa" data-comment="${p.id}" aria-label="Comentários">${svg('chat', 22, 2)}<span>${p.comments}</span></button>
       <button class="pa" data-share="${p.id}" aria-label="Compartilhar">${svg('send', 21, 2)}</button>
+      <button class="pa go${added ? ' done' : ''}" data-add="${p.id}" aria-pressed="${!!added}" aria-label="${added ? 'Já está no seu roteiro' : `Pôr ${esc(p.place)} no roteiro`}">${svg(added ? 'check' : 'plus', 16, 2.4)}<span>Roteiro</span></button>
       <button class="pa save" aria-pressed="${saved}" data-save="${p.id}" aria-label="Salvar">${svg('bookmark', 22, 2)}</button>
     </div>
     <p class="post-text"><b>${esc(p.at)}</b> ${esc(p.text)}</p>
-    <button class="post-add${added ? ' done' : ''}" data-add="${p.id}">${added ? svg('check', 16, 2.6) + 'No seu roteiro' : svg('plus', 16, 2.6) + `Quero ir: ${esc(p.place)}`}</button>
   </article>`;
 }
 function toggleIn(arr, id) { const i = arr.indexOf(id); if (i < 0) arr.push(id); else arr.splice(i, 1); return i < 0; }
@@ -98,7 +98,7 @@ $('feed').addEventListener('click', (e) => {
       S.plan.picked.push({ title: p.place, sub: p.tag + ' · ' + p.city, icon: ty === 'praia' ? 'praia' : ty === 'cafe' ? 'relax' : ty === 'refeicao' ? 'comer' : 'ver', type: ty, ll: [h[0] + 0.004, h[1] + 0.002], id: 'it' + planSeq++ });
       saveTrip();
     }
-    ad.classList.add('done'); ad.innerHTML = svg('check', 16, 2.6) + 'No seu roteiro'; replay(ad, 'pop');
+    ad.classList.add('done'); ad.setAttribute('aria-pressed', 'true'); ad.setAttribute('aria-label', 'Já está no seu roteiro'); ad.innerHTML = svg('check', 16, 2.4) + '<span>Roteiro</span>'; replay(ad, 'pop');
     return feedNote(`${p.place} foi para "Para organizar" no roteiro`);
   }
   if (t.closest('[data-compose]') || t.closest('#feedNew')) return openCompose();

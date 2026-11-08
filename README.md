@@ -37,6 +37,7 @@ As rotas ficam em inglês, no formato `app.html#/caminho`. Sem sessão, qualquer
 | `#/itinerary` | Roteiro |
 | `#/feed` | Feed |
 | `#/account` | Conta e viagens salvas |
+| `#/account/profile` | Seu perfil e ajustes |
 
 ## Estrutura
 

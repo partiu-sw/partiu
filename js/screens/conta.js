@@ -20,19 +20,17 @@ function tripRange(t) {
 function renderConta() {
   seedTrips();
   saveTrip();
-  const u = S.user || { name: 'Ana', email: 'demo@partiu.app' }, p = readPrefs();
+  const u = S.user || { name: 'Ana', email: 'demo@partiu.app' };
   const trips = readTrips().sort((a, b) => (a.id === S.tripId ? -1 : b.id === S.tripId ? 1 : b.start - a.start));
   const places = trips.reduce((n, t) => n + tripPlaces(t), 0);
-  const go = `<span class="ct-go">${svg('chevR', 16, 2.4)}</span>`;
-  const row = (ic, label, extra, attr) => `<button class="row-btn ct-row" ${attr}><span class="ic">${svg(ic, 20, 1.9)}</span><span class="tx"><strong>${label}</strong></span>${extra}</button>`;
-  const sw = (k, on) => `<span class="switch" role="switch" aria-checked="${on}" data-pref="${k}"><i></i></span>`;
+  // Conta: só você (toque para abrir o perfil) e as viagens; os ajustes ficam no perfil
   $('contaScroll').innerHTML = `
     <header class="tab-head"><div class="tab-title"><h1>Sua <em>conta</em></h1><span>${plural(trips.length, 'viagem', 'viagens')} · ${plural(places, 'lugar', 'lugares')} no roteiro</span></div></header>
-    <div class="ct-me">
-      <span class="ct-av"><img src="img/avatares/ana.svg" alt="Foto de ${esc(u.name)}"></span>
-      <span class="tx"><strong>${esc(u.name)}</strong><small>${esc(u.email || '')}</small></span>
-      <button class="pill ct-edit" data-edit-profile>Editar</button>
-    </div>
+    <button class="ct-me" data-profile aria-label="Abrir seu perfil">
+      <span class="ct-av"><img src="img/avatares/ana.svg" alt=""></span>
+      <span class="tx"><strong>${esc(u.name)}</strong><small>Ver perfil e ajustes</small></span>
+      <span class="ct-go">${svg('chevR', 18, 2.2)}</span>
+    </button>
     <section class="ct-sec">
       <div class="ct-sec-head"><h2>Minhas viagens</h2></div>
       <div class="ct-trips" role="list">
@@ -44,36 +42,54 @@ function renderConta() {
         </button>`; }).join('')}
       </div>
       <button class="btn-out ct-new" data-new-trip>${svg('plus', 18, 2.4)} Planejar nova viagem</button>
-    </section>
-    <section class="ct-sec">
-      <div class="ct-sec-head"><h2>Ajustes</h2></div>
-      <div class="ct-list">
-        ${row('bell', 'Avisos do que abre perto', sw('notif', p.notif), 'data-toggle="notif"')}
-        ${row('chuva', 'Plano B quando chover', sw('planb', p.planb), 'data-toggle="planb"')}
-        ${row('sparkle', 'Meus interesses', go, 'data-interests')}
-        ${row('help', 'Sobre o Partiu', go, 'data-help')}
-        ${row('logout', 'Sair da conta', '', 'data-logout')}
-      </div>
     </section>`;
+}
+
+// Perfil: foto, nome (editável), e-mail e os ajustes em linhas simples
+function renderPerfil() {
+  const u = S.user || { name: 'Ana', email: 'demo@partiu.app' }, p = readPrefs();
+  const chev = `<span class="ct-go">${svg('chevR', 16, 2.4)}</span>`;
+  const row = (label, attr) => `<button class="pf-row" ${attr}><span>${label}</span>${chev}</button>`;
+  const tg = (k, label) => `<button class="pf-row" role="switch" aria-checked="${p[k]}" data-toggle="${k}"><span>${label}</span><span class="switch" aria-hidden="true"><i></i></span></button>`;
+  $('perfilBack').innerHTML = svg('chevL', 22, 2.2);
+  $('perfilScroll').innerHTML = `
+    <div class="pf-me">
+      <span class="pf-av"><img src="img/avatares/ana.svg" alt="Foto de ${esc(u.name)}"></span>
+      <div class="pf-name" id="pfName"><strong>${esc(u.name)}</strong><small>${esc(u.email || '')}</small></div>
+      <button class="pill pf-edit" data-edit-profile>Editar nome</button>
+    </div>
+    <section class="pf-sec">
+      <h2>Ajustes</h2>
+      ${tg('notif', 'Avisos do que abre perto')}
+      ${tg('planb', 'Plano B quando chover')}
+      ${row('Meus interesses', 'data-interests')}
+      ${row('Sobre o Partiu', 'data-help')}
+    </section>
+    <button class="pf-out" data-logout>Sair da conta</button>`;
 }
 
 $('conta').addEventListener('click', (e) => {
   const t = e.target;
+  if (t.closest('[data-profile]')) return go('perfil');
+  const tr = t.closest('[data-trip]');
+  if (tr) { if (tr.dataset.trip !== S.tripId) openTrip(tr.dataset.trip); return go('main'); }
+  if (t.closest('[data-new-trip]')) return newTrip();
+});
+$('perfilBack').addEventListener('click', () => go('conta'));
+$('perfil').addEventListener('click', (e) => {
+  const t = e.target;
   if (t.closest('[data-edit-profile]')) {
     // edita o nome ali mesmo; Enter ou sair do campo salva
-    const box = $('contaScroll').querySelector('.ct-me .tx'), cur = (S.user && S.user.name) || 'Ana';
+    const box = $('pfName'), cur = (S.user && S.user.name) || 'Ana';
     box.innerHTML = `<input class="ct-name" id="ctName" value="${esc(cur)}" aria-label="Seu nome" maxlength="30">`;
     const inp = $('ctName'); inp.focus(); inp.select();
-    const done = () => { const v = inp.value.trim(); if (v) { S.user = { ...(S.user || { email: 'demo@partiu.app' }), name: firstName(v) }; saveSession(); } renderConta(); };
+    const done = () => { const v = inp.value.trim(); if (v) { S.user = { ...(S.user || { email: 'demo@partiu.app' }), name: firstName(v) }; saveSession(); } renderPerfil(); };
     inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') inp.blur(); });
     inp.addEventListener('blur', done, { once: true });
     return;
   }
-  const tr = t.closest('[data-trip]');
-  if (tr) { if (tr.dataset.trip !== S.tripId) openTrip(tr.dataset.trip); return go('main'); }
-  if (t.closest('[data-new-trip]')) return newTrip();
   const tg = t.closest('[data-toggle]');
-  if (tg) { const k = tg.dataset.toggle, p = readPrefs(); p[k] = !p[k]; try { localStorage.setItem(PREFS_KEY, JSON.stringify(p)); } catch (err) { /* ok */ } tg.querySelector('.switch').setAttribute('aria-checked', p[k]); return; }
+  if (tg) { const k = tg.dataset.toggle, p = readPrefs(); p[k] = !p[k]; try { localStorage.setItem(PREFS_KEY, JSON.stringify(p)); } catch (err) { /* ok */ } tg.setAttribute('aria-checked', p[k]); return; }
   if (t.closest('[data-interests]')) { S.maxStep = 3; return go('prefs'); }
   if (t.closest('[data-help]')) { location.href = 'index.html'; return; }
   if (t.closest('[data-logout]')) { endSession(); loginStep = 'email'; loginEmail = ''; return go('login'); }

@@ -32,6 +32,7 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
 </head>
 <body>
 <a class="dev-link" href="telas.html">← Todas as telas</a>
+<button class="dev-link dev-wx" id="devWx" type="button" aria-label="Mudar o clima (só no desenvolvimento)"></button>
 <div class="phone">
   <div class="device-ui" aria-hidden="true"><span>9:41</span><span class="island"></span><span class="sb-icons"><svg width="18" height="12" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"/></svg><svg width="26" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="1.8" fill="currentColor"/><rect x="22.5" y="4" width="1.8" height="4" rx=".9" fill="currentColor" opacity=".45"/></svg></span></div>
 
@@ -159,6 +160,7 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
   <section id="main" class="screen" hidden>
     <div class="map-wrap">
       <div id="map" role="region" aria-label="Mapa"></div>
+      <div class="rain" id="rain" aria-hidden="true"></div>
       <div class="trip-card">
         <div class="trip-tx"><strong id="tripCity"></strong><span id="tripMeta"></span></div>
         <div class="wx" id="tripWx" role="img"></div>
@@ -169,7 +171,7 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
     </div>
     <div class="sheet" id="placesSheet">
       <button class="grabber-btn" id="grabber" aria-label="Expandir ou recolher a lista"><span></span></button>
-      <div class="places-head"><div><h2>Roteiro do dia</h2><span id="placesMeta"></span></div></div>
+      <div class="places-head"><div><h2>Roteiro do dia</h2><span id="placesMeta"></span></div><span class="ph-acts" id="placesActs"></span></div>
       <div class="day-strip" id="mapDays" role="group" aria-label="Dias da viagem"></div>
       <div class="list" id="list"></div>
     </div>
@@ -207,6 +209,12 @@ else { try { if (localStorage.getItem('partiu.modo') === 'celular') document.doc
   <!-- Conta: perfil, viagens salvas e ajustes -->
   <section id="conta" class="screen" aria-label="Conta" hidden>
     <div class="conta-scroll" id="contaScroll"></div>
+  </section>
+
+  <!-- Perfil: abre tocando no seu nome na Conta; nome, e-mail e ajustes -->
+  <section id="perfil" class="screen" aria-label="Seu perfil" hidden>
+    <header class="pf-head"><button class="icon-btn" id="perfilBack" aria-label="Voltar para a conta"></button><strong>Seu perfil</strong><span class="pf-sp"></span></header>
+    <div class="conta-scroll" id="perfilScroll"></div>
   </section>
 
   <nav class="tabbar" id="tabbar" aria-label="Navegação" hidden>
