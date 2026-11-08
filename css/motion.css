@@ -189,7 +189,7 @@
 
 /* ---------- mais movimento: login, abas, botões e escolhas ---------- */
 /* login: a foto respira, o selo flutua e o formulário entra em cascata */
-.lg-hero > img { animation: m-kenburns 12s var(--ease) both; }
+/* fotos do login: animação própria em login.css */
 .lg-brand { animation: m-pop .6s .15s var(--spring) backwards, m-float 4s 1s ease-in-out infinite; }
 #loginBack { animation: m-pop .5s .25s var(--spring) backwards; }
 .lg-body > * { animation: m-rise .55s var(--ease) backwards; }

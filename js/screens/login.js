@@ -40,8 +40,7 @@ function renderLogin() {
         <button class="btn-primary" type="submit" id="loginGo">Continuar</button>
       </form>
       <div class="lg-or"><span>ou continue com</span></div>
-      <div class="lg-social">${SOCIAL.map(([k, n, ic]) => `<button class="lg-soc ${k}" data-social="${k}" aria-label="Continuar com ${n}">${ic}<span>Continuar com ${n}</span></button>`).join('')}</div>
-      <p class="lg-hint">Para ver uma viagem já organizada, use <button class="text-btn" data-demo>demo@partiu.app</button></p>`;
+      <div class="lg-social">${SOCIAL.map(([k, n, ic]) => `<button class="lg-soc ${k}" data-social="${k}" aria-label="Continuar com ${n}">${ic}<span>Continuar com ${n}</span></button>`).join('')}</div>`;
     setTimeout(() => { const i = $('loginEmail'); if (i && !loginEmail) i.focus({ preventScroll: true }); }, 380);
   } else if (loginStep === 'senha') {
     body.innerHTML = `
@@ -117,3 +116,27 @@ $('loginBody').addEventListener('click', (e) => {
   if (e.target.closest('[data-forgot]')) { const f = e.target.closest('[data-forgot]'); f.textContent = 'Enviamos um link para o seu e-mail'; f.disabled = true; }
 });
 $('loginBack').onclick = () => { if (loginStep === 'email') location.href = 'index.html'; else loginNav('email', -1); };
+
+/* Foto do login: passa praias, passeios e lugares da região, com uma descrição curta. */
+const LG_SLIDES = [
+  ['img/post2.jpg', 'Praia da Tainha', 'Bombinhas · água cristalina entre pedras e mata'],
+  ['img/praia-central.jpg', 'Praia Central', 'Balneário Camboriú · orla com ciclovia e quiosques'],
+  ['img/unipraias.jpg', 'Parque Unipraias', 'Bondinho sobre o mar até Laranjeiras'],
+  ['img/praia-grossa.jpg', 'Praia Grossa', 'Itapema · trilha curta até uma praia selvagem'],
+  ['img/bombas.jpg', 'Praia de Bombas', 'Mar verde e calmo, bom para nadar'],
+  ['img/barra-sul.jpg', 'Barco pirata na Barra Sul', 'Passeio de uma hora saindo do rio Camboriú'],
+  ['img/por-do-sol.jpg', 'Pôr do sol na orla', 'O melhor horário: das 18h às 19h no verão'],
+  ['img/igreja-porto-belo.jpg', 'Bom Jesus dos Aflitos', 'Porto Belo · igreja de 1814 no centro histórico']
+];
+(() => {
+  const box = $('lgSlides'); let i = 0;
+  box.innerHTML = LG_SLIDES.map(([src, t, d], k) => `<figure class="lg-slide${k === 0 ? ' on' : ''}"><img src="${src}" alt="" ${k ? 'loading="lazy"' : ''}><figcaption><strong>${t}</strong><span>${d}</span></figcaption></figure>`).join('')
+    + `<div class="lg-dots">${LG_SLIDES.map((_, k) => `<i class="${k === 0 ? 'on' : ''}"></i>`).join('')}</div>`;
+  const slides = box.querySelectorAll('.lg-slide'), dots = box.querySelectorAll('.lg-dots i');
+  setInterval(() => {
+    if ($('login').hidden || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    slides[i].classList.remove('on'); dots[i].classList.remove('on');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('on'); dots[i].classList.add('on');
+  }, 4500);
+})();

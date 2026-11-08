@@ -14,8 +14,8 @@
   html:not(.phone-mode) .intro-foot { align-self: center; width: min(460px, 100%); }
 
   /* login: foto grande à esquerda e o formulário à direita */
-  html:not(.phone-mode) #login { flex-direction: row; background: var(--screen); }
-  html:not(.phone-mode) #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 0 16px 16px; border-radius: 36px; }
+  html:not(.phone-mode) #login { flex-direction: row-reverse; background: var(--screen); }
+  html:not(.phone-mode) #login .lg-hero { height: auto !important; flex: 1 1 56%; min-height: 0; margin: 16px 16px 16px 0; border-radius: 36px; }
   html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
   html:not(.phone-mode) #login .lg-body { flex: 0 0 min(520px, 44%); justify-content: center; padding: 48px clamp(32px, 4vw, 72px); gap: 18px; }
 
@@ -83,3 +83,10 @@
   html:not(.phone-mode) .th-tx strong { font-size: 30px; }
   html:not(.phone-mode) .th-wx small { display: inline; }
 }
+@media (min-width: 900px) {
+  html:not(.phone-mode) .lg-slide figcaption { left: 40px; bottom: 56px; }
+  html:not(.phone-mode) .lg-slide strong { font-size: 34px; letter-spacing: -0.8px; }
+  html:not(.phone-mode) .lg-slide span { font-size: 17px; }
+  html:not(.phone-mode) .lg-dots { left: 40px; bottom: 32px; }
+}
+@media (min-width: 900px) { html:not(.phone-mode) #login .lg-hero { clip-path: inset(0 round 36px); } }

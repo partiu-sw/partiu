@@ -4,6 +4,10 @@
 // nas outras páginas, a página é mostrada dentro de um iPhone (402 × 874, proporção do iPhone 17 Pro).
 (() => {
   const qs = new URLSearchParams(location.search);
+  // sem barra de rolagem em nenhuma página do projeto (a rolagem continua funcionando)
+  const ns = document.createElement('style');
+  ns.textContent = 'html, body, * { scrollbar-width: none; } *::-webkit-scrollbar { display: none; width: 0; height: 0; }';
+  document.head.appendChild(ns);
   // escala do iPhone: proporção real (402 × 874), diminui inteiro para caber na altura da janela
   const scale = () => document.documentElement.style.setProperty('--phone-k', Math.min(1, (innerHeight - 56) / 874).toFixed(3));
   scale(); addEventListener('resize', scale);

@@ -33,3 +33,24 @@
 .lg-av { width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 800; flex: none; }
 .lg-av.new { background: var(--brand-soft); color: var(--brand); }
 .lg-hint .text-btn { border: 0; background: none; min-height: 0; padding: 0; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* fotos da região passando, com legenda */
+.lg-slides { position: absolute; inset: 0; z-index: -2; }
+.lg-slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 1.2s ease; }
+.lg-slide.on { opacity: 1; }
+.lg-slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 6s ease-out; }
+.lg-slide.on img { transform: scale(1); }
+.lg-slide figcaption { position: absolute; left: 22px; right: 22px; bottom: 34px; display: flex; flex-direction: column; gap: 2px; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.35); opacity: 0; transform: translateY(10px); transition: opacity .6s .4s, transform .6s .4s cubic-bezier(.2, .8, .2, 1); }
+.lg-slide.on figcaption { opacity: 1; transform: none; }
+.lg-slide strong { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.lg-slide span { font-size: 13px; opacity: .92; }
+.lg-dots { position: absolute; left: 22px; bottom: 16px; display: flex; gap: 5px; z-index: 1; }
+.lg-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.5); transition: width .3s, background .3s; }
+.lg-dots i.on { width: 20px; background: #fff; }
+/* bordas limpas: a foto fica recortada pelo cartão (camada própria), e o degradê fica embaixo da legenda */
+.lg-hero { -webkit-mask-image: -webkit-radial-gradient(white, black); clip-path: inset(0 round 0 0 40px 40px); }
+.lg-hero::after { display: none; }
+.lg-slides { overflow: hidden; border-radius: inherit; }
+.lg-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0) 35%, rgba(0,0,0,0) 50%, rgba(0,0,0,.65)); }
+.lg-slide figcaption { z-index: 1; }
+.lg-hero { height: clamp(220px, 36%, 340px); }
