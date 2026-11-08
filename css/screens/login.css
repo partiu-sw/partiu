@@ -54,3 +54,8 @@
 .lg-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0) 35%, rgba(0,0,0,0) 50%, rgba(0,0,0,.65)); }
 .lg-slide figcaption { z-index: 1; }
 .lg-hero { height: clamp(220px, 36%, 340px); }
+/* login no celular: foto como cartão logo abaixo da barra de status (mesmo respiro das outras telas),
+   ocupando o espaço que sobra; os botões ficam todos embaixo, sem buraco */
+#login .lg-hero { flex: 1 1 auto; height: auto; min-height: 200px; margin: calc(var(--safe-top) - 10px) 12px 0; border-radius: 32px; clip-path: inset(0 round 32px); }
+#login .lg-top { top: 14px; left: 14px; right: 14px; }
+#login .lg-body { flex: none; overflow: visible; justify-content: flex-end; padding-top: 22px; padding-bottom: max(28px, env(safe-area-inset-bottom)); }

@@ -98,3 +98,8 @@
   html:not(.phone-mode) #plan .trip-hero { margin-left: auto; margin-right: auto; }
 }
 }
+@media (min-width: 900px) {
+  html:not(.phone-mode) #login .lg-hero { margin: 16px 16px 16px 0; flex: 1 1 56%; }
+  html:not(.phone-mode) #login .lg-top { top: 24px; left: 24px; right: 24px; }
+  html:not(.phone-mode) #login .lg-body { justify-content: center; }
+}
