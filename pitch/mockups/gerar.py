@@ -23,12 +23,19 @@ SHOTS = [
     ('feed', '/feed', True, []),
     ('conta', '/account', True, []),
     ('busca', '/explore', True, ["document.getElementById('openSearch').click()"]),
+    # onde o comércio pagante (parceiro) aparece no app
+    ('parceiro-mapa', '/explore', True, ["setSheet('collapsed'); setTimeout(()=>map.fitBounds([city().places[0].ll,...partnerPool().map(p=>p.ll)],{paddingTopLeft:[50,220],paddingBottomRight:[70,curSheetH()+60],maxZoom:16.3}),400)", "0"]),
+    ('parceiro-roteiro', '/itinerary', True, ["document.querySelector('.pt-card').scrollIntoView({block:'center'})"]),
+    ('parceiro-oferta', '/explore', True, ["showFound(partnerPool().find(p=>!inPlan(p)))", "0"]),
+    ('parceiro-feed', '/feed', True, ["const p=document.querySelector('.post.sponsored'); p.scrollIntoView({block:'start'}); p.parentElement.scrollTop-=60"]),
 ]
 # telas com foto ou mapa até o topo: em vez de descer a tela, só os controles do topo descem
 NOTCH = {
     'login': '.lg-top{top:62px!important}',
     'apresentacao': '#intro{padding-top:66px!important}',
-    'explorar': '.trip-card{top:62px!important} .map-note{top:134px!important}',
+    'explorar': ':root{--safe-top:62px!important}',
+    'parceiro-mapa': ':root{--safe-top:62px!important}',
+    'parceiro-oferta': ':root{--safe-top:62px!important}',
 }
 LIGHT_BAR = {'login', 'apresentacao'}  # barra de status branca sobre foto
 ch = Chrome(390, 844, 2)
@@ -40,7 +47,7 @@ for name, route, sess, acts in SHOTS:
     if sess: ch.js(SESSION)
     else: ch.js('localStorage.clear()')
     ch.goto(B + f'?z={time.time()}#{route}'); time.sleep(4.5)
-    for a in acts: ch.js(a); time.sleep(1.5)
+    for a in acts: ch.js(a); time.sleep(2.5)
     ch.js("document.querySelectorAll('.dev-link,.view-toggle').forEach(e => e.remove())")
     # área da barra de status: as telas descem para o conteúdo não ficar embaixo da ilha (notch)
     css = NOTCH.get(name, '.screen{top:18px!important} .phone{background:#fff}')
@@ -68,7 +75,6 @@ for name, png in screens.items():
     p = os.path.join(HERE, '_tmp.html'); open(p, 'w').write(html)
     ch.goto('file://' + p); time.sleep(.8)
     im = Image.open(io.BytesIO(ch.shot())).convert('RGBA')
-    im = im.resize((W // 2, H // 2), Image.LANCZOS)
     im.save(os.path.join(HERE, f'celular-{name}.png'), optimize=True)
     os.remove(p)
     print('mockup', name)
