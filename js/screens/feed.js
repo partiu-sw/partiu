@@ -2,20 +2,26 @@
 // e levar o lugar da foto direto para o roteiro. As interações ficam guardadas no navegador.
 const FEED_KEY = 'partiu.feed';
 const POSTS = [
-  { id: 'p1', who: 'Marina Costa', at: 'marina.viaja', place: 'Praia de Laranjeiras', city: 'Balneário Camboriú', ago: '12 min', photo: 'img/laranjeiras.jpg', text: 'Mar calminho e água verde hoje cedo. Vale ir antes das 10h que ainda tem sombra.', likes: 128, comments: 14, near: true, follow: true, tag: 'Praia' },
-  { id: 'p2', who: 'Lucas e Bia', at: 'lucasebia', place: 'Café Grão da Ilha', city: 'Balneário Camboriú', ago: '40 min', photo: 'img/cafe.jpg', text: 'Plano B perfeito pra tarde de chuva. Café passado e pão de queijo saindo do forno.', likes: 86, comments: 9, near: true, follow: false, tag: 'Café' },
-  { id: 'p3', who: 'Rafa Nunes', at: 'rafanunes', place: 'Parque Unipraias', city: 'Balneário Camboriú', ago: '1 h', photo: 'img/unipraias.jpg', text: 'Bondinho no fim da tarde. A vista da Barra Sul lá de cima é outra coisa.', likes: 214, comments: 31, near: true, follow: true, tag: 'Passeio' },
-  { id: 'p4', who: 'Júlia Prado', at: 'juprado', place: 'Mar & Brasa', city: 'Balneário Camboriú', ago: '2 h', photo: 'img/mar-brasa.jpg', text: 'Peixe na brasa, batata assada e limão. Simples e muito bom, a 5 min da orla.', likes: 97, comments: 12, near: true, follow: false, tag: 'Restaurante' },
-  { id: 'p5', who: 'Diego Alves', at: 'diegoalves', place: 'Pôr do sol na Barra', city: 'Itapema', ago: '3 h', photo: 'img/por-do-sol.jpg', text: 'Ontem o céu fez isso aqui. Leva casaco que venta depois das 18h.', likes: 302, comments: 40, near: false, follow: true, tag: 'Mirante' },
-  { id: 'p6', who: 'Carol Meirelles', at: 'carolm', place: 'Cristo Luz', city: 'Balneário Camboriú', ago: '5 h', photo: 'img/cristo-luz.jpg', text: 'Subida rápida e a cidade inteira lá embaixo. À noite ele acende.', likes: 77, comments: 6, near: true, follow: false, tag: 'Mirante' },
-  { id: 'p7', who: 'Fernanda Rocha', at: 'fe.rocha', place: 'Meia Praia', city: 'Itapema', ago: '25 min', photo: 'img/post1.jpg', text: 'Faixa de areia enorme e água tranquila pra criança. Guarda-sol a R$ 30 o dia.', likes: 64, comments: 8, follow: true, tag: 'Praia' },
-  { id: 'p8', who: 'Tiago Martins', at: 'tiagom', place: 'Peixaria do Canto', city: 'Itapema', ago: '1 h', photo: 'img/frutos-mar.jpg', text: 'Sequência de camarão pra dois saiu R$ 140. Chega cedo que enche depois das 13h.', likes: 119, comments: 22, follow: false, tag: 'Restaurante' },
-  { id: 'p9', who: 'Paula e Leo', at: 'paulaeleo', place: 'Ilha de Porto Belo', city: 'Porto Belo', ago: '35 min', photo: 'img/post3.jpg', text: 'Barco sai do cais de hora em hora. Água cristalina e dá pra ver peixinho na beira.', likes: 241, comments: 27, follow: true, tag: 'Passeio' },
-  { id: 'p10', who: 'Bruna Lopes', at: 'brunalopes', place: 'Ostras da Baía', city: 'Porto Belo', ago: '2 h', photo: 'img/jantar.jpg', text: 'Ostra gratinada com vista pra baía. Reserva pelo WhatsApp no fim de semana.', likes: 88, comments: 11, follow: false, tag: 'Restaurante' },
-  { id: 'p11', who: 'André Souza', at: 'andre.souza', place: 'Igreja São Sebastião', city: 'Tijucas', ago: '50 min', photo: 'img/manha-praia.jpg', text: 'Centro pequeno e tranquilo, dá pra fazer tudo a pé. Café do Largo do lado da igreja.', likes: 41, comments: 5, follow: true, tag: 'História' },
-  { id: 'p12', who: 'Luiza Prates', at: 'luizap', place: 'Praia do Estaleiro', city: 'Balneário Camboriú', ago: '4 h', photo: 'img/manha-praia.jpg', text: 'Interpraias de manhã cedo é outra praia. Estacionamento lota às 10h.', likes: 156, comments: 18, follow: false, tag: 'Praia' }
+  { id: 'p1', who: 'Marina Costa', av: 'img/avatares/marina.svg', at: 'marina.viaja', place: 'Praia de Laranjeiras', city: 'Balneário Camboriú', ago: '12 min', photo: 'img/laranjeiras.jpg', text: 'Mar calminho e água verde hoje cedo. Vale ir antes das 10h que ainda tem sombra.', likes: 128, comments: 14, near: true, follow: true, tag: 'Praia' },
+  { id: 'p2', who: 'Lucas e Bia', av: 'img/avatares/lucas-bia.svg', at: 'lucasebia', place: 'Café Grão da Ilha', city: 'Balneário Camboriú', ago: '40 min', photo: 'img/cafe.jpg', text: 'Plano B perfeito pra tarde de chuva. Café passado e pão de queijo saindo do forno.', likes: 86, comments: 9, near: true, follow: false, tag: 'Café' },
+  { id: 'p3', who: 'Rafa Nunes', av: 'img/avatares/rafa.svg', at: 'rafanunes', place: 'Parque Unipraias', city: 'Balneário Camboriú', ago: '1 h', photo: 'img/unipraias.jpg', text: 'Bondinho no fim da tarde. A vista da Barra Sul lá de cima é outra coisa.', likes: 214, comments: 31, near: true, follow: true, tag: 'Passeio' },
+  { id: 'p4', who: 'Júlia Prado', av: 'img/avatares/julia.svg', at: 'juprado', place: 'Mar & Brasa', city: 'Balneário Camboriú', ago: '2 h', photo: 'img/mar-brasa.jpg', text: 'Peixe na brasa, batata e limão. Simples e muito bom, a 5 min da orla.', likes: 97, comments: 12, near: true, follow: false, tag: 'Restaurante' },
+  { id: 'p5', who: 'Diego Alves', av: 'img/avatares/diego.svg', at: 'diegoalves', place: 'Pôr do sol na Barra', city: 'Itapema', ago: '3 h', photo: 'img/por-do-sol.jpg', text: 'Ontem o céu fez isso aqui. Leva casaco que venta depois das 18h.', likes: 302, comments: 40, near: false, follow: true, tag: 'Mirante' },
+  { id: 'p6', who: 'Carol Meirelles', av: 'img/avatares/carol.svg', at: 'carolm', place: 'Cristo Luz', city: 'Balneário Camboriú', ago: '5 h', photo: 'img/cristo-luz.jpg', text: 'Subida rápida e a cidade inteira lá embaixo. À noite ele acende.', likes: 77, comments: 6, near: true, follow: false, tag: 'Mirante' },
+  { id: 'p7', who: 'Fernanda Rocha', av: 'img/avatares/fernanda.svg', at: 'fe.rocha', place: 'Meia Praia', city: 'Itapema', ago: '25 min', photo: 'img/post1.jpg', text: 'Faixa de areia enorme e água tranquila pra criança. Guarda-sol a R$ 30 o dia.', likes: 64, comments: 8, follow: true, tag: 'Praia' },
+  { id: 'p8', who: 'Tiago Martins', av: 'img/avatares/tiago.svg', at: 'tiagom', place: 'Peixaria do Canto', city: 'Itapema', ago: '1 h', photo: 'img/frutos-mar.jpg', text: 'Sequência de camarão pra dois saiu R$ 140. Chega cedo que enche depois das 13h.', likes: 119, comments: 22, follow: false, tag: 'Restaurante' },
+  { id: 'p9', who: 'Paula e Leo', av: 'img/avatares/paula-leo.svg', at: 'paulaeleo', place: 'Ilha de Porto Belo', city: 'Porto Belo', ago: '35 min', photo: 'img/post3.jpg', text: 'Barco sai do cais de hora em hora. Água cristalina e dá pra ver peixinho na beira.', likes: 241, comments: 27, follow: true, tag: 'Passeio' },
+  { id: 'p10', who: 'Bruna Lopes', av: 'img/avatares/bruna.svg', at: 'brunalopes', place: 'Ostras da Baía', city: 'Porto Belo', ago: '2 h', photo: 'img/ostras.jpg', text: 'Ostra fresca com limão e vista pra baía. Reserva pelo WhatsApp no fim de semana.', likes: 88, comments: 11, follow: false, tag: 'Restaurante' },
+  { id: 'p11', who: 'André Souza', av: 'img/avatares/andre.svg', at: 'andre.souza', place: 'Igreja São Sebastião', city: 'Tijucas', ago: '50 min', photo: 'img/manha-praia.jpg', text: 'Centro pequeno e tranquilo, dá pra fazer tudo a pé. Café do Largo do lado da igreja.', likes: 41, comments: 5, follow: true, tag: 'História' },
+  { id: 'p12', who: 'Luiza Prates', av: 'img/avatares/luiza.svg', at: 'luizap', place: 'Praia do Estaleiro', city: 'Balneário Camboriú', ago: '4 h', photo: 'img/manha-praia.jpg', text: 'Interpraias de manhã cedo é outra praia. Estacionamento lota às 10h.', likes: 156, comments: 18, follow: false, tag: 'Praia' },
+  { id: 'p13', who: 'Marina Costa', av: 'img/avatares/marina.svg', at: 'marina.viaja', place: 'Sorveteria Gelato Mar', city: 'Balneário Camboriú', ago: '6 h', photo: 'img/sorvete.jpg', text: 'Gelato de doce de leite com crumble. Fila anda rápido, umas 10 pessoas às 20h.', likes: 73, comments: 9, follow: true, tag: 'Café' },
+  { id: 'p14', who: 'Rafa Nunes', av: 'img/avatares/rafa.svg', at: 'rafanunes', place: 'Sushi Maré da Barra', city: 'Balneário Camboriú', ago: '8 h', photo: 'img/sushi.jpg', text: 'Combinado de salmão pra dois por R$ 129. Pede o sashimi maçaricado.', likes: 132, comments: 17, follow: true, tag: 'Restaurante' },
+  { id: 'p15', who: 'Diego Alves', av: 'img/avatares/diego.svg', at: 'diegoalves', place: 'Praia Grossa', city: 'Itapema', ago: '9 h', photo: 'img/praia-grossa.jpg', text: 'Trilha curta de 15 min até a praia. Leva água, lá não tem quiosque.', likes: 208, comments: 25, follow: true, tag: 'Praia' },
+  { id: 'p16', who: 'Paula e Leo', av: 'img/avatares/paula-leo.svg', at: 'paulaeleo', place: 'Praia de Bombas', city: 'Porto Belo', ago: '10 h', photo: 'img/bombas.jpg', text: 'Mar verdinho e calmo, ótimo pra nadar. Estacionamento a R$ 25.', likes: 176, comments: 14, follow: true, tag: 'Praia' },
+  { id: 'p17', who: 'André Souza', av: 'img/avatares/andre.svg', at: 'andre.souza', place: 'Margem do Rio Tijucas', city: 'Tijucas', ago: '12 h', photo: 'img/rio-tijucas.jpg', text: 'Fim de tarde na beira do rio, tranquilo e com ciclovia. Bom pra correr.', likes: 39, comments: 3, follow: false, tag: 'Passeio' },
+  { id: 'p18', who: 'Carol Meirelles', av: 'img/avatares/carol.svg', at: 'carolm', place: 'Molhe da Barra Sul', city: 'Balneário Camboriú', ago: '1 d', photo: 'img/barra-sul.jpg', text: 'Barco pirata sai daqui de hora em hora. As crianças amaram.', likes: 94, comments: 12, follow: false, tag: 'Passeio' }
 ];
-const STORIES = [['Praias', 'img/manha-praia.jpg'], ['Comer', 'img/frutos-mar.jpg'], ['Pôr do sol', 'img/por-do-sol.jpg'], ['Cafés', 'img/cafe.jpg'], ['Lanches', 'img/lanche.jpg'], ['Passeios', 'img/unipraias.jpg']];
+const STORIES = [['Praias', 'img/manha-praia.jpg'], ['Comer', 'img/frutos-mar.jpg'], ['Pôr do sol', 'img/por-do-sol.jpg'], ['Cafés', 'img/cafe.jpg'], ['Lanches', 'img/hamburguer.jpg'], ['Passeios', 'img/unipraias.jpg']];
 let feedState = null;
 
 function feedData() {
@@ -30,7 +36,7 @@ const kfmt = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' mil
 function renderFeed() {
   const st = feedData(), me = (S.user && S.user.name) || 'Ana';
   $('feedNew').innerHTML = svg('plus', 20, 2.2);
-  $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><span class="story-av">${esc(me[0])}</span><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
+  $('stories').innerHTML = `<button class="story mine" data-compose role="listitem"><span class="story-ring"><img src="img/avatares/ana.svg" alt=""><i>${svg('plus', 12, 3)}</i></span><small>Seu dia</small></button>` +
     STORIES.map(([n, ph], i) => `<button class="story" role="listitem" style="--i:${i}" data-story="${esc(n)}"><span class="story-ring"><img src="${ph}" alt=""></span><small>${esc(n)}</small></button>`).join('');
   const all = [...st.mine, ...POSTS];
   // só a cidade da viagem aberta (as suas publicações aparecem sempre)
@@ -43,7 +49,7 @@ function postHTML(p, i) {
   return `<article class="post" style="--i:${i}" data-post="${p.id}">
     <div class="post-photo" data-dbl="${p.id}"><img src="${p.photo}" alt="Foto de ${esc(p.place)}" loading="lazy">
       <header class="post-head">
-        <span class="post-av${p.mine ? ' me' : ''}">${esc(initials(p.who))}</span>
+        <span class="post-av${p.mine ? ' me' : ''}">${p.av ? `<img src="${p.av}" alt="">` : esc(initials(p.who))}</span>
         <span class="post-who"><strong>${esc(p.who)}</strong><small>${esc(p.ago)}</small></span>
       </header>
       <span class="burst" aria-hidden="true">${svg('heart', 84, 1.6)}</span></div>
@@ -128,7 +134,7 @@ $('compose').addEventListener('click', (e) => {
     const txt = $('composeText').value.trim() || 'Aproveitando o dia por aqui.';
     const me = (S.user && S.user.name) || 'Ana';
     const st = feedData();
-    st.mine.unshift({ id: 'm' + Date.now(), who: me, at: me.toLowerCase().replace(/\s+/g, ''), place: composePick ? composePick.title : city().name, city: city().name, ago: 'agora', photo: composePick ? photoFor(composePick.title + ' ' + composePick.sub) || 'img/post2.jpg' : 'img/post2.jpg', text: txt, likes: 0, comments: 0, near: true, follow: true, mine: true, tag: 'Você' });
+    st.mine.unshift({ id: 'm' + Date.now(), who: me, av: 'img/avatares/ana.svg', at: me.toLowerCase().replace(/\s+/g, ''), place: composePick ? composePick.title : city().name, city: city().name, ago: 'agora', photo: composePick ? photoFor(composePick.title + ' ' + composePick.sub) || 'img/post2.jpg' : 'img/post2.jpg', text: txt, likes: 0, comments: 0, near: true, follow: true, mine: true, tag: 'Você' });
     feedSave();
     closeCompose();
     renderFeed();

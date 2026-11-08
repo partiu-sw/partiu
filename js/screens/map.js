@@ -22,21 +22,17 @@ const FALLBACK_ME = { ll: [-27.12853, -48.60103], name: 'Shopping Russi & Russi,
 const TRIP_CARD_H = 112; // área ocupada pelo cartão da viagem no topo do mapa
 let me = null, sheetState = 'half', noteT;
 
-// Mapa base: vetorial (OpenFreeMap, estilo Positron) em preto e branco, como a marca, nítido em qualquer zoom.
-// Sem WebGL ou sem rede, usa os blocos salvos em tiles/ (Esri Light Gray), com o mesmo tom azul.
-const MAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+// Mapa base: vetorial (OpenFreeMap, estilo Liberty), colorido e vivo como uma foto: mar azul, verde dos parques,
+// ruas, prédios e pontos de interesse. O app é preto e branco; o mapa, como as fotos, mostra as cores do lugar.
+// Sem WebGL ou sem rede, usa os blocos salvos em tiles/ (Esri Light Gray).
+const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 const MAP_PAINT = [
-  [/^background$/, 'background-color', '#F6F6F6'], [/^water$/, 'fill-color', '#DCDFE3'], [/^waterway$/, 'line-color', '#D2D5DA'],
-  [/^park$|wood/, 'fill-color', '#ECEDEA'], [/residential/, 'fill-color', '#F1F1F2'], [/^building$/, 'fill-color', '#E5E5E7'],
-  [/casing/, 'line-color', '#D9D9DC'], [/inner|minor|subtle|pier/, 'line-color', '#FFFFFF'], [/path/, 'line-color', '#E1E1E3']
+  [/^water$/, 'fill-color', '#8FCBF0'], [/^park$/, 'fill-color', '#C6E9B4'], [/wood|grass/, 'fill-color', '#CDEBC0'],
+  [/^background$/, 'background-color', '#F7F4EE']
 ];
 function styleForBrand(st) {
   st.layers.forEach((l) => {
     MAP_PAINT.forEach(([re, prop, val]) => { if (re.test(l.id) && prop.split('-')[0] === l.type) { l.paint = l.paint || {}; l.paint[prop] = val; } });
-    if (l.type === 'symbol' && l.paint) {
-      l.paint['text-color'] = /water/.test(l.id) ? '#7A7F87' : '#5E6066';
-      l.paint['text-halo-color'] = 'rgba(255,255,255,.95)';
-    }
   });
   return st;
 }
@@ -121,7 +117,8 @@ function initMap() {
 const TAB_SPACE = 84; // a barra flutuante cobre o fim do painel
 function sheetHeights() {
   const H = $('main').clientHeight || 844;
-  return { collapsed: 162 + TAB_SPACE, half: Math.round(H * 0.52), full: H - TRIP_CARD_H };
+  // recolhido: só a alça e o título; aberto: quase até o topo, logo abaixo da barra de status
+  return { collapsed: 80 + TAB_SPACE, half: Math.round(H * 0.52), full: H - 56 };
 }
 const curSheetH = () => parseFloat($('main').style.getPropertyValue('--sheet-h')) || sheetHeights().half;
 function setSheet(state) {
@@ -264,7 +261,8 @@ function renderDay(fit) {
   $('placesMeta').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
   $('mapDays').innerHTML = dayChipsHTML(mapDay, 'data-d', true);
   const left = S.plan.picked.length;
-  const edit = `<button class="text-btn rt-edit" data-edit>${left ? `Editar roteiro · ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}</button>`;
+  const edit = `<div class="rt-out"><a class="pill" href="${mapsDayRoute(mapDay) || '#'}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a><button class="pill" data-ics-day>${GCAL_IC}Salvar na agenda</button></div>
+    <button class="text-btn rt-edit" data-edit>${left ? `Editar roteiro · ${plural(left, 'lugar', 'lugares')} para organizar` : 'Editar roteiro'}</button>`;
   if (!items.length) {
     $('list').innerHTML = extrasHTML(items, isToday) + `<div class="rt-empty"><strong>Dia livre</strong><p>Nada marcado para este dia ainda.</p><button class="btn-out" data-edit>Organizar roteiro</button></div>`;
   } else {
@@ -302,6 +300,7 @@ function select(id, fromList) {
 }
 $('list').addEventListener('click', (e) => {
   if (e.target.closest('[data-edit]')) { curDay = mapDay; return go('plan'); }
+  if (e.target.closest('[data-ics-day]')) { const n = downloadICS(mapDay); return showNote(`${plural(n, 'evento', 'eventos')} do dia no arquivo de agenda`); }
   const nowBtn = e.target.closest('[data-now]');
   if (nowBtn) {
     const p = searchPool().find((x) => x.id === nowBtn.dataset.now), it = asItem(p), t = suggestTime(it, mapDay, toMin(NOW));

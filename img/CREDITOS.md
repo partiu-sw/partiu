@@ -12,8 +12,8 @@ Fotos de lugares do Wikimedia Commons e fotos de comida do Pexels (licença Pexe
 - `unipraias.jpg`: Teleférico do Parque Unipraias na Praia de Laranjeiras, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Telef%C3%A9rico_do_Parque_Unipraias_na_Praia_de_Laranjeiras,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
 - `cristo-luz.jpg`: Vista do Cristo Luz, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Vista_do_Cristo_Luz,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
 - `cafe.jpg`: pão de queijo na cesta, por Giovanna Kamimura (Pexels). https://www.pexels.com/photo/37778433/
-- `cantina.jpg`: pizza com manjericão e tomate, por Sonali Mehta (Pexels). https://www.pexels.com/photo/31596394/
-- `lanche.jpg`: hambúrguer com fritas, por The Castlebar (Pexels). https://www.pexels.com/photo/31148909/
+- `pizza.jpg`: pizza com manjericão e tomate, por Sonali Mehta (Pexels). https://www.pexels.com/photo/31596394/
+- `hamburguer.jpg`: hambúrguer com fritas, por The Castlebar (Pexels). https://www.pexels.com/photo/31148909/
 - `prato-feito.jpg`: prato feito com arroz, farofa, carne e ovo, por Daigoro Folz (Pexels). https://www.pexels.com/photo/32655177/
 - `jantar.jpg`: arroz, feijão, carne e vinagrete, por Lucas Andrade (Pexels). https://www.pexels.com/photo/19781592/
 - `salgados.jpg`: salgados com limão, por Victor Cayke (Pexels). https://www.pexels.com/photo/17313150/
@@ -21,3 +21,16 @@ Fotos de lugares do Wikimedia Commons e fotos de comida do Pexels (licença Pexe
 - `mar-brasa.jpg`: peixe na brasa, por Julia Filirovska (Pexels). https://www.pexels.com/photo/8250340/
 - `hotel.jpg`: Hotel Lutetia Paris Room 419.jpg, por Gary Bembridge from London, UK (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Hotel_Lutetia_Paris_Room_419.jpg
 - `app-mapa.jpg`: captura da tela do mapa do próprio Partiu (mapa: Esri, HERE, Garmin, © OpenStreetMap), usada na landing.
+- `cantina.jpg`: At Sardinia 2024 048.jpg, por Photograph by Mike Peel (www.mikepeel.net). (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:At_Sardinia_2024_048.jpg
+- `ostras.jpg`: Oysters for sale at Mercat de la Boqueria.jpg, por Kritzolina (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Oysters_for_sale_at_Mercat_de_la_Boqueria.jpg
+- `sushi.jpg`: Sashimi of São Paulo.jpg, por Wilfredor (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Sashimi_of_S%C3%A3o_Paulo.jpg
+- `padaria.jpg`: MediasLunasenMardelPlata.jpg, por Ezarate (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:MediasLunasenMardelPlata.jpg
+- `sorvete.jpg`: Crumble and ice cream at Black Horse Inn, Nuthurst, West Sussex, England.jpg, por Acabashi (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Crumble_and_ice_cream_at_Black_Horse_Inn,_Nuthurst,_West_Sussex,_England.jpg
+- `barra-sul.jpg`: Embarque no Barco Pirata no Rio Camboriú com a Passarela da Barra Sul ao fundo, Balneário Camboriú SC.JPG, por HVL (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Embarque_no_Barco_Pirata_no_Rio_Cambori%C3%BA_com_a_Passarela_da_Barra_Sul_ao_fundo,_Balne%C3%A1rio_Cambori%C3%BA_SC.JPG
+- `estaleiro.jpg`: Praia de Estaleiro Balneário Camboriú-SC.JPG, por Verinhaa (CC BY-SA 3.0). https://commons.wikimedia.org/wiki/File:Praia_de_Estaleiro_Balne%C3%A1rio_Cambori%C3%BA-SC.JPG
+- `praia-grossa.jpg`: Praia Grossa (21082190099).jpg, por Otávio Nogueira from Fortaleza, BR (CC BY 2.0). https://commons.wikimedia.org/wiki/File:Praia_Grossa_(21082190099).jpg
+- `igreja-porto-belo.jpg`: Igreja Senhor Bom Jesus dos Aflitos.jpg, por JoanaTridapalli (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Igreja_Senhor_Bom_Jesus_dos_Aflitos.jpg
+- `bombas.jpg`: Renato Soares Praia de Bombas Bombinhas SC (40252057674).jpg, por MTur Destinos (Public domain). https://commons.wikimedia.org/wiki/File:Renato_Soares_Praia_de_Bombas_Bombinhas_SC_(40252057674).jpg
+- `rio-tijucas.jpg`: Santa Catarina Tijucas.JPG, por Lionel Baur (CC BY-SA 3.0). https://commons.wikimedia.org/wiki/File:Santa_Catarina_Tijucas.JPG
+- `golfinhos.jpg`: Jumping dolphin.jpg, por Karlbrix (CC BY-SA 4.0). https://commons.wikimedia.org/wiki/File:Jumping_dolphin.jpg
+- `bar.jpg`: Koh Mak, Thailand, Beach bar late at night, Live music party.jpg, por Vyacheslav Argenberg (CC BY 4.0). https://commons.wikimedia.org/wiki/File:Koh_Mak,_Thailand,_Beach_bar_late_at_night,_Live_music_party.jpg

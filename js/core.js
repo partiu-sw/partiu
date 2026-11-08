@@ -43,11 +43,15 @@ const ICON = {
 };
 // Fotos reais do litoral (img/, créditos em img/CREDITOS.md), escolhidas pelo nome do lugar.
 const PHOTOS = [
-  [/laranjeiras/i, 'laranjeiras'], [/unipraias|bondinho/i, 'unipraias'], [/cristo/i, 'cristo-luz'], [/praia central|orla/i, 'praia-central'],
-  [/p[oô]r do sol/i, 'por-do-sol'], [/meia praia|itapema/i, 'post1'], [/trilha|mirante|ilha|barco|grossa|ara[cç][aá]/i, 'post3'],
-  [/praia/i, 'manha-praia'], [/caf[eé]|padaria|sorvet|gr[aã]o/i, 'cafe'], [/cantina|pizz|italian/i, 'cantina'],
-  [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|ostra|camar|sushi|cais/i, 'frutos-mar'], [/hamb[uú]rg|burger|lanch/i, 'lanche'],
-  [/salgad|pastel|coxinha|petisc|boteco/i, 'salgados'], [/prato feito|pf|almo[cç]o|restaurante|buffet/i, 'prato-feito'], [/jantar|bistr|engenho|feijoada/i, 'jantar'],
+  [/laranjeiras/i, 'laranjeiras'], [/unipraias|bondinho/i, 'unipraias'], [/cristo/i, 'cristo-luz'], [/estaleiro/i, 'estaleiro'],
+  [/barra sul|molhe/i, 'barra-sul'], [/praia grossa|plaza/i, 'praia-grossa'], [/bombas|caixa d/i, 'bombas'], [/bom jesus|aflitos/i, 'igreja-porto-belo'],
+  [/rio tijucas|margem do rio|tijucas/i, 'rio-tijucas'], [/golfinho/i, 'golfinhos'], [/bar |m[uú]sica ao vivo|feirinha|noturn/i, 'bar'],
+  [/praia central|orla/i, 'praia-central'], [/p[oô]r do sol/i, 'por-do-sol'], [/meia praia|itapema|canto da praia/i, 'post1'],
+  [/trilha|mirante|ilha|barco|ara[cç][aá]/i, 'post3'], [/praia|paddle/i, 'manha-praia'],
+  [/sorvet/i, 'sorvete'], [/padaria|p[aã]o/i, 'padaria'], [/caf[eé]|gr[aã]o/i, 'cafe'], [/pizz/i, 'pizza'], [/cantina|italian|massa/i, 'cantina'],
+  [/sushi|japones/i, 'sushi'], [/ostra/i, 'ostras'], [/hamb[uú]rg|burger|lanch/i, 'hamburguer'], [/salgad|pastel|coxinha|petisc|boteco/i, 'salgados'],
+  [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|camar|cais/i, 'frutos-mar'], [/prato feito|\bpf\b|almo[cç]o|buffet/i, 'prato-feito'],
+  [/jantar|bistr|restaurante|engenho|contempor|feijoada/i, 'jantar'],
   [/hotel|pousada/i, 'hotel']
 ];
 const photoFor = (text) => { const hit = PHOTOS.find(([re]) => re.test(text || '')); return hit ? `img/${hit[1]}.jpg` : null; };
@@ -129,6 +133,7 @@ function go(step) {
   else if (step === 'feed') { showScreen('feed', dir); renderFeed(); }
   else if (step === 'conta') { showScreen('conta', dir); renderConta(); }
   else { showScreen('main', dir); showMain(); }
+  document.documentElement.dataset.screen = shown ? shown.id : step; // a barra de status do iPhone fica branca sobre foto
   setTabbar(step);
   if (TABS.includes(step)) saveTrip();
   if (typeof syncRoute === 'function') syncRoute(step);

@@ -152,7 +152,8 @@ function renderPlan(opts = {}) {
   } else {
     // resumo do dia: quantos lugares, quanto se anda e de que horas a que horas
     let km = 0, pp = h; items.forEach((it) => { km += haversine(pp, it.ll); pp = it.ll; });
-    let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>`;
+    let prev = null, html = `<div class="tl-sum"><span>${svg('pin', 14, 2.2)}${plural(items.length, 'parada', 'paradas')}</span><span>${svg('route', 14, 2)}${shortDist(km)}</span><span>${svg('roteiro', 14, 2)}${items[0].time}–${items[items.length - 1].time}</span></div>
+      <div class="tl-out"><button class="pill" data-ics="trip">${GCAL_IC}Salvar na agenda</button><a class="pill" href="${mapsDayRoute(curDay)}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a></div>`;
     let nowShown = false;
     items.forEach((it, i) => {
       const w = windowOf(it, it.time);
@@ -164,7 +165,7 @@ function renderPlan(opts = {}) {
           <button class="ev-time" data-time="${it.id}" aria-label="${it.time}, ${esc(it.title)}: mudar dia ou horário">${it.time}<small>${w ? w[2] : ''}</small></button>
           <span class="ev-dot" aria-hidden="true">${past ? svg('check', 11, 3) : i + 1}</span>
           <div class="ev-card">
-            <span class="pph" role="img" aria-label="Foto de ${esc(it.title)}">${scene(it.icon, it.title + ' ' + it.sub)}</span>
+            <a class="pph ev-map" href="${mapsPlace(it)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(it.title)} no Google Maps">${scene(it.icon, it.title + ' ' + it.sub)}<i>${svg('pin', 11, 2.6)}</i></a>
             <span class="tx"><strong>${esc(it.title)}</strong><span class="dist">${typeIcon(it, 13)}${esc(it.sub)}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
             <button class="rm" data-rm="${it.id}" aria-label="Tirar ${esc(it.title)} do dia">${svg('x', 15, 2.2)}</button>
             <span class="handle" data-drag="${it.id}" title="Arraste para reordenar">${svg('grip', 16, 2)}</span>
@@ -190,6 +191,7 @@ $('trayRow').addEventListener('click', (e) => {
 });
 let dragJustEnded = false;
 $('timeline').addEventListener('click', (e) => {
+  if (e.target.closest('[data-ics]')) { const n = downloadICS(); return toast(n ? `${plural(n, 'evento', 'eventos')} da viagem no arquivo de agenda` : 'Nada no roteiro para salvar ainda'); }
   if (dragJustEnded) { dragJustEnded = false; return; }
   const t = e.target.closest('[data-time]'), r = e.target.closest('[data-rm]'), add = e.target.closest('[data-add]');
   if (t) openWhen({ mode: 'time', item: S.plan.days[curDay].find((x) => x.id === t.dataset.time), day: curDay });
@@ -372,7 +374,7 @@ function renderWhen() {
       const cur = placed && wh.day === S.plan.days.findIndex((l) => l.includes(it)) && t === it.time, why = conflict(it, wh.day, t, it);
       return `<button class="time-chip" data-t="${t}" ${why && !cur ? `disabled title="${esc(why)}"` : ''} ${cur ? 'aria-current="true"' : ''}>${t}</button>`;
     }).join('')}</div></div>`).join('') +
-    (placed ? '<button class="text-btn" data-unplace>Tirar do dia</button>' : '');
+    (placed ? `<div class="when-out"><a class="pill" href="${gcalLink(it, S.plan.days.findIndex((l) => l.includes(it)))}" target="_blank" rel="noopener">${GCAL_IC}Google Agenda</a><a class="pill" href="${mapsPlace(it)}" target="_blank" rel="noopener">${GMAPS_IC}Google Maps</a></div><button class="text-btn" data-unplace>Tirar do dia</button>` : '');
 }
 $('whenBody').addEventListener('click', (e) => {
   const day = e.target.closest('[data-wday]'), chip = e.target.closest('.time-chip'), fit = e.target.closest('[data-fit]');
