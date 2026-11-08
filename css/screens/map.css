@@ -140,3 +140,8 @@
 /* painel aberto até o topo: os botões redondos saem para não cobrir o cartão da viagem */
 #main.sheet-full .fab { opacity: 0; pointer-events: none; transform: scale(.8); }
 .fab { transition: bottom .3s cubic-bezier(.2, .8, .2, 1), opacity .2s, transform .2s; }
+/* "Agora": fundo branco com borda preta fina, botões contornados */
+.now { background: var(--surface); border: 1.5px solid var(--ink); }
+.now-ic { background: var(--fill); }
+.now .now-go { background: var(--surface); border: 1px solid var(--ink); color: var(--ink); }
+.now .now-go:hover { background: var(--ink); color: #fff; }
