@@ -22,7 +22,7 @@ function startLoading() {
   });
   $('loadTitle').innerHTML = 'Pensando<i class="dots"><b>.</b><b>.</b><b>.</b></i>';
   $('loadMeta').textContent = `${c.name} · ${rangeLabel()}`;
-  const total = 3600 + Math.random() * 600, per = total / thoughts.length;
+  const per = Math.max(...thoughts.map((t) => t.length)) * 22 + 450, total = per * thoughts.length; // cada frase termina e fica um instante
   let shown = -1;
   const type = (txt) => { const el = $('loadThought'); el.textContent = ''; let i = 0; clearInterval(type.t); type.t = setInterval(() => { el.textContent = txt.slice(0, ++i); if (i >= txt.length) clearInterval(type.t); }, 22); };
   const t0 = performance.now();

@@ -47,10 +47,10 @@ const ICON = {
 // Fotos reais do litoral (img/, créditos em img/CREDITOS.md), escolhidas pelo nome do lugar.
 const PHOTOS = [
   [/laranjeiras/i, 'laranjeiras'], [/unipraias|bondinho/i, 'unipraias'], [/cristo/i, 'cristo-luz'], [/estaleiro/i, 'estaleiro'],
-  [/barra sul|molhe/i, 'barra-sul'], [/praia grossa|plaza/i, 'praia-grossa'], [/bombas|caixa d/i, 'bombas'], [/bom jesus|aflitos/i, 'igreja-porto-belo'],
-  [/rio tijucas|margem do rio|tijucas/i, 'rio-tijucas'], [/golfinho/i, 'golfinhos'], [/bar |m[uú]sica ao vivo|feirinha|noturn/i, 'bar'],
-  [/praia central|orla/i, 'praia-central'], [/p[oô]r do sol/i, 'por-do-sol'], [/meia praia|itapema|canto da praia/i, 'post1'],
-  [/trilha|mirante|ilha|barco|ara[cç][aá]/i, 'post3'], [/praia|paddle/i, 'manha-praia'],
+  [/molhe|barco pirata/i, 'barra-sul'], [/praia grossa|plaza/i, 'praia-grossa'], [/bombas|caixa d/i, 'bombas'], [/bom jesus|aflitos|igreja|casar[aã]o|museu|centro hist/i, 'igreja-porto-belo'],
+  [/rio tijucas|margem do rio|praia de tijucas/i, 'rio-tijucas'], [/golfinho/i, 'golfinhos'], [/bar |m[uú]sica ao vivo|feirinha|noturn/i, 'bar'],
+  [/praia central/i, 'praia-central'],
+  [/trilha|mirante|ilha|barco|ara[cç][aá]/i, 'post3'],
   [/sorvet/i, 'sorvete'], [/padaria|p[aã]o/i, 'padaria'], [/caf[eé]|gr[aã]o/i, 'cafe'], [/pizz/i, 'pizza'], [/cantina|italian|massa/i, 'cantina'],
   [/sushi|japones/i, 'sushi'], [/ostra/i, 'ostras'], [/hamb[uú]rg|burger|lanch/i, 'hamburguer'], [/salgad|pastel|coxinha|petisc|boteco/i, 'salgados'],
   [/brasa|grelha/i, 'mar-brasa'], [/frutos do mar|peix|camar|cais/i, 'frutos-mar'], [/prato feito|\bpf\b|almo[cç]o|buffet/i, 'prato-feito'],

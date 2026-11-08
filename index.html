@@ -24,7 +24,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: none; }
 *::-webkit-scrollbar { display: none; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body { font-family: var(--font); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
@@ -64,6 +64,10 @@ em { font-style: italic; color: var(--brand); }
 .hero h1 .line:nth-child(2) > span { animation-delay: .12s; }
 @keyframes up { from { transform: translateY(105%); } }
 .rot { position: relative; display: inline-flex; vertical-align: bottom; height: 1.02em; overflow: hidden; padding: 0 .28em; margin-left: .08em; border-radius: 999px; background: var(--brand); color: #fff; font-style: italic; transition: width .5s var(--ease); }
+.rot { justify-content: center; box-sizing: border-box; }
+.line.stack .rot { display: flex; margin: .1em 0 0; font-size: .78em; max-width: 100%; }
+.hero-grid > div:first-child { min-width: 0; }
+.line.stack > span { white-space: normal !important; }
 .rot b { display: block; font-weight: 800; white-space: nowrap; animation: word .6s var(--spring) backwards; }
 @keyframes word { from { transform: translateY(100%); opacity: 0; } }
 .hero p.lead { font-size: clamp(18px, 1.8vw, 22px); color: var(--sec); max-width: 440px; line-height: 1.4; animation: fade 1s .35s var(--ease) backwards; }
@@ -75,12 +79,12 @@ em { font-style: italic; color: var(--brand); }
 @keyframes grow { from { transform: scale(.4); opacity: 0; } }
 @keyframes breathe { 50% { transform: scale(1.04); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-.phone { position: relative; width: 290px; aspect-ratio: 390 / 844; border-radius: 46px; padding: 9px; background: #fff; box-shadow: 0 40px 80px rgba(0, 0, 0, .28), 0 0 0 1px rgba(14,23,38,.06); transform-style: preserve-3d; transition: transform .2s ease-out; animation: rise 1.1s .2s var(--ease) backwards; }
+.phone { position: relative; width: 290px; aspect-ratio: 402 / 874; border-radius: 46px; padding: 8px; background: #0B0B0D; box-shadow: 0 40px 80px rgba(0, 0, 0, .28), 0 0 0 1.5px #3B3B40; transform-style: preserve-3d; transition: transform .2s ease-out; animation: rise 1.1s .2s var(--ease) backwards; }
 @keyframes rise { from { opacity: 0; transform: translateY(80px) rotate(4deg); } }
 .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; }
 /* telas ao vivo: o próprio app (app.html?embed=1) dentro do celular, em escala; muda junto com o app */
 .live { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #fff; isolation: isolate; -webkit-mask-image: -webkit-radial-gradient(white, black); }
-.live iframe { position: absolute; left: 0; top: 0; width: 390px; height: var(--h, 844px); border: 0; transform-origin: 0 0; transform: scale(var(--k, .7)); pointer-events: none; }
+.live iframe { position: absolute; left: 0; top: 0; width: 402px; height: var(--h, 844px); border: 0; transform-origin: 0 0; transform: scale(var(--k, .7)); pointer-events: none; }
 .chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: #fff; box-shadow: 0 14px 34px rgba(0, 0, 0, .16); font-size: 14px; font-weight: 700; white-space: nowrap; animation: pop .7s var(--spring) backwards, bob 5s ease-in-out infinite; }
 .chip small { display: block; font-size: 12px; font-weight: 600; color: var(--sec); }
 .chip .d { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); flex: none; }
@@ -173,7 +177,7 @@ h2 { font-size: clamp(42px, 6vw, 84px); font-weight: 800; margin: 18px 0 0; }
 .screens { margin-top: 50px; display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 20px 4px 40px; scrollbar-width: none; }
 .screens::-webkit-scrollbar { display: none; }
 .shot { flex: none; width: 260px; scroll-snap-align: center; text-align: center; }
-.shot .phone { width: 100%; animation: none; box-shadow: 0 30px 60px rgba(0, 0, 0, .18), 0 0 0 1px rgba(14,23,38,.06); transition: transform .5s var(--ease); }
+.shot .phone { width: 100%; animation: none; box-shadow: 0 30px 60px rgba(0, 0, 0, .18), 0 0 0 1.5px #3B3B40; transition: transform .5s var(--ease); }
 .shot:nth-child(even) .phone { transform: translateY(36px); }
 .shot:hover .phone { transform: translateY(-8px) rotate(-1.5deg); }
 .shot span { display: inline-flex; margin-top: 20px; padding: 8px 16px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 700; }
@@ -208,9 +212,29 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space
   .reveal { opacity: 1; transform: none; }
   .minimap .rt { stroke-dashoffset: 0; } .minimap .stop { transform: none; } .where b { max-width: none; }
 }
+
+/* ---------- mais movimento ---------- */
+.progress-top { position: fixed; z-index: 60; left: 0; top: 0; height: 3px; width: 100%; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+.w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .06em; }
+.w > i { display: inline-block; font-style: inherit; transform: translateY(110%); transition: transform .8s var(--ease); transition-delay: calc(var(--k) * 60ms); }
+h2.in .w > i, .w.in > i { transform: none; }
+.step { transform-style: preserve-3d; will-change: transform; }
+.step .n { display: inline-block; transition: transform .5s var(--spring); }
+.step:hover .n { transform: translateX(6px) scale(1.15); }
+.screens .shot .phone { animation: shot-float 6s ease-in-out infinite; animation-delay: calc(var(--fd, 0) * -1.5s); }
+@keyframes shot-float { 50% { translate: 0 -10px; } }
+.num { transition: transform .4s var(--spring), box-shadow .3s; }
+.num:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+.pill.blue { position: relative; overflow: hidden; }
+.pill.blue::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-20deg); animation: shine 3.2s ease-in-out infinite; }
+@keyframes shine { 0%, 60% { left: -60%; } 100% { left: 140%; } }
+.chip { cursor: default; }
+.marquee { transition: transform .1s linear; }
+@media (prefers-reduced-motion: reduce) { .w > i { transform: none !important; } .screens .shot .phone, .pill.blue::after { animation: none !important; } }
 </style>
 </head>
 <body>
+<div class="progress-top" id="progressTop" aria-hidden="true"></div>
 
 <header class="nav">
   <a class="logo" href="#top"><img src="brand/pin.svg" alt="">Partiu</a>
@@ -317,7 +341,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space
 // Celulares da landing: cada um carrega o app de verdade na tela indicada, só quando chega perto da tela.
 const lives = document.querySelectorAll('.live');
 // escala pela largura e estica a altura do app para preencher a tela do celular inteira (a barra fica no lugar certo)
-const fit = (el) => { const k = el.clientWidth / 390; el.style.setProperty('--k', k); el.style.setProperty('--h', (el.clientHeight / k) + 'px'); };
+const fit = (el) => { const k = el.clientWidth / 402; el.style.setProperty('--k', k); el.style.setProperty('--h', (el.clientHeight / k) + 'px'); };
 const ro = new ResizeObserver((es) => es.forEach((e) => fit(e.target)));
 const lio = new IntersectionObserver((es) => es.forEach((e) => {
   if (!e.isIntersecting || e.target.dataset.on) return;
@@ -334,6 +358,27 @@ const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const WORDS = ['praia.', 'café.', 'pôr do sol.', 'trilha.', 'jantar.', 'plano B.'];
 let wi = 0;
 const rot = document.getElementById('rot');
+// a pílula tem sempre a largura da palavra mais longa: o título não muda de tamanho nem pula de linha
+function fitRot() {
+  rot.style.width = '';
+  const probe = document.createElement('span'); probe.className = 'rot'; probe.style.cssText = 'position:absolute;visibility:hidden;width:auto';
+  rot.parentElement.appendChild(probe); // mede com a mesma fonte do título
+  let w = 0; WORDS.forEach((t) => { probe.innerHTML = `<b>${t}</b>`; w = Math.max(w, probe.getBoundingClientRect().width); });
+  probe.remove();
+  rot.style.width = Math.ceil(w) + 'px';
+  // se a palavra mais longa não cabe ao lado de "Partiu", ela vai para a linha de baixo, sempre
+  const line = rot.closest('.line'); line.classList.remove('stack');
+  rot.parentElement.style.whiteSpace = 'nowrap';
+  const col = rot.closest('h1').parentElement.getBoundingClientRect();
+  if (rot.getBoundingClientRect().right > col.right + 1) {
+    line.classList.add('stack');
+    // na linha de baixo a pílula acompanha a largura da coluna: mede de novo com a fonte menor
+    rot.style.width = ''; const p2 = document.createElement('span'); p2.className = 'rot'; p2.style.cssText = 'position:absolute;visibility:hidden;width:auto';
+    rot.parentElement.appendChild(p2); let w2 = 0; WORDS.forEach((t) => { p2.innerHTML = `<b>${t}</b>`; w2 = Math.max(w2, p2.getBoundingClientRect().width); }); p2.remove();
+    rot.style.width = Math.min(Math.ceil(w2), col.width) + 'px';
+  }
+}
+document.fonts.ready.then(fitRot); addEventListener('resize', fitRot); fitRot();
 if (!calm) setInterval(() => { wi = (wi + 1) % WORDS.length; rot.innerHTML = `<b>${WORDS[wi]}</b>`; }, 2000);
 
 // a faixa repete o conteúdo para correr sem emenda
@@ -395,5 +440,32 @@ document.querySelectorAll('[data-auto]').forEach((el) => {
 });
 </script>
 <script src="js/viewmode.js"></script>
+
+<script>
+// Mais movimento: títulos entram palavra por palavra, barra de progresso no topo, cartões inclinam com o mouse,
+// a faixa de cidades inclina com a rolagem e os celulares flutuam.
+(() => {
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('h2').forEach((h) => {
+    let k = 0;
+    const walk = (node) => [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) { const frag = document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach((t) => { if (!t.trim()) { frag.append(t); return; } const w = document.createElement('span'); w.className = 'w'; w.innerHTML = `<i style="--k:${k++}">${t}</i>`; frag.append(w); }); n.replaceWith(frag); }
+      else if (n.nodeType === 1) walk(n);
+    });
+    walk(h);
+  });
+  const bar = document.getElementById('progressTop'), mq = document.querySelector('.marquee');
+  addEventListener('scroll', () => {
+    const k = scrollY / Math.max(1, document.body.scrollHeight - innerHeight);
+    bar.style.transform = `scaleX(${k})`;
+    if (mq && !calm) mq.style.transform = `rotate(${-2 + Math.sin(scrollY / 300) * 1.2}deg)`;
+  }, { passive: true });
+  document.querySelectorAll('.shot').forEach((s, i) => s.querySelector('.phone') && s.querySelector('.phone').style.setProperty('--fd', i));
+  if (!calm && matchMedia('(hover: hover)').matches) document.querySelectorAll('.step').forEach((c) => {
+    c.addEventListener('mousemove', (e) => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; c.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg) translateY(-6px)`; });
+    c.addEventListener('mouseleave', () => { c.style.transform = ''; });
+  });
+})();
+</script>
 </body>
 </html>

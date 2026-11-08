@@ -42,7 +42,7 @@
 @keyframes pop-in { from { opacity: 0; transform: scale(.94); } }
 .ev-time { min-height: 48px; border: 0; border-radius: 10px; background: none; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; padding: 0 4px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: left; }
 .ev-time:hover { background: var(--fill); }
-.ev-time small { font-size: 10px; font-weight: 500; color: var(--sec); }
+.ev-time small { font-size: 11px; font-weight: 500; color: var(--sec); }
 .ev-card { display: flex; align-items: center; gap: 10px; padding: 6px 0 6px 6px; border-radius: 14px; background: var(--fill); }
 .ev.dragging .ev-card { opacity: .3; }
 .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
@@ -232,7 +232,7 @@
 
 /* levar para fora: agenda e Google Maps */
 .tl-out, .when-out, .rt-out { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 14px; }
-.tl-out .pill, .when-out .pill, .rt-out .pill { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+.tl-out .pill, .when-out .pill, .rt-out .pill { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14px; white-space: nowrap; }
 .tl-out .pill:hover, .when-out .pill:hover, .rt-out .pill:hover { border-color: var(--ink); }
 .when-out { margin: 14px 0 4px; justify-content: center; }
 .rt-out { margin: 14px 8px 2px; }
