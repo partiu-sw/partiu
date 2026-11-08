@@ -151,10 +151,15 @@
 .fab { transition: bottom .3s cubic-bezier(.2, .8, .2, 1), opacity .2s, transform .2s; }
 
 /* chuva caindo sobre o mapa nos dias de chuva (traços finos em duas camadas, cinza azulado bem leve) */
-.rain { position: absolute; inset: 0; z-index: 450; pointer-events: none; opacity: 0; transition: opacity .8s; background:
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='180'%3E%3Cg stroke='%23505A6E' stroke-opacity='.38' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M12 8l-5 22M58 40l-5 22M101 14l-5 22M33 96l-5 22M84 120l-5 22M126 82l-5 22M18 150l-5 22M70 168l-4 12'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 140px 180px,
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='120'%3E%3Cg stroke='%23505A6E' stroke-opacity='.22' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M20 10l-3 14M66 46l-3 14M40 84l-3 14M82 100l-3 14'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 90px 120px,
-  linear-gradient(rgba(60, 70, 90, .10), rgba(60, 70, 90, .10)); }
-.rain.on { opacity: 1; animation: rain-fall .9s linear infinite; }
-@keyframes rain-fall { to { background-position: -40px 180px, -26px 120px, 0 0; } }
-@media (prefers-reduced-motion: reduce) { .rain.on { animation: none; } }
+.rain { position: absolute; inset: 0; z-index: 450; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity 1s; }
+.rain.on { opacity: 1; }
+/* sombra de nuvem passando: escurece e clareia devagar */
+.rain::before { content: ""; position: absolute; inset: 0; background: rgb(40, 55, 80); opacity: .08; animation: rain-cloud 14s ease-in-out infinite; }
+@keyframes rain-cloud { 50% { opacity: .17; } }
+/* gotas: cada uma com tamanho, velocidade, atraso e posição próprios (montadas no map.js) */
+.rain i { position: absolute; top: 0; left: var(--x); width: var(--w); height: var(--h); border-radius: 2px; background: rgba(255, 255, 255, var(--o)); box-shadow: 0 0 1.5px rgba(30, 40, 60, .55); transform: translate3d(0, -12vh, 0) rotate(12deg); animation: rain-drop var(--d) linear var(--dl) infinite; }
+@keyframes rain-drop { to { transform: translate3d(calc(var(--fall) * -0.21), var(--fall), 0) rotate(12deg); } }
+/* respingos: um anel que abre e some onde a gota bate */
+.rain b { position: absolute; left: var(--x); top: var(--y); width: 18px; height: 7px; margin: -3.5px 0 0 -9px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .85); opacity: 0; animation: rain-splash var(--d) ease-out var(--dl) infinite; }
+@keyframes rain-splash { 0% { opacity: 0; transform: scale(.2); } 10% { opacity: .9; } 60%, 100% { opacity: 0; transform: scale(1.4); } }
+@media (prefers-reduced-motion: reduce) { .rain i, .rain b { display: none; } .rain::before { animation: none; } }

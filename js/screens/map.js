@@ -243,6 +243,25 @@ function nowHTML(isToday) {
         <strong>${esc(p.name)}</strong><small>${esc(p.info)}</small></button>`; }).join('')}</div>
     </section>`;
 }
+// Chuva no mapa: gotas soltas com tamanho, velocidade e atraso aleatórios, mais respingos em pontos
+// aleatórios, para não parecer um desenho repetido. Montada uma vez, só liga e desliga.
+function rainOn(on) {
+  const el = $('rain');
+  el.classList.toggle('on', on);
+  if (!on || el.dataset.built) return;
+  el.dataset.built = '1';
+  el.style.setProperty('--fall', (el.clientHeight || 900) * 1.25 + 'px');
+  const r = (a, b) => a + Math.random() * (b - a);
+  let html = '';
+  for (let k = 0; k < 90; k++) {
+    const near = Math.random() < 0.35; // algumas gotas mais perto: maiores e mais rápidas
+    html += `<i style="--x:${r(-5, 115).toFixed(1)}%;--w:${near ? 2 : 1.3}px;--h:${(near ? r(18, 28) : r(10, 18)).toFixed(0)}px;--o:${(near ? r(.6, .85) : r(.35, .6)).toFixed(2)};--d:${(near ? r(.55, .8) : r(.85, 1.3)).toFixed(2)}s;--dl:${r(-2, 0).toFixed(2)}s"></i>`;
+  }
+  for (let k = 0; k < 16; k++) html += `<b style="--x:${r(4, 96).toFixed(1)}%;--y:${r(18, 96).toFixed(1)}%;--d:${r(1.4, 2.6).toFixed(2)}s;--dl:${r(-3, 0).toFixed(2)}s"></b>`;
+  el.innerHTML = html;
+}
+window.addEventListener('resize', () => { const el = $('rain'); if (el.dataset.built) el.style.setProperty('--fall', el.clientHeight * 1.25 + 'px'); });
+
 function showMain() {
   initMap();
   ensurePlan();
@@ -269,7 +288,7 @@ function renderDay(fit) {
   $('tripMeta').textContent = `${isToday ? 'Hoje · ' : ''}${DAYNAME[x.getDay()]}, ${x.getDate()} ${MON[x.getMonth()]}`;
   $('placesMeta').textContent = items.length ? plural(items.length, 'lugar', 'lugares') : 'Dia livre';
   // chuva caindo no mapa quando o dia é de chuva
-  $('rain').classList.toggle('on', ic === 'chuva');
+  rainOn(ic === 'chuva');
   $('mapDays').innerHTML = dayChipsHTML(mapDay, 'data-d', true);
   const left = S.plan.picked.length;
   // agenda, Google Maps e editar ficam sempre visíveis no topo do painel

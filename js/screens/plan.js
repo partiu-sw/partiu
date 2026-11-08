@@ -122,7 +122,7 @@ function dayChipsHTML(sel, attr, withWx) {
     const w = withWx && typeof wxFor === 'function' ? wxFor(d) : null;
     const wx = w && withWx !== 'temp' ? svg(w[0], 13, 2) : '';
     const low = w && withWx === 'temp' ? `${svg(w[0], 13, 2)}${w[2]}°` : (n ? plural(n, 'lugar', 'lugares') : 'livre');
-    return `<button class="day-chip${d === sel ? ' on' : ''}${withWx === 'temp' ? ' wx' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" style="--i:${d}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'lugar', 'lugares')}${w ? `, ${w[1].toLowerCase()}, máxima de ${w[2]}°` : ''}"><span class="dc-w">${wx}${today ? 'Hoje' : WEEK[x.getDay()]}</span><b>${x.getDate()}</b><small>${low}</small></button>`;
+    return `<button class="day-chip${d === sel ? ' on' : ''}${withWx === 'temp' ? ' temp' : ''}" ${attr}="${d}" aria-pressed="${d === sel}" style="--i:${d}" aria-label="${DAYNAME[x.getDay()]}, ${x.getDate()} de ${MONTHS[x.getMonth()]}: ${plural(n, 'lugar', 'lugares')}${w ? `, ${w[1].toLowerCase()}, máxima de ${w[2]}°` : ''}"><span class="dc-w">${wx}${today ? 'Hoje' : WEEK[x.getDay()]}</span><b>${x.getDate()}</b><small>${low}</small></button>`;
   }).join('');
 }
 
@@ -177,7 +177,7 @@ function renderPlan(opts = {}) {
             <span class="pph">${scene(it.icon, it.title + ' ' + it.sub)}</span>
             <span class="tx"><strong>${esc(it.title)}</strong><span class="dist" title="${esc(it.sub)}">${typeIcon(it, 13)}${leg}</span>${live ? '<span class="ev-tag">Agora</span>' : past ? '<span class="ev-tag done">Feito</span>' : ''}</span>
             <a class="ev-go" href="${mapsRoute(it)}" target="_blank" rel="noopener" aria-label="Rota até ${esc(it.title)} no Google Maps">${GMAPS_IC}</a>
-            <span class="handle" data-drag="${it.id}" title="Arraste para reordenar">${svg('grip', 16, 2)}</span>
+            <button class="ev-more" data-drag="${it.id}" aria-haspopup="menu" aria-label="Opções de ${esc(it.title)} (toque) ou arraste para mudar a ordem">${svg('vdots', 18, 2.2)}</button>
           </div>
         </div>`;
       prev = it;
@@ -293,6 +293,15 @@ $('timeline').addEventListener('pointerdown', (e) => {
   const h = e.target.closest('[data-drag]');
   if (!h) return;
   e.preventDefault();
+  const x0 = e.clientX, y0 = e.clientY;
+  const move = (m) => { if (Math.hypot(m.clientX - x0, m.clientY - y0) > 6) { stop(); startDrag(h, m); } };
+  const up = () => { stop(); openEvMenu(h); };
+  const stop = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up, { once: true });
+});
+function startDrag(h, e) {
+  closeEvMenu();
   const ev = h.closest('.ev'), card = ev.querySelector('.ev-card'), r = card.getBoundingClientRect();
   const ghost = card.cloneNode(true);
   ghost.classList.add('ghost');
@@ -303,7 +312,40 @@ $('timeline').addEventListener('pointerdown', (e) => {
   window.addEventListener('pointermove', onDrag);
   window.addEventListener('pointerup', endDrag, { once: true });
   window.addEventListener('pointercancel', endDrag, { once: true });
-});
+  onDrag(e);
+}
+
+// Menu do "⋮": mudar o horário ou tirar a parada do dia
+function openEvMenu(h) {
+  closeEvMenu();
+  const id = h.dataset.drag, it = S.plan.days[curDay].find((x) => x.id === id);
+  if (!it) return;
+  const r = h.getBoundingClientRect(), m = document.createElement('div');
+  m.className = 'ev-pop'; m.id = 'evPop'; m.setAttribute('role', 'menu');
+  m.innerHTML = `<button role="menuitem" data-pop="time">${svg('roteiro', 18, 2)}Mudar horário</button><button role="menuitem" data-pop="rm">${svg('x', 18, 2.2)}Tirar do dia</button>`;
+  document.body.appendChild(m);
+  const w = m.offsetWidth;
+  Object.assign(m.style, { left: Math.max(8, r.right - w) + 'px', top: (r.bottom + 6) + 'px' });
+  if (r.bottom + 6 + m.offsetHeight > innerHeight - 8) m.style.top = (r.top - m.offsetHeight - 6) + 'px';
+  h.setAttribute('aria-expanded', 'true');
+  m.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pop]'); if (!b) return;
+    closeEvMenu();
+    if (b.dataset.pop === 'time') openWhen({ mode: 'time', item: it, day: curDay });
+    else unplace(id);
+  });
+  m.querySelector('button').focus();
+  setTimeout(() => document.addEventListener('pointerdown', outsideEvMenu), 0);
+}
+function outsideEvMenu(e) { if (!e.target.closest('#evPop')) closeEvMenu(); }
+function closeEvMenu() {
+  document.removeEventListener('pointerdown', outsideEvMenu);
+  $('evPop')?.remove();
+  document.querySelectorAll('.ev-more[aria-expanded]').forEach((b) => b.removeAttribute('aria-expanded'));
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeEvMenu(); });
+// teclado: Enter/Espaço no "⋮" também abre o menu
+$('timeline').addEventListener('click', (e) => { const h = e.target.closest('.ev-more'); if (h && e.detail === 0) openEvMenu(h); });
 function onDrag(e) {
   drag.ghost.style.transform = `translate(${e.clientX - drag.ox}px, ${e.clientY - drag.oy}px) rotate(1.5deg) scale(1.02)`;
   document.querySelector('#timeline .drop-line')?.remove();

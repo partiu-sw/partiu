@@ -244,8 +244,8 @@
 .trip-hero { width: calc(100% - 40px); border: 0; text-align: left; font: inherit; cursor: pointer; transition: transform .2s cubic-bezier(.2, .8, .2, 1); }
 .trip-hero:active { transform: scale(.98); }
 /* chips dos dias com o clima de cada dia */
-.day-chip.wx small { display: inline-flex; align-items: center; justify-content: center; gap: 3px; font-variant-numeric: tabular-nums; }
-.day-chip.wx small svg { flex: none; }
+.day-chip.temp small { display: inline-flex; align-items: center; justify-content: center; gap: 3px; font-variant-numeric: tabular-nums; }
+.day-chip.temp small svg { flex: none; }
 /* suas viagens */
 .trips-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 24px; overflow-y: auto; }
 /* dias da viagem: os chips dividem a largura toda (com muitos dias, rolam para o lado) */
@@ -257,7 +257,15 @@
 .ev-dot { width: 26px; height: 26px; font-size: 13px; }
 .ev:not(.last)::before { left: 64px; height: calc(100% + 12px); }
 /* rota no Maps de onde a pessoa está até a parada */
-.ev-go { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; transition: border-color .2s, transform .15s; }
+.ev-go { flex: none; width: 36px; height: 36px; border-radius: 50%; border: 0; background: none; display: grid; place-items: center; transition: border-color .2s, transform .15s; }
 .ev-go svg { width: 16px; height: 16px; }
-.ev-go:hover { border-color: var(--ink); }
+.ev-go:hover { background: var(--fill); }
 .ev-go:active { transform: scale(.9); }
+/* ⋮ no cartão: toque abre as opções, arrastar muda a ordem */
+.ev-more { flex: none; width: 32px; height: 44px; padding: 0; border: 0; border-radius: 999px; background: none; color: var(--sec); display: grid; place-items: center; cursor: grab; touch-action: none; }
+.ev-more:hover, .ev-more[aria-expanded] { color: var(--ink); background: var(--fill); }
+/* menu do ⋮ */
+.ev-pop { position: fixed; z-index: 4000; min-width: 190px; padding: 6px; border-radius: 22px; background: var(--surface); box-shadow: 0 8px 24px rgba(0,0,0,.18); display: flex; flex-direction: column; animation: pop-in .2s cubic-bezier(.34, 1.56, .64, 1); }
+.ev-pop button { min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--ink); font-size: 15px; font-weight: 500; text-align: left; }
+.ev-pop button:hover, .ev-pop button:focus-visible { background: var(--fill); }
+.ev-pop button svg { flex: none; color: var(--sec); }
