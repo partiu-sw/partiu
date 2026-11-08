@@ -111,3 +111,4 @@
   html:not(.phone-mode) .int-compras { grid-row: span 5; }
   html:not(.phone-mode) .int-aventura { grid-row: span 3; }
 }
+@media (min-width: 900px) { html:not(.phone-mode) .bubbles { gap: 22px 26px; padding-top: 16px; } html:not(.phone-mode) .bub-ph { width: calc(var(--s) * 1.3); height: calc(var(--s) * 1.3); } html:not(.phone-mode) .bub { width: calc(var(--s) * 1.3 + 8px); } }

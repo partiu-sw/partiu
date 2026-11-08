@@ -120,13 +120,13 @@ function renderQuiz() {
     renderBudget();
   } else if (S.step === 'prefs') {
     b.innerHTML = `
-      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque nas fotos. Quantas quiser.</p></div>
+      <div class="q-title"><h1>O que você <em>curte?</em></h1><p class="sub">Toque no que combina com você.</p></div>
       <div class="group">
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
-        <div class="ints">${INTERESTS.map(([k, l], i) => `
-          <button class="int int-${k}" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i}">
-            <img src="${INT_PIC[k]}" alt="" loading="lazy"><span class="int-ok">${svg('check', 14, 3)}</span>
-            <span class="int-tx"><b>${l}</b><small>${BENTO[k].d}</small></span>
+        <div class="bubbles">${INTERESTS.map(([k, l], i) => `
+          <button class="bub" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i};--s:${[104, 90, 98, 86, 94, 100, 88, 96][i]}px">
+            <span class="bub-ph"><img src="${INT_PIC[k]}" alt=""><span class="bub-ok">${svg('check', 16, 3)}</span></span>
+            <b>${l}</b>
           </button>`).join('')}
         </div>
       </div>`;

@@ -124,3 +124,8 @@ html.embed .dev-link, html.embed .view-toggle, html.embed .device-ui { display: 
 @media (min-width: 501px) and (max-width: 899px) { :root { --safe-top: 68px; } }
 @media (min-width: 900px) { html.phone-mode { --safe-top: 68px; } }
 html.embed { --safe-top: 52px; }
+/* degradê branco no topo das telas que rolam: o conteúdo some suave embaixo da barra de status / notch */
+.phone::after { content: ""; position: absolute; z-index: 3500; left: 0; right: 0; top: 0; height: calc(var(--safe-top) + 18px); background: linear-gradient(#fff 62%, rgba(255,255,255,0)); pointer-events: none; opacity: 0; transition: opacity .2s; }
+html[data-screen="plan"] .phone::after, html[data-screen="feed"] .phone::after, html[data-screen="conta"] .phone::after, html[data-screen="quiz"] .phone::after { opacity: 1; }
+@media (min-width: 900px) { html:not(.phone-mode) .phone::after { display: none; } }
+html.embed .phone::after { display: none; }

@@ -14,11 +14,11 @@ function startLoading() {
     `${found} lugares separados para você`
   ];
   const pics = [...new Set(c.places.concat(S.plan.sugg.map((x) => ({ name: x.title, sub: x.sub }))).map((p) => photoFor(p.name + ' ' + p.sub)).filter(Boolean))].slice(0, 8);
-  const orb = $('orbit');
-  orb.querySelectorAll('.pic').forEach((x) => x.remove());
+  const orb = $('orbit'), spin = $('orbSpin');
+  spin.innerHTML = '';
   pics.forEach((src, i) => {
     const a = (i / pics.length) * Math.PI * 2 - Math.PI / 2, r = i % 2 ? 78 : 104;
-    orb.insertAdjacentHTML('beforeend', `<span class="pic" style="--x:${Math.round(Math.cos(a) * r)}px;--y:${Math.round(Math.sin(a) * r)}px;--d:${(i * 0.32).toFixed(2)}s;--s:${i % 2 ? 46 : 58}px"><img src="${src}" alt=""></span>`);
+    spin.insertAdjacentHTML('beforeend', `<span class="pic" style="--x:${Math.round(Math.cos(a) * r)}px;--y:${Math.round(Math.sin(a) * r)}px;--d:${(i * 0.32).toFixed(2)}s;--s:${i % 2 ? 46 : 58}px"><img src="${src}" alt=""></span>`);
   });
   $('loadTitle').innerHTML = 'Pensando<i class="dots"><b>.</b><b>.</b><b>.</b></i>';
   $('loadMeta').textContent = `${c.name} · ${rangeLabel()}`;
@@ -28,7 +28,12 @@ function startLoading() {
   const t0 = performance.now();
   const frame = (t) => {
     const k = Math.min(1, (t - t0) / total);
-    $('loadBar').style.transform = `scaleX(${1 - Math.pow(1 - k, 1.4)})`;
+    const e = 1 - Math.pow(1 - k, 1.4);
+    $('loadBar').style.transform = `scaleX(${e})`;
+    $('orbArc').style.strokeDashoffset = 339.3 * (1 - e);
+    // destaca uma foto de cada vez, como se estivesse olhando cada lugar
+    const hi = Math.floor((t - t0) / 420) % pics.length;
+    spin.querySelectorAll('.pic').forEach((p, j) => p.classList.toggle('look', j === hi));
     const idx = Math.min(thoughts.length - 1, Math.floor((t - t0) / per));
     if (idx !== shown) { shown = idx; type(thoughts[idx]); }
     if (k < 1) { loadRaf = requestAnimationFrame(frame); return; }
