@@ -82,6 +82,7 @@ function renderQuiz() {
         <div class="group-head"><span class="label">Interesses</span><span class="label" id="intCount"></span></div>
         <div class="gal">${INTERESTS.map(([k, l], i) => `
           <button class="gal-it" data-act="interest" data-k="${k}" aria-pressed="${S.interests.has(k)}" style="--i:${i};grid-area:${k}">
+            <img class="gal-bg" src="${INT_PIC[k]}" alt="" loading="lazy">
             <span class="gal-ic mv-${GALLERY[k].mv}" aria-hidden="true">${svg(GALLERY[k].ic, GALLERY[k].size, 1.6)}</span>
             <span class="gal-ok" aria-hidden="true">${svg('check', 14, 3)}</span>
             <span class="gal-tx"><b>${l}</b><small>${GALLERY[k].d}</small></span>
@@ -96,7 +97,7 @@ function renderQuiz() {
 // ícones animados (traço fino, estilo Airbnb) de cada interesse; cada um tem uma parte que se mexe
 const AM = (body) => `<svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
 // fotos de cada interesse (do litoral), para escolher vendo o lugar
-const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/manha-praia.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/barra-sul.jpg', relax: 'img/cafe.jpg' };
+const INT_PIC = { praia: 'img/laranjeiras.jpg', noite: 'img/bar.jpg', comida: 'img/mar-brasa.jpg', compras: 'img/praia-central.jpg', cultura: 'img/igreja-porto-belo.jpg', natureza: 'img/praia-grossa.jpg', aventura: 'img/barra-sul.jpg', relax: 'img/cafe.jpg' };
 
 function renderDestList() {
   const q = norm(S.query);
