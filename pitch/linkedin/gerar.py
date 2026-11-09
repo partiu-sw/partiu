@@ -22,7 +22,7 @@ h1 span{{color:#8a8a8e}}
 .tag span.l{{background:#f2f2f3;color:#111}}
 </style>
 <div class="top"><div class="logo"><img src="{pin}">Partiu</div>
-<h1>Do zero ao app no ar<br><span>em 54 horas.</span></h1></div>
+<h1>From zero to hero<br><span>em 54 horas.</span></h1></div>
 <div class="tag"><span>Roteiro do dia</span><span class="l">Mapa 3D</span><span class="l">Plano B</span></div>
 <img class="ph a" src="{b64('parceiro-roteiro')}"><img class="ph c" src="{b64('parceiro-feed')}"><img class="ph b" src="{b64('explorar')}">'''
 p = os.path.join(HERE, '_p.html'); open(p, 'w').write(html)
